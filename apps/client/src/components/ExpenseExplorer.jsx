@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 
-import axios from "axios"
+import axios from "axios";
 
 const ExpenseExplorer = () => {
-  const [expenses, setExpenses] = useState({})
+  const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/expense/getall`)
       .then((res) => {
-        console.log(res)
-        setExpenses(res)
+        console.log(res);
+        setExpenses(res.data);
       })
       .catch((e) => {
-        console.log(e)
+        console.log(e);
       })
-      .finally(() => {})
-  }, [])
+      .finally(() => {});
+  }, []);
 
   return (
     <div>
@@ -27,9 +27,12 @@ const ExpenseExplorer = () => {
         <p>495.00</p>
         <p>Eating out</p>
         <p>2021-09-01 1:20</p>
+        {expenses.map((items) => {
+          return <div>{items.name}</div>;
+        })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ExpenseExplorer
+export default ExpenseExplorer;
