@@ -1,13 +1,33 @@
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
+
+import axios from "axios"
 
 const ExpenseExplorer = () => {
+  const [expenses, setExpenses] = useState({})
+
   useEffect(() => {
-    console.log("Api call to get expenses")
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/expense/getall`)
+      .then((res) => {
+        console.log(res)
+        setExpenses(res)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+      .finally(() => {})
   }, [])
 
   return (
     <div>
       <h1>Expense Explorer</h1>
+
+      <div>
+        <p>Lunch</p>
+        <p>495.00</p>
+        <p>Eating out</p>
+        <p>2021-09-01 1:20</p>
+      </div>
     </div>
   )
 }

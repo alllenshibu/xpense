@@ -3,6 +3,7 @@ const router = express.Router()
 
 const {
   getExpenseDetails,
+  getAllExpenses,
   addNewExpense,
 } = require("../services/expense.service.js")
 
@@ -17,6 +18,14 @@ router.get("/get", (req, res) => {
   getExpenseDetails(user, expenseId)
 
   res.send("Get expense")
+})
+
+router.get("/getall", async (req, res) => {
+  const user = req.query.user
+
+  const expenses = await getAllExpenses(user)
+
+  res.send(expenses)
 })
 
 router.get("/analysis", (req, res) => {
