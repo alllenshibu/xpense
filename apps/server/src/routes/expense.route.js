@@ -20,7 +20,7 @@ router.get("/get", (req, res) => {
   res.send("Get expense")
 })
 
-router.get("/getall", async (req, res) => {
+router.get("/getall", async (req, res) => { 
   const user = req.query.user
 
   const expenses = await getAllExpenses(user)

@@ -19,6 +19,8 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-select": "^5.7.0"
+  },
   "packageManager": "npm@9.1.2"
 }
