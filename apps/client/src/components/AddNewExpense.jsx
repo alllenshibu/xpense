@@ -1,3 +1,4 @@
+import axios from "axios";
 const categories = ["food","transport","entertainment","shopping","bills","other"];
 const friends = ["bot17","helloman","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 const friendsoptions = friends.map((friend) => {
@@ -28,6 +29,19 @@ function Log () {
       console.log(displayCategory);
       console.log(displaySplit);
       console.log(splitError);
+
+      axios.post(`${import.meta.env.VITE_API_URL}/expense/add`,{
+                  user : "bot17",
+                  expense : {
+                      name : log.name,
+                      amount : log.amount,
+                      category : log.category,
+                      date : log.date,
+                      split : split,
+                      group : group,
+                      splitEqual : splitEqual
+                  }
+                })
     
     }
     
