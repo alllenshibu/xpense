@@ -7,7 +7,12 @@ const ExpenseExplorer = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/expense/getall`)
+      .get(`${import.meta.env.VITE_API_URL}/expense/getall?username=vai`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        username: "vai",
+      })
       .then((res) => {
         console.log(res.data)
         setExpenses(res.data)
