@@ -2,8 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input {
+    @apply px-4 py-1 rounded;
+  }
+
+  select {
+    @apply px-4 py-1 rounded;
+  }
+
+  option {
+    @apply px-4 py-1 rounded;
+  }
+}
+
 @layer components {
   .btn {
-    @apply bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded;
+    @apply bg-gray-500 hover:bg-gray-700 text-white py-1 px-4 rounded;
   }
 }
