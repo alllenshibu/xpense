@@ -58,7 +58,7 @@ const addNewExpense = async (user, expense) => {
         console.log("Error: Nothing insertedd")
         }
 
-    //  pool.query("UPDATE users SET total_expense = total_expense + $1 WHERE user_id = $2;", [userExpense , user_id])
+     pool.query("UPDATE users SET user_expense = user_expense + $1 WHERE user_id = $2;", [userExpense , user_id])
 
       return resp.rows[0].exp_id;
   })
@@ -93,6 +93,9 @@ const addShare = (exp_id , payer_id , friend_id , share_amount) => {
         "INSERT INTO shares (sh_expid , sh_payerid , fr_id , owe_amount) VALUES ($1, $2, $3, $4) RETURNING sh_expid;",
         [exp_id , payer_id , friend_id , share_amount]
     ).then((res) => {
+
+        pool.query("UPDATE users SET user_owe = user_owe + $1 WHERE user_id = $2;", [share_amount , friend_id])   //derived?
+        pool.query("UPDATE users SET user_expense = user_expense + $1 WHERE user_id = $2;", [share_amount , friend_id]) // derived?
         console.log("inserted share " + JSON.stringify(res.rows[0]))
     })
 }
