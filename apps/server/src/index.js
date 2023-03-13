@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 })
 
 app.post("/adduser", (req, res) => {
-  const username = req.body.username
+  const username = req.body.username  
   res.send("Add user " + username)
   pool.query("INSERT INTO users (username) VALUES ($1);", [username]).then((res) => {
     console.log("User added successfully" + res)
