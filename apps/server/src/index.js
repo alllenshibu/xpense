@@ -7,6 +7,12 @@ const { pool } = require("./config/postgres.config.js")
 const app = express()
 const port = process.env.PORT || 3002
 
+if(pool) {
+  console.log("Connected to Postgres")
+} else {
+  console.log("Error connecting to Postgres")
+}
+
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
