@@ -1,11 +1,9 @@
 const express = require("express")
-const router = express.Router()
 
-const {
-  getExpenseDetails,
-  getAllExpenses,
-  addNewExpense,
-} = require("../services/expense.service.js")
+const router = express.Router()
+const {addExpenseController} = require("../controller/AddExpense.controller.js")
+const {getExpenseDetailsController} = require("../controller/GetExpense.controller.js")
+const {getAllExpensesController} = require("../controller/GetExpense.controller.js")
 
 router.get("/", (req, res) => {
   res.send("Expense")
@@ -20,25 +18,12 @@ router.get("/get", (req, res) => {
   res.send("Get expense")
 })
 
-router.get("/getall", async (req, res) => { 
-  const user = req.query.user
-
-  const expenses = await getAllExpenses(user)
-
-  res.send(expenses)
-})
+router.get("/getall", getAllExpensesController)
 
 router.get("/analysis", (req, res) => {
   res.send("Get expense analysis like insights, trends, etc.")
 })
 
-router.post("/add", (req, res) => {
-  res.send("Add expense")
-
-  const user = req.body.user
-  const expense = req.body.expense
-
-  addNewExpense(user, expense)
-})
+router.post("/add", addExpenseController)
 
 module.exports = router

@@ -1,3 +1,4 @@
+const { json } = require("express")
 const { pool } = require("../config/postgres.config.js")
 const {AddCategory, getCategoryId} = require("./categories.service.js")
 async function test() {
@@ -10,22 +11,31 @@ const getExpenseDetails = async (user, expenseId) => {
   console.log("Expense ID: " + expenseId)
 }
 
-const getAllExpenses = async (user) => {
-  const res = await pool.query("SELECT * FROM expenses;")
-  return res.rows
+const getAllExpenses = async (user_id) => {
+
+
+  const res = await pool.query("SELECT * FROM expenses where payer_id = $1 ;",
+                              [user_id]
+      ).then((response) => {
+        return response.rows
+      })
+    console.log("get all expenses returns" + JSON.stringify(res))
+    return res  
+  
 }
 
 const addNewExpense = async (user, expense) => {
   console.log("User: " + user)
   console.log("Expense: " + JSON.stringify(expense))
 
+  const userExpense = expense.group.filter((share) => share.username == user)
+
   const user_id = await pool.query(
     "SELECT user_id FROM users WHERE username = $1;",
     [user]
   ).then((res) => {
     if(res.rows.length == 0) {         ///to be removed *****************
-      const fr_id = pool.query("INSERT INTO users (username) VALUES ($1);", [user]).then((res) => {
-
+      const fr_id = pool.query("INSERT INTO users (username) VALUES ($1) RETURNING user_id;", [user]).then((res) => {
         console.log("inserted user " + JSON.stringify(res.rows[0]))
         return res.rows[0].user_id
       }
@@ -33,7 +43,7 @@ const addNewExpense = async (user, expense) => {
 
       return fr_id
     }
-      console.log("user id " + JSON.stringify(res.rows[0]))
+      console.log("user id " + res.rows[0].user_id)
       return res.rows[0].user_id
   })
 
@@ -47,6 +57,9 @@ const addNewExpense = async (user, expense) => {
       if(resp.rows.length == 0) {         ///to be removed *****************
         console.log("Error: Nothing insertedd")
         }
+
+    //  pool.query("UPDATE users SET total_expense = total_expense + $1 WHERE user_id = $2;", [userExpense , user_id])
+
       return resp.rows[0].exp_id;
   })
 
@@ -64,7 +77,7 @@ const addNewExpense = async (user, expense) => {
                 }
                 )
             }
-  
+            
 
             return res.rows[0].user_id
         }
