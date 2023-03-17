@@ -1,7 +1,6 @@
 
 const {pool} = require("../config/postgres.config.js")
 
-const {Login , Register} = require("../services/Login.services.js")
 
 const LoginController =  async (req,res,next) => {
     const username = req.body.username
@@ -86,7 +85,7 @@ const RegisterController = async (req, res,next) => {
             token : token
         }
     })
-    
+
     
 }
 
