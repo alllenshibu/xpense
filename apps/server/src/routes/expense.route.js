@@ -4,6 +4,7 @@ const router = express.Router()
 const {addExpenseController} = require("../controller/AddExpense.controller.js")
 const {getExpenseDetailsController} = require("../controller/GetExpense.controller.js")
 const {getAllExpensesController} = require("../controller/GetExpense.controller.js")
+const {getExpenseByCategoriesController} = require("../controller/GetExpense.controller.js")
 
 router.get("/", (req, res) => {
   res.send("Expense")
@@ -26,4 +27,10 @@ router.get("/analysis", (req, res) => {
 
 router.post("/add", addExpenseController)
 
+router.post("/getbycategory", getExpenseByCategoriesController)
+
+
 module.exports = router
+
+
+  

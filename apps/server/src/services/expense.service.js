@@ -1,6 +1,7 @@
 const { json } = require("express")
 const { pool } = require("../config/postgres.config.js")
 const {AddCategory, getCategoryId} = require("./categories.service.js")
+const {getUserId} = require("./users.service.js")
 async function test() {
   const res = await pool.query("SELECT * FROM expenses;")
   console.log(res.rows)
@@ -27,8 +28,6 @@ const getAllExpenses = async (user_id) => {
 const addNewExpense = async (user, expense) => {
   console.log("User: " + user)
   console.log("Expense: " + JSON.stringify(expense))
-
-  const userExpense = expense.group.filter((share) => share.username == user)
 
   const user_id = await pool.query(
     "SELECT user_id FROM users WHERE username = $1;",
@@ -58,8 +57,6 @@ const addNewExpense = async (user, expense) => {
         console.log("Error: Nothing insertedd")
         }
 
-     pool.query("UPDATE users SET user_expense = user_expense + $1 WHERE user_id = $2;", [userExpense , user_id])
-
       return resp.rows[0].exp_id;
   })
 
@@ -88,17 +85,31 @@ const addNewExpense = async (user, expense) => {
 }
 
 const addShare = (exp_id , payer_id , friend_id , share_amount) => {
+  const amt = parseFloat(share_amount)
 
   pool.query(
         "INSERT INTO shares (sh_expid , sh_payerid , fr_id , owe_amount) VALUES ($1, $2, $3, $4) RETURNING sh_expid;",
-        [exp_id , payer_id , friend_id , share_amount]
+        [exp_id , payer_id , friend_id , amt]
     ).then((res) => {
 
-        pool.query("UPDATE users SET user_owe = user_owe + $1 WHERE user_id = $2;", [share_amount , friend_id])   //derived?
+        if(payer_id != friend_id)
+           pool.query("UPDATE users SET user_owe = user_owe + $1 WHERE user_id = $2;", [share_amount , friend_id])   //derived?
         pool.query("UPDATE users SET user_expense = user_expense + $1 WHERE user_id = $2;", [share_amount , friend_id]) // derived?
         console.log("inserted share " + JSON.stringify(res.rows[0]))
     })
 }
 
+const getExpenseByCategories = async (user_id) => {
 
-module.exports = { getExpenseDetails, getAllExpenses, addNewExpense , addShare}
+      const res = await pool.query(
+        "SELECT SUM(shares.owe_amount) ,categories.c_name , expenses.c_id FROM shares JOIN categories ON shares.sh_cid = categories.c_id WHERE shares.fr_id = $1 GROUP BY categories.c_name , categories.c_id ;", [user_id]) 
+      .then((res) => {
+        return res.rows
+      } 
+      )
+      console.log("get expense by category returns" + JSON.stringify(res))
+      return res
+}
+
+
+module.exports = { getExpenseDetails, getAllExpenses, getExpenseByCategories, addNewExpense , addShare}
