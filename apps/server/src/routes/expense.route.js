@@ -21,7 +21,7 @@ router.get('/get', (req, res) => {
   res.send('Get expense');
 });
 
-router.get('/getall', getAllExpensesController);
+router.get('/getall/:username', getAllExpensesController);
 
 router.get('/analysis', (req, res) => {
   res.send('Get expense analysis like insights, trends, etc.');
