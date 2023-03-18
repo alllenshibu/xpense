@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-const Auth = () => {
+import axios from 'axios';
+
+const Auth = ({ setUser }) => {
   const [isNewUser, setIsNewUser] = useState(false);
 
   const [username, setUsername] = useState('');
@@ -9,15 +11,39 @@ const Auth = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     console.log({ username, password });
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/login`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        username: username,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res);
+        setUser({ username: username });
+      });
   };
 
   const hanldeSignup = (e) => {
     e.preventDefault();
     console.log({ username, password });
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/register`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        username: username,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res);
+        setUser({ username: username });
+      });
   };
 
   return (
-    <div className="w-96 h-full p-10 flex flex-col justify-center items-center gap-8 border border-black">
+    <div className="w-96 h-full p-10 flex flex-col justify-center items-center gap-8">
       {isNewUser ? <p className="text-4xl font-semibold">Register</p> : <p className="text-4xl font-semibold">Login</p>}
       <input
         type="text"

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-const ExpenseExplorer = () => {
+const ExpenseExplorer = ({ user }) => {
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/expense/getall/user1`, {
+      .get(`${import.meta.env.VITE_API_URL}/expense/getall/${user.username}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -20,6 +20,8 @@ const ExpenseExplorer = () => {
         console.log(e);
       })
       .finally(() => {});
+
+    console.log(user);
   }, []);
 
   return (
