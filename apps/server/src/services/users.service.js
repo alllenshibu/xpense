@@ -75,5 +75,27 @@ const getStatus = async (sender , reciever) => {
         default : return 'n'
     }
 }
+
+const getFriends = async (username) => {
+    const user_id = await getUserId(username)
+
+    const recievers = await pool.query("SELECT friends.frnd_reciever AS frnd_id, users.username AS username    FROM friends JOIN users ON friends.frnd_reciever = users.user_id WHERE frnd_sender = $1 ;", [user_id]).then((response) => {
+        return response.rows
+    })
+
+    const senders = await pool.query("SELECT friends.frnd_sender AS frnd_id, users.username AS username  FROM friends JOIN users on friends.frnd_sender = users.user_id WHERE frnd_reciever = $1 ;", [user_id]).then((response) => {
+        return response.rows
+    })
     
-module.exports = {getUserId , sendFriendRequest , canelFriendRequest , unfriend , getStatus}
+    const friends = recievers.concat(senders)
+    return friends
+}
+
+const isFriend = async( sender_id , reciever_id)=>
+{
+    const isfrnd  = await pool.query("SELECT * FROM friends WHERE (frnd_sender = $1 AND frnd_reciever = $2 ) OR (frnd_sender = $2 AND frnd_reciever = $1 );", [ sender_id , reciever_id ]).then((response) => {
+        return response.rowCount > 0
+    })
+    return isfrnd 
+}
+module.exports = {getUserId , sendFriendRequest , canelFriendRequest , unfriend , getStatus , getFriends , isFriend} 
