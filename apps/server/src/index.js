@@ -1,6 +1,8 @@
 const express = require("express")
 require("dotenv").config()
 const cors = require("cors")
+const cookieParser = require("cookie-parser")
+
 const bodyParser = require("body-parser")
 const { pool } = require("./config/postgres.config.js")
 
@@ -14,12 +16,16 @@ if(pool) {
 }
 
 app.use(cors())
+app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use("/expense", require("./routes/expense.route.js"))
 app.use("/category", require("./routes/category.route.js"))
+app.use("/friends", require("./routes/friends.route.js"))
 app.use("/",require("./routes/auth.route.js"))
+
+
 
 app.get("/", (req, res) => {
   res.send("Xpense")

@@ -1,6 +1,7 @@
 
 const {pool} = require("../config/postgres.config.js")
 
+const jwt = require("jsonwebtoken")
 
 const LoginController =  async (req,res,next) => {
     const username = req.body.username
@@ -13,7 +14,7 @@ const LoginController =  async (req,res,next) => {
         return next(error)
     }
 
-    if (user.password !== password) {
+    if (user.user_pwd !== password) {
         const error = new Error("Password is incorrect")
         return next(error)
     }
@@ -23,7 +24,7 @@ const LoginController =  async (req,res,next) => {
     try {
         token = jwt.sign(
             {user_id : user.user_id , username: user.username},
-            "What a secret",
+            "Whatasecret",
             {expiresIn: "1h"}
         )
     } catch (err) {
@@ -32,28 +33,30 @@ const LoginController =  async (req,res,next) => {
     }
 
     res
+    .cookie("accessToken", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 60*60*1000
+    }
+    )
     .status(200)
-    .json({
-        success: true,
-        data : {
-            user_id : user.user_id,
-            username : user.username,
-            token : token
-        }
-    })
+    .json({message: "Logged in successfully"})
+    
 }
 
 const RegisterController = async (req, res,next) => {
     const username = req.body.username
     const password = req.body.password
-    const user_id = pool.query("SELECT user_id FROM users WHERE username = $1;", [username]).then((response) => {
-        return response.rows[0].user_id
+    const user_id = await pool.query("SELECT user_id FROM users WHERE username = $1;", [username]).then((response) => {
+
+        console.log("User ID: " + response.rowCount)
+        return response.rowCount > 0
     })
     if (user_id) {
         const error = new Error("User already exists")
         return next(error)
     }
-    const user = await pool.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING username , user_id ;", [username, password]).then((response) => {
+    const user = await pool.query("INSERT INTO users (username, user_pwd) VALUES ($1, $2) RETURNING username , user_id ;", [username, password]).then((response) => {
         return response.rows[0]
     })
     .catch((err) => {
@@ -77,14 +80,15 @@ const RegisterController = async (req, res,next) => {
         return next(error)
     }
 
-    res.status(201).json({
-        success : true,
-        data : {
-            user_id : user.user_id,
-            username : user.username,
-            token : token
-        }
+    res.status(201)
+    .cookie("accessToken", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 60*60*1000
     })
+    .json({message: "User created successfully"})
+
+
 
     
 }
