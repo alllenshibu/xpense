@@ -1,14 +1,14 @@
-import React, { useState } from "react"
+import React, { useState } from 'react';
 
-import "./App.css"
-import AddNewExpense from "./components/AddNewExpense"
-import ExpenseExplorer from "./components/ExpenseExplorer"
-import Overview from "./components/Overview"
-import PlusButton from "./components/PlusButton"
-import Sidebar from "./components/Sidebar"
+import './App.css';
+import AddNewExpense from './components/AddNewExpense';
+import ExpenseExplorer from './components/ExpenseExplorer';
+import Overview from './components/Overview';
+import PlusButton from './components/PlusButton';
+import Sidebar from './components/Sidebar';
 
 function App() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   return (
     <div className="App h-screen">
@@ -25,7 +25,7 @@ function App() {
         <div
           className="absolute bottom-20 right-20"
           onClick={() => {
-            setIsPopupOpen(true)
+            setIsPopupOpen(true);
           }}
         >
           <PlusButton />
@@ -33,14 +33,14 @@ function App() {
       </div>
       <div
         className={
-          (isPopupOpen ? "fixed" : "hidden") +
-          " top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 bg-gray-200 rounded shadow-xl flex flex-col justify-center items-center"
+          (isPopupOpen ? 'fixed' : 'hidden') +
+          ' top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 bg-gray-200 rounded shadow-xl flex flex-col justify-center items-center'
         }
       >
         <div
           className="absolute -top-10 -right-10 rotate-45"
           onClick={() => {
-            setIsPopupOpen(false)
+            setIsPopupOpen(false);
           }}
         >
           <PlusButton className="absolute top-0" />
@@ -48,7 +48,7 @@ function App() {
         <AddNewExpense />
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

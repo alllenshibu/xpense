@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react';
 
-import axios from "axios"
+import axios from 'axios';
 
 const ExpenseExplorer = () => {
-  const [expenses, setExpenses] = useState([])
+  const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/expense/getall?username=vai`, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        username: "vai",
+        username: 'vai',
       })
       .then((res) => {
-        console.log(res.data)
-        setExpenses(res.data)
+        console.log(res.data);
+        setExpenses(res.data);
       })
       .catch((e) => {
-        console.log(e)
+        console.log(e);
       })
-      .finally(() => {})
-  }, [])
+      .finally(() => {});
+  }, []);
 
   return (
     <div className="h-full flex flex-row justify-center items-center gap-4 flex-wrap">
@@ -33,10 +33,10 @@ const ExpenseExplorer = () => {
             <div className="">Category</div>
             <div className="text-xs">{items.date}</div>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default ExpenseExplorer
+export default ExpenseExplorer;

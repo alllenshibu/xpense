@@ -1,17 +1,22 @@
-const express = require("express")
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-const {getStatusController , sendFriendRequestController , canelFriendRequestController , unfriendController , getFriendsController} = require("../controller/friendship.controller.js")
+const {
+  getStatusController,
+  sendFriendRequestController,
+  canelFriendRequestController,
+  unfriendController,
+  getFriendsController,
+} = require('../controller/friendship.controller.js');
 
-router.post("/getStatus" , getStatusController)
+router.post('/getStatus', getStatusController);
 
-router.post("/send" , sendFriendRequestController)
+router.post('/send', sendFriendRequestController);
 
-router.post("/cancel" , canelFriendRequestController)
+router.post('/cancel', canelFriendRequestController);
 
-router.post("/unfriend" , unfriendController)
+router.post('/unfriend', unfriendController);
 
-router.post("/getFriends" , getFriendsController)
+router.post('/getFriends', getFriendsController);
 
-
-module.exports = router
+module.exports = router;

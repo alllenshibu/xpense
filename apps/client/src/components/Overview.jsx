@@ -1,4 +1,4 @@
-import { RiErrorWarningLine } from "react-icons/ri"
+import { RiErrorWarningLine } from 'react-icons/ri';
 
 const Overview = () => {
   return (
@@ -14,7 +14,7 @@ const Overview = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Overview
+export default Overview;

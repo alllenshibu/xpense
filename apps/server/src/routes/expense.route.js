@@ -1,35 +1,36 @@
-const express = require("express")
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-const { addExpenseController, getAllExpensesController, getExpenseByCategoriesController , getCategoryExpensesController } = require("../controller/expense.controller.js")
+const {
+  addExpenseController,
+  getAllExpensesController,
+  getExpenseByCategoriesController,
+  getCategoryExpensesController,
+} = require('../controller/expense.controller.js');
 
-router.get("/", (req, res) => {
-  res.send("Expense")
-})
+router.get('/', (req, res) => {
+  res.send('Expense');
+});
 
-router.get("/get", (req, res) => {
-  const expenseId = req.query.expenseId
-  const user = req.query.user
+router.get('/get', (req, res) => {
+  const expenseId = req.query.expenseId;
+  const user = req.query.user;
 
-  getExpenseDetails(user, expenseId)
+  getExpenseDetails(user, expenseId);
 
-  res.send("Get expense")
-})
+  res.send('Get expense');
+});
 
-router.get("/getall", getAllExpensesController)
+router.get('/getall', getAllExpensesController);
 
-router.get("/analysis", (req, res) => {
-  res.send("Get expense analysis like insights, trends, etc.")
-})
+router.get('/analysis', (req, res) => {
+  res.send('Get expense analysis like insights, trends, etc.');
+});
 
-router.post("/add", addExpenseController)
+router.post('/add', addExpenseController);
 
-router.post("/getsum-c", getExpenseByCategoriesController)
+router.post('/getsum-c', getExpenseByCategoriesController);
 
-router.post("/get-bc", getCategoryExpensesController)  
+router.post('/get-bc', getCategoryExpensesController);
 
-
-module.exports = router
-
-
-  
+module.exports = router;

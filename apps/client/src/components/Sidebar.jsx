@@ -1,7 +1,7 @@
-import { RxDashboard } from "react-icons/rx"
-import { TbZoomMoney } from "react-icons/tb"
-import { GiThreeFriends } from "react-icons/gi"
-import { GoSettings } from "react-icons/go"
+import { RxDashboard } from 'react-icons/rx';
+import { TbZoomMoney } from 'react-icons/tb';
+import { GiThreeFriends } from 'react-icons/gi';
+import { GoSettings } from 'react-icons/go';
 
 const Sidebar = () => {
   return (
@@ -23,7 +23,7 @@ const Sidebar = () => {
         Settings
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
