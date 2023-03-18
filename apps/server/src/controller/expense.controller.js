@@ -12,10 +12,7 @@ const { pool } = require('../config/postgres.config.js');
 const getAllExpensesController = async (req, res) => {
   const username = req.params.username;
 
-  const user = await pool.query('SELECT user_id FROM users WHERE username = $1;', [username]).then((response) => {
-    return response.rows[0].user_id;
-  });
-
+  const user =  await getUserId(username);
   const expenses = await getAllExpenses(user);
   console.log('Expenses: ' + expenses);
   const shares = await getAllShares(user);

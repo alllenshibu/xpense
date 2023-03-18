@@ -7,11 +7,10 @@ const ExpenseExplorer = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/expense/getall?username=vai`, {
+      .get(`${import.meta.env.VITE_API_URL}/expense/getall/user1`, {
         headers: {
           'Content-Type': 'application/json',
         },
-        username: 'vai',
       })
       .then((res) => {
         console.log(res.data);
@@ -29,8 +28,8 @@ const ExpenseExplorer = () => {
         return (
           <div className="h-64 w-48 p-4 flex flex-col justify-between items-center rounded border border-gray-200">
             <div className="text-xl">{items.name}</div>
-            <div className="text-2xl font-bold">Rs. {items.amount}</div>
-            <div className="">Category</div>
+            <div className="text-2xl font-bold">Rs. {items.owe_amount}</div>
+            <div className="">Category : {items.c_name}</div>
             <div className="text-xs">{items.date}</div>
           </div>
         );
