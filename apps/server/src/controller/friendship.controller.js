@@ -1,5 +1,5 @@
 
-const {sendFriendRequest , canelFriendRequest , unfriend , getStatus} = require("../services/users.service.js")
+const {sendFriendRequest , canelFriendRequest , unfriend , getStatus , getFriends} = require("../services/users.service.js")
 
 const sendFriendRequestController = async (req, res) => {
     const sender = req.body.sender
@@ -37,5 +37,14 @@ const getStatusController = async (req, res) => {
     res.status(200).json(status)
 }
 
-module.exports = {sendFriendRequestController , canelFriendRequestController , unfriendController , getStatusController}
+const getFriendsController = async (req, res) => {
+    const username = req.body.username
+
+    const friends = await getFriends(username)
+
+    res.status(200).json(friends)
+}
+    
+
+module.exports = {sendFriendRequestController , canelFriendRequestController , unfriendController , getStatusController , getFriendsController}
 
