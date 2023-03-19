@@ -18,7 +18,7 @@ function App() {
     if (user) {
       setUser(JSON.parse(user));
     }
-  });
+  }, []);
 
   return (
     <div className="App h-screen">
