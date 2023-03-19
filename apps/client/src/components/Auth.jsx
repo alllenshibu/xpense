@@ -24,6 +24,7 @@ const Auth = ({ setUser }) => {
       .then((res) => {
         console.log(res);
         setUser({ username: username });
+        localStorage.setItem('user', JSON.stringify({ username: username }));
         setCookie('token', res.data.token, { path: '/' });
       });
   };
@@ -41,6 +42,7 @@ const Auth = ({ setUser }) => {
       .then((res) => {
         console.log(res);
         setUser({ username: username });
+        localStorage.setItem('user', JSON.stringify({ username: username }));
         setCookie('token', res.data.token, { path: '/' });
       });
   };

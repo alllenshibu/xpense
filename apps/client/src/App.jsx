@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.css';
 import AddNewExpense from './components/AddNewExpense';
@@ -12,6 +12,13 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  });
+
   return (
     <div className="App h-screen">
       {!user && (
@@ -22,7 +29,7 @@ function App() {
       {user && (
         <div className="container mx-auto h-full relative flex flex-row justify-center items-center">
           <div className="w-96 h-full justify-self-start">
-            <Sidebar />
+            <Sidebar user={user} setUser={setUser} />
           </div>
           <div className="w-full h-full flex flex-col justify-start items-center">
             <Overview />
