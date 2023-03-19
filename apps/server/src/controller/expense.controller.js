@@ -10,9 +10,12 @@ const { getCategoryId } = require('../services/categories.service.js');
 
 const { pool } = require('../config/postgres.config.js');
 const getAllExpensesController = async (req, res) => {
+
+  const cookies = req.cookies;
+  console.log(cookies , "hellafdlslfsfsefsfsdfdsf ");
   const username = req.params.username;
 
-  const user =  await getUserId(username);
+  const user =  await getUserId(username);  
   const expenses = await getAllExpenses(user);
   console.log('Expenses: ' + expenses);
   const shares = await getAllShares(user);

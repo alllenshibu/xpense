@@ -3,6 +3,9 @@ const { pool } = require('../config/postgres.config.js');
 const jwt = require('jsonwebtoken');
 
 const LoginController = async (req, res, next) => {
+
+
+
   const username = req.body.username;
   const password = req.body.password;
   const user = await pool.query('SELECT * FROM users WHERE username = $1;', [username]).then((response) => {
@@ -27,14 +30,14 @@ const LoginController = async (req, res, next) => {
     return next(error);
   }
 
-
+    console.log(username + " logged in")
     res.status(200)
-    .cookie('accessToken', token, {
+    .cookie('userToken', token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
       sameSite: 'strict',
     })
-    .json({ message: 'Logged in successfully' , token: token });
+    .json({ message: 'Logged in successfully' , token: token , userId : user.user_id});
 };
 
 const RegisterController = async (req, res, next) => {
@@ -79,5 +82,7 @@ const RegisterController = async (req, res, next) => {
     })
     .json({ message: 'User created successfully' , token: token });
 };
+
+
 
 module.exports = { LoginController, RegisterController };

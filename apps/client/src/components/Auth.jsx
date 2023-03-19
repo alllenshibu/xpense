@@ -8,10 +8,10 @@ const Auth = ({ setUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log({ username, password });
-    axios
+    await axios
       .post(`${import.meta.env.VITE_API_URL}/login`, {
         headers: {
           'Content-Type': 'application/json',

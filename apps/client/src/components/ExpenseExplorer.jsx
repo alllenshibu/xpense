@@ -8,9 +8,8 @@ const ExpenseExplorer = ({ user }) => {
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/expense/getall/${user.username}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        withCredentials: true,
+
       })
       .then((res) => {
         console.log(res.data);

@@ -43,12 +43,19 @@ const getStatusController = async (req, res) => {
 };
 
 const getFriendsController = async (req, res) => {
-  const username = req.body.username;
+
+  if(req.cookies.username == undefined){
+  if (!req.params.username) {
+    res.status(400).json('No username provided');
+    return;
+  }
+  const username = req.params.username;
 
   const friends = await getFriends(username);
 
   res.status(200).json(friends);
 };
+}
 
 module.exports = {
   sendFriendRequestController,
