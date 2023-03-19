@@ -34,7 +34,7 @@ const LoginController = async (req, res, next) => {
       httpOnly: true,
       sameSite: 'strict',
     })
-    .json({ message: 'Logged in successfully' } , { token: token });
+    .json({ message: 'Logged in successfully' , token: token });
 };
 
 const RegisterController = async (req, res, next) => {
@@ -77,7 +77,7 @@ const RegisterController = async (req, res, next) => {
       sameSite: 'strict',
       maxAge: 60 * 60 * 1000,
     })
-    .json({ message: 'User created successfully' });
+    .json({ message: 'User created successfully' , token: token });
 };
 
 module.exports = { LoginController, RegisterController };
