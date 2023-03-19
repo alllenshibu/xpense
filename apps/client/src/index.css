@@ -20,4 +20,8 @@
   .btn {
     @apply bg-gray-500 hover:bg-gray-700 text-white py-1 px-4 rounded;
   }
+
+  .sidebar-btn {
+    @apply p-4 w-full h-10 flex flex-row justify-start items-center gap-3 rounded hover:bg-gray-200;
+  }
 }
