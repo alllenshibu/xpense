@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 const Auth = ({ setUser }) => {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -8,9 +9,10 @@ const Auth = ({ setUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const [cookies, setCookie] = useCookies(['token']);
+
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log({ username, password });
     axios
       .post(`${import.meta.env.VITE_API_URL}/login`, {
         headers: {
@@ -22,12 +24,12 @@ const Auth = ({ setUser }) => {
       .then((res) => {
         console.log(res);
         setUser({ username: username });
+        setCookie('token', res.data.token, { path: '/' });
       });
   };
 
   const hanldeSignup = (e) => {
     e.preventDefault();
-    console.log({ username, password });
     axios
       .post(`${import.meta.env.VITE_API_URL}/register`, {
         headers: {
@@ -39,6 +41,7 @@ const Auth = ({ setUser }) => {
       .then((res) => {
         console.log(res);
         setUser({ username: username });
+        setCookie('token', res.data.token, { path: '/' });
       });
   };
 
@@ -50,7 +53,6 @@ const Auth = ({ setUser }) => {
         placeholder="Username"
         onChange={(e) => {
           setUsername(e.target.value);
-          console.log(username);
         }}
       />
       <input
@@ -58,7 +60,6 @@ const Auth = ({ setUser }) => {
         placeholder="Password"
         onChange={(e) => {
           setPassword(e.target.value);
-          console.log(password);
         }}
       />
       {isNewUser ? (
