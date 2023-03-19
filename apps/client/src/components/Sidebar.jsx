@@ -6,7 +6,7 @@ import { GiThreeFriends } from 'react-icons/gi';
 import { GoSettings } from 'react-icons/go';
 import { BiLogOut } from 'react-icons/bi';
 
-const Sidebar = ({ user, setUser }) => {
+const Sidebar = ({ user, setUser, setFocusedTab }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   const handleLogout = () => {
@@ -17,19 +17,39 @@ const Sidebar = ({ user, setUser }) => {
 
   return (
     <div className="w-full h-full py-8 px-8 flex flex-col justify-start items-start gap-4 text-xl">
-      <button className="sidebar-btn bg-gray-300;">
+      <button
+        onClick={() => {
+          setFocusedTab('dashboard');
+        }}
+        className="sidebar-btn bg-gray-300;"
+      >
         <RxDashboard />
         Dashboard
       </button>
-      <button className="sidebar-btn">
+      <button
+        onClick={() => {
+          setFocusedTab('analysis');
+        }}
+        className="sidebar-btn"
+      >
         <TbZoomMoney />
         Spend Analysis
       </button>
-      <button className="sidebar-btn">
+      <button
+        onClick={() => {
+          setFocusedTab('friends');
+        }}
+        className="sidebar-btn"
+      >
         <GiThreeFriends />
         Friends
       </button>
-      <button className="sidebar-btn">
+      <button
+        onClick={() => {
+          setFocusedTab('settings');
+        }}
+        className="sidebar-btn"
+      >
         <GoSettings />
         Settings
       </button>
