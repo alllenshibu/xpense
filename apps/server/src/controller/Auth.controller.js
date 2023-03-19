@@ -27,14 +27,14 @@ const LoginController = async (req, res, next) => {
     return next(error);
   }
 
-  res
+
+    res.status(200)
     .cookie('accessToken', token, {
+      maxAge: 60 * 60 * 1000,
       httpOnly: true,
       sameSite: 'strict',
-      maxAge: 60 * 60 * 1000,
     })
-    .status(200)
-    .json({ message: 'Logged in successfully' });
+    .json({ message: 'Logged in successfully' } , { token: token });
 };
 
 const RegisterController = async (req, res, next) => {
