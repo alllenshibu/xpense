@@ -17,26 +17,26 @@ const Sidebar = ({ user, setUser }) => {
 
   return (
     <div className="w-full h-full py-8 px-8 flex flex-col justify-start items-start gap-4 text-xl">
-      <button className="p-4 w-full h-10 flex flex-row justify-start items-center gap-3 rounded hover:bg-gray-200 bg-gray-300">
+      <button className="sidebar-btn bg-gray-300;">
         <RxDashboard />
         Dashboard
       </button>
-      <button className="p-4 w-full h-10 flex flex-row justify-start items-center gap-3 rounded hover:bg-gray-200">
+      <button className="sidebar-btn">
         <TbZoomMoney />
         Spend Analysis
       </button>
-      <button className="p-4 w-full h-10 flex flex-row justify-start items-center gap-3 rounded hover:bg-gray-200">
+      <button className="sidebar-btn">
         <GiThreeFriends />
         Friends
       </button>
-      <button className="p-4 w-full h-10 flex flex-row justify-start items-center gap-3 rounded hover:bg-gray-200">
+      <button className="sidebar-btn">
         <GoSettings />
         Settings
       </button>
 
       <button
         onClick={handleLogout}
-        className="p-4 w-full h-10 flex flex-row justify-between items-center gap-3 rounded hover:bg-gray-200"
+        className="p-4 w-full h-10 flex flex-row justify-between items-center gap-3 rounded"
       >
         {user.username}
         <BiLogOut className="justify-self-end" />
