@@ -24,7 +24,8 @@ const Auth = ({ setUser }) => {
         console.log(res);
         setUser({ username: username });
         localStorage.setItem('user', JSON.stringify({ username: username }));
-        setCookie('token', res.data.token, { path: '/' });
+        localStorage.setItem('token', res.data.token);
+
       });
   };
 

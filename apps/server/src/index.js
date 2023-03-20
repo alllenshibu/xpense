@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(verifyToken);
+app.use(verifyToken);
 app.use('/expense', require('./routes/expense.route.js'));
 app.use('/category', require('./routes/category.route.js'));
 app.use('/friends', require('./routes/friends.route.js'));

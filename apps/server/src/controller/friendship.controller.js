@@ -7,7 +7,7 @@ const {
 } = require('../services/users.service.js');
 
 const sendFriendRequestController = async (req, res) => {
-  const sender = req.body.sender;
+  const sender = req.username;
   const reciever = req.body.reciever;
 
   await sendFriendRequest(sender, reciever);
@@ -16,7 +16,7 @@ const sendFriendRequestController = async (req, res) => {
 };
 
 const canelFriendRequestController = async (req, res) => {
-  const sender = req.body.sender;
+  const sender = req.username;
   const reciever = req.body.reciever;
 
   await canelFriendRequest(sender, reciever);
@@ -25,7 +25,7 @@ const canelFriendRequestController = async (req, res) => {
 };
 
 const unfriendController = async (req, res) => {
-  const sender = req.body.sender;
+  const sender = req.username;
   const reciever = req.body.reciever;
 
   await unfriend(sender, reciever);
@@ -34,7 +34,7 @@ const unfriendController = async (req, res) => {
 };
 
 const getStatusController = async (req, res) => {
-  const sender = req.body.sender;
+  const sender = req.username;
   const reciever = req.body.reciever;
 
   const status = await getStatus(sender, reciever);
@@ -44,12 +44,8 @@ const getStatusController = async (req, res) => {
 
 const getFriendsController = async (req, res) => {
 
-  console.log(req.params.username);
-  if (!req.params.username) {
-    res.status(400).json('No username provided');
-    return;
-  }
-  const username = req.params.username;
+  
+  const username = req.username;
 
   const friends = await getFriends(username);
 

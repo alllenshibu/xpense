@@ -7,9 +7,12 @@ const ExpenseExplorer = ({ user }) => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/expense/getall/${user.username}`, {
+      .get(`${import.meta.env.VITE_API_URL}/expense/getall/`, {
         withCredentials: true,
-
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization' : `Bearer ${localStorage.getItem('token')}` 
+        },
       })
       .then((res) => {
         console.log(res.data);

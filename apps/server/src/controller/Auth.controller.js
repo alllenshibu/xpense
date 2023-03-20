@@ -3,6 +3,8 @@ const { pool } = require('../config/postgres.config.js');
 const jwt = require('jsonwebtoken');
 
 const LoginController = async (req, res, next) => {
+
+  console.log(req.body.username + " " + req.body.password)
   const username = req.body.username;
   const password = req.body.password;
   const user =(await pool.query('SELECT * FROM users WHERE username = $1;', [username])).rows[0]
@@ -19,7 +21,7 @@ const LoginController = async (req, res, next) => {
   let userToken;
 
   try {
-    userToken = jwt.sign({ user_id: user.user_id, username: user.username }, 'Whatasecret', { expiresIn: '1h' });
+    userToken = jwt.sign({ user_id: user.user_id, username: user.username }, process.env.SECRETKEY, { expiresIn: '1h' });
   } catch (err) {
     const error = new Error('Could not log you in, please try again later');
     return next(error);
@@ -58,7 +60,7 @@ const RegisterController = async (req, res, next) => {
   let token;
 
   try {
-    token = jwt.sign({ username: user.username, user_id: user.user_id }, 'This is a secret', { expiresIn: '1h' });
+    token = jwt.sign({ username: user.username, user_id: user.user_id }, process.env.SECRETKEY, { expiresIn: '1h' });
   } catch (err) {
     const error = new Error('Could not log you in, please try again later');
     return next(error);
