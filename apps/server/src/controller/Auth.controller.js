@@ -3,14 +3,9 @@ const { pool } = require('../config/postgres.config.js');
 const jwt = require('jsonwebtoken');
 
 const LoginController = async (req, res, next) => {
-
-
-
   const username = req.body.username;
   const password = req.body.password;
-  const user = await pool.query('SELECT * FROM users WHERE username = $1;', [username]).then((response) => {
-    return response.rows[0];
-  });
+  const user =(await pool.query('SELECT * FROM users WHERE username = $1;', [username])).rows[0]
   if (!user) {
     const error = new Error('User does not exist');
     return next(error);
@@ -21,23 +16,19 @@ const LoginController = async (req, res, next) => {
     return next(error);
   }
 
-  let token;
+  let userToken;
 
   try {
-    token = jwt.sign({ user_id: user.user_id, username: user.username }, 'Whatasecret', { expiresIn: '1h' });
+    userToken = jwt.sign({ user_id: user.user_id, username: user.username }, 'Whatasecret', { expiresIn: '1h' });
   } catch (err) {
     const error = new Error('Could not log you in, please try again later');
     return next(error);
   }
 
     console.log(username + " logged in")
-    res.status(200)
-    .cookie('userToken', token, {
-      maxAge: 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: 'strict',
-    })
-    .json({ message: 'Logged in successfully' , token: token , userId : user.user_id});
+    res.status(201)
+      
+    res.json({ message: 'Logged in successfully' , token: userToken , userId : user.user_id});
 };
 
 const RegisterController = async (req, res, next) => {
@@ -75,11 +66,6 @@ const RegisterController = async (req, res, next) => {
 
   res
     .status(201)
-    .cookie('accessToken', token, {
-      httpOnly: true,
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 1000,
-    })
     .json({ message: 'User created successfully' , token: token });
 };
 

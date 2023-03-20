@@ -6,8 +6,8 @@ const verifyToken = (req, res, next) => {
         
         return next();
     }
-    console.log(req.path)
-    const token = req.cookies.token;
+    console.log(req.path) //token authorization bearer
+    const token = req.headers.authorization.split(' ')[1];
     if (!token) {
       const error = new Error('Not authenticated');
       return res.status(403).json({success:false ,  message: 'Not authenticated' });

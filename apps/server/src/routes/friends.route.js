@@ -17,6 +17,6 @@ router.post('/cancel', canelFriendRequestController);
 
 router.post('/unfriend', unfriendController);
 
-router.post('/getFriends/:username', getFriendsController);
+router.get('/getFriends/:username', getFriendsController);
 
 module.exports = router;

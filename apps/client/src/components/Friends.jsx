@@ -7,12 +7,9 @@ const Friends = ({ user }) => {
 
   useEffect(() => {
     axios
-      .post(`${import.meta.env.VITE_API_URL}/friends/getFriends`, {
-        headers: {
-          ContentType: 'application/json',
-          Authorization: `Bearer`,
-        },
-        username: user.username,
+      .get(`${import.meta.env.VITE_API_URL}/friends/getFriends/${user.username}`, {
+
+        withCredentials: true,
       })
       .then((res) => {
         console.log(res.data);
