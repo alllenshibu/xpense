@@ -7,6 +7,7 @@ import Friends from './components/Friends';
 import Overview from './components/Overview';
 import PlusButton from './components/PlusButton';
 import Sidebar from './components/Sidebar';
+import Calendar from './components/Calendar';
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -28,19 +29,22 @@ function App() {
         </div>
       )}
       {user && (
-        <div className="container mx-auto h-full relative flex flex-row justify-center items-center">
+        <div className="mx-auto h-full relative flex flex-row justify-center items-center">
           <div className="w-96 h-full justify-self-start">
             <Sidebar user={user} setUser={setUser} setFocusedTab={setFocusedTab} />
           </div>
-          <div className="w-full h-full flex flex-col justify-start items-center">
+          <div className="w-full h-full bg-gray-50 flex flex-col justify-start items-center">
             <Overview />
             <div className="w-full h-full overflow-y-scroll flex flex-col justify-start items-center">
               {focusedTab === 'dashboard' && <ExpenseExplorer user={user} />}
               {focusedTab === 'friends' && <Friends user={user} />}
             </div>
           </div>
+          <div className="w-96 h-full bg-orange-300 flex flex-col justify-start items-center">
+            <Calendar />
+          </div>
           <div
-            className="absolute bottom-20 right-20"
+            className="absolute bottom-20 right-72"
             onClick={() => {
               setIsPopupOpen(true);
             }}

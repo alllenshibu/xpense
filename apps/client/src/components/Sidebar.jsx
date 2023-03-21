@@ -16,7 +16,7 @@ const Sidebar = ({ user, setUser, setFocusedTab }) => {
   };
 
   return (
-    <div className="w-full h-full py-8 px-8 flex flex-col justify-start items-start gap-4 text-xl">
+    <div className="w-full h-full py-8 px-4 bg-neutral-900 text-neutral-400 flex flex-col justify-start items-start gap-4 text-xl">
       <button
         onClick={() => {
           setFocusedTab('dashboard');

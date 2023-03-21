@@ -14,6 +14,14 @@
   option {
     @apply px-4 py-1 rounded;
   }
+
+  table * {
+    @apply p-1;
+  }
+
+  table th {
+    @apply font-normal;
+  }
 }
 
 @layer components {
