@@ -8,10 +8,12 @@ const { pool } = require('./config/postgres.config.js');
 const verifyToken = require('./middleware/verifyToken.js');
 const app = express();
 
-app.use(cors({
-  origin: 'http://127.0.0.1:5173',
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+    credentials: true,
+  })
+);
 const port = process.env.PORT || 3002;
 
 if (pool) {
@@ -19,7 +21,6 @@ if (pool) {
 } else {
   console.log('Error connecting to Postgres');
 }
-
 
 app.use(cookieParser());
 app.use(bodyParser.json());
