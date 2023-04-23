@@ -30,6 +30,36 @@
   }
 
   .sidebar-btn {
-    @apply p-4 w-full h-10 flex flex-row justify-start items-center gap-3 rounded hover:bg-gray-200;
+    @apply p-2 w-full text-[var(--white)] text-[16px] font-semibold h-8 flex flex-row justify-start items-center gap-3 rounded-lg hover:bg-[var(--hover1)] ;
   }
+}
+:root {
+  --color-1: #ebebfe;
+  --green: #b7ff32d1;
+  --color-3: #e5e5fe16;
+  --color-4: #e1e1fe26;
+  --color-5: #d7d7fa08;
+  --hover2: #3b3b3b;
+  --primarybg: #1c1c1f;
+  --hover1: #36363a;
+  --color-8: #161618;
+  --color-9: #0000000d;
+  --color-10: #ffffff;
+  --color-11: #fdfdffed;
+  --color-12: #f7f5ff9d;
+  --color-13: #f0eeff7a;
+  --color-14: #ededef;
+  --color-15: #b7ff32d1;
+  --color-16: #a09fa6;
+  --color-17: #7e7d86;
+  --color-18: #706f78;
+  --color-19: #161618;
+  --black: #000000;
+  --white:#ededef;
+  --bg-background:#161618
+}
+
+body{
+  background-color: var(--primarybg);
+  color: var(--color-10);
 }

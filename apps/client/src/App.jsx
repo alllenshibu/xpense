@@ -22,18 +22,18 @@ function App() {
   }, []);
 
   return (
-    <div className="App h-screen">
+    <div className="App h-screen ">
       {!user && (
         <div className="h-full w-96 mx-auto">
           <Auth setUser={setUser} />
         </div>
       )}
       {user && (
-        <div className="mx-auto h-full relative flex flex-row justify-center items-center">
+        <div className="mx-auto h-full relative flex flex-row justify-center  bg-[var(--primarybg)] items-center">
           <div className="w-96 h-full justify-self-start">
             <Sidebar user={user} setUser={setUser} setFocusedTab={setFocusedTab} />
           </div>
-          <div className="w-full h-full bg-gray-50 flex flex-col justify-start items-center">
+          <div className="w-full h-full bg-[var(--bg-background)] flex flex-col justify-start items-center">
             <Overview />
             <div className="w-full h-full overflow-y-scroll flex flex-col justify-start items-center">
               {focusedTab === 'dashboard' && <ExpenseExplorer user={user} />}
