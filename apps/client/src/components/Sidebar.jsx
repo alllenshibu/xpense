@@ -18,9 +18,9 @@ const Sidebar = ({ user, setUser, setFocusedTab }) => {
 
   return (
     <div className="w-full h-full py-2 px-4 bg-[var(--primarybg)] text-neutral-400 flex flex-col justify-start items-start gap-2 text-xl border-r border-[rgba(229,229,254,.087);]">
-      <div className="flex items-center flex-row justify-around gap-16 mb-4  ">
+      <div className="flex items-center flex-row justify-around gap-16 mb-8  ">
         {' '}
-        <div className="text-[16px] font-semibold text-left    text-neutral-100">Expense Tracker</div>
+        <div className="text-[16px] font-semibold text-left  leading-none  text-neutral-100">Expense Tracker</div>
         <div className="flex gap-4">
           <RxDashboard />
           <TbZoomMoney />

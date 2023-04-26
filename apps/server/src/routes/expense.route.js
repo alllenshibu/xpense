@@ -6,6 +6,7 @@ const {
   getAllExpensesController,
   getExpenseByCategoriesController,
   getCategoryExpensesController,
+  getExpensesOnDateController
 } = require('../controller/expense.controller.js');
 
 router.get('/', (req, res) => {
@@ -32,5 +33,7 @@ router.post('/add', addExpenseController);
 router.post('/getsum-c', getExpenseByCategoriesController);
 
 router.post('/get-bc', getCategoryExpensesController);
+
+router.post('/get-bd/:username', getExpensesOnDateController);
 
 module.exports = router;

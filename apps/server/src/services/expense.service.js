@@ -82,6 +82,14 @@ const getExpenseByCategories = async (user_id) => {
   return res;
 };
 
+const getExpensesOnDate = async (user_id, date) => {
+  const res = await pool.query('SELECT * FROM shares JOIN expenses ON shares.sh_expid = expenses.exp_id JOIN categories ON shares.sh_cid = categories.c_id WHERE shares.fr_id = $1 AND expenses.date = $2;', [user_id, date]).then((res) => {
+    return res.rows;
+  });
+  console.log('get expenses on date returns' + JSON.stringify(res));
+  return res;
+};
+
 const getCategoryExpenses = async (user_id, category_id) => {
   const res = await pool
     .query(
@@ -102,4 +110,5 @@ module.exports = {
   addNewExpense,
   addShare,
   getCategoryExpenses,
+  getExpensesOnDate
 };
