@@ -13,14 +13,6 @@ router.get('/', (req, res) => {
   res.send('Expense');
 });
 
-router.get('/get', (req, res) => {
-  const expenseId = req.query.expenseId;
-  const user = req.query.user;
-
-  getExpenseDetails(user, expenseId);
-
-  res.send('Get expense');
-});
 
 router.get('/getall', getAllExpensesController);
 
