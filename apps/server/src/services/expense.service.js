@@ -18,9 +18,9 @@ const getAllExpenses = async (user_id) => {
 
 const addNewExpense = async (user, expense) => {
   const user_id = await getUserId(user);
-  console.log('Category ID: ' + categ_id);
+  console.log('user id is ' + user_id);
   const exp_id = await pool
-    .query('INSERT INTO expenses (payer_id, amount, name, date) VALUES ($1, $2, $3, $4, $5) RETURNING exp_id;', [
+    .query('INSERT INTO expenses (payer_id, amount, name, date) VALUES ($1, $2, $3, $4) RETURNING exp_id;', [
       user_id,
       expense.amount,
       expense.name,
@@ -38,7 +38,7 @@ const addNewExpense = async (user, expense) => {
   try {
     expense.group.map(async (share) => {
       const friend_id = await getUserId(share.username);
-      const categ_id = await getCategoryId(share.user, share.category);
+      const categ_id = await getCategoryId(friend_id, share.category);
       addShare(exp_id, user_id, friend_id, categ_id, share.amount);
     });
   } catch (err) {
