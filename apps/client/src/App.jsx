@@ -40,11 +40,11 @@ function App() {
               {focusedTab === 'friends' && <Friends user={user} />}
             </div>
           </div>
-          <div className="w-96 h-full bg-orange-300 flex flex-col justify-start items-center">
+          {/* <div className="w-96 h-full bg-orange-300 flex flex-col justify-start items-center">
             <Calendar />
-          </div>
+          </div> */}
           <div
-            className="absolute bottom-20 right-72"
+            className="absolute bottom-20 right-40"
             onClick={() => {
               setIsPopupOpen(true);
             }}
@@ -68,7 +68,7 @@ function App() {
         >
           <PlusButton className="absolute top-0" />
         </div>
-        <AddNewExpense />
+        <AddNewExpense user={user} />
       </div>
     </div>
   );
