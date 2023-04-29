@@ -6,26 +6,29 @@ const {
   getAllExpensesController,
   getExpenseByCategoriesController,
   getCategoryExpensesController,
-  getExpensesOnDateController
+  getExpensesOnDateController,
+  EditExpenseController,
 } = require('../controller/expense.controller.js');
 
 router.get('/', (req, res) => {
   res.send('Expense');
 });
 
+router.get('/getall/:username', getAllExpensesController);
 
-router.get('/getall', getAllExpensesController);
-
-router.get('/analysis', (req, res) => {
+router.get('/analysis/:username', (req, res) => {
   res.send('Get expense analysis like insights, trends, etc.');
 });
 
-router.post('/add', addExpenseController);
+router.post('/add/:username', addExpenseController);
 
-router.post('/getsum-c', getExpenseByCategoriesController);
+router.post('/getsum-c/:username', getExpenseByCategoriesController);
 
-router.post('/get-bc', getCategoryExpensesController);
+router.post('/get-bc/:username', getCategoryExpensesController);
 
 router.post('/get-bd/:username', getExpensesOnDateController);
+
+router.post('/edit/:username', EditExpenseController);
+
 
 module.exports = router;

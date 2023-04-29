@@ -21,9 +21,7 @@ const Friends = ({ user }) => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-8">
       <p className="text-4xl font-semibold">Friends</p>
-      <div className="w-full h-full flex flex-row justify-center items-center gap-8">
-        <Left/>
-      </div>
+        <Left/> 
     </div>
   );
 };

@@ -17,8 +17,10 @@ const getAllExpenses = async (user_id) => {
 };
 
 const addNewExpense = async (user, expense) => {
-  const user_id = await getUserId(user);
+  try{const user_id = await getUserId(user);
   console.log('user id is ' + user_id);
+
+  await pool.query('BEGIN');
   const exp_id = await pool
     .query('INSERT INTO expenses (payer_id, amount, name, date) VALUES ($1, $2, $3, $4) RETURNING exp_id;', [
       user_id,
@@ -34,39 +36,81 @@ const addNewExpense = async (user, expense) => {
 
       return resp.rows[0].exp_id;
     });
-
-  try {
+    }
+    catch(err){
+      console.log(err);
+      await pool.query('ROLLBACK');
+      return false;
+    }
+    try {
+      await pool.query('BEGIN');
     expense.group.map(async (share) => {
       const friend_id = await getUserId(share.username);
       const categ_id = await getCategoryId(friend_id, share.category);
-      addShare(exp_id, user_id, friend_id, categ_id, share.amount);
+      await addShare(exp_id, user_id, friend_id, categ_id, share.amount);
+      
     });
+    await pool.query('COMMIT');
   } catch (err) {
+    await pool.query('ROLLBACK');
     console.log(err);
-
+    
     return false;
   }
   return true;
 };
+const EditExpense = async (user, expense) => {
+try{    
+  const user_id = await getUserId(user);
+  await pool.query("BEGIN");
+  await pool.query("UPDATE expenses SET amount = $1, name = $2, date = $3 WHERE exp_id = $4;", [ expense.amount, expense.name, expense.date, expense.exp_id]);
+  await pool.query("DELETE FROM shares WHERE sh_expid = $1;", [expense.exp_id]);
+  expense.group.map(async (share) => {
+    const friend_id = await getUserId(share.username);
+    const categ_id = await getCategoryId(friend_id, share.category);
+    await addShare(exp_id, user_id, friend_id, categ_id, share.amount);
+    
+  });
+  await pool.query("COMMIT");
+}  
+catch(err){
 
-const addShare = (exp_id, payer_id, friend_id, categ_id, share_amount) => {
-  let paid = false;
+await pool.query("ROLLBACK");
+console.log(err);
+return false;
+};
+}
+
+const addShare = async(exp_id, payer_id, friend_id, categ_id, share_amount) => {
+  try{let paid = false;
   if (friend_id == payer_id) {
     paid = true;
   }
   const amt = parseFloat(share_amount);
 
-  pool
+  await pool
     .query(
       'INSERT INTO shares (sh_expid , sh_payerid , fr_id , owe_amount , paid, sh_cid) VALUES ($1, $2, $3, $4 , $5,$6) RETURNING sh_expid;',
       [exp_id, payer_id, friend_id, amt, paid, categ_id]
-    )
-    .then((res) => {
+    );
       if (payer_id != friend_id)
-        pool.query('UPDATE users SET user_owe = user_owe + $1 WHERE user_id = $2;', [share_amount, friend_id]); //derived?
-      pool.query('UPDATE users SET user_expense = user_expense + $1 WHERE user_id = $2;', [share_amount, friend_id]); // derived?
-      console.log('inserted share ' + JSON.stringify(res.rows[0]));
-    });
+        await pool.query('BEGIN');
+        const success = await pool.query('UPDATE friends SET f_owe = f_owe - $1 WHERE frnd_sender = $2 AND frnd_reciever = $3 RETURNING *;', [share_amount, payer_id, friend_id]);
+        if (success.rowCount == 0) {
+          await pool.query('UPDATE friends SET f_owe = f_owe + $1 WHERE frnd_sender = $2 AND frnd_reciever = $3 RETURNING *;', [share_amount, friend_id, payer_id]);
+        }
+        await pool.query('UPDATE users SET user_owe = user_owe + $1 WHERE user_id = $2;', [share_amount, friend_id]); //derived?
+        await pool.query('UPDATE users SET user_expense = user_expense + $1 WHERE user_id = $2;', [share_amount, friend_id]); // derived?
+        await pool.query('COMMIT');
+        console.log('inserted share ');}
+        catch(err){
+          console.log(err);
+          await pool.query('ROLLBACK');
+          return false;
+        }
+      
+      
+
 };
 
 const getExpenseByCategories = async (user_id) => {
@@ -110,5 +154,6 @@ module.exports = {
   addNewExpense,
   addShare,
   getCategoryExpenses,
-  getExpensesOnDate
+  getExpensesOnDate,
+  EditExpense
 };

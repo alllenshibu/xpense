@@ -88,24 +88,26 @@ const getStatus = async (sender, reciever) => {
     });
   switch (status) {
     case 1:
-      return 'p';
+      return 'p';  // pending
     case 2:
-      return 'n';
+      return 'n';  // not friends
     case 3:
-      return 'r';
+      return 'r';  // 
     case 4:
-      return 'b';
+      return 'b';  
     default:
       return 'n';
   }
 };
+
+
 
 const getFriends = async (username) => {
   const user_id = await getUserId(username);
 
   const recievers = await pool
     .query(
-      'SELECT friends.frnd_reciever AS frnd_id, users.username AS username    FROM friends JOIN users ON friends.frnd_reciever = users.user_id WHERE frnd_sender = $1 ;',
+      'SELECT friends.f_owe AS owes ,friends.frnd_reciever AS frnd_id, users.username AS username FROM friends JOIN users ON friends.frnd_reciever = users.user_id WHERE frnd_sender = $1 ;',
       [user_id]
     )
     .then((response) => {
@@ -114,13 +116,16 @@ const getFriends = async (username) => {
 
   const senders = await pool
     .query(
-      'SELECT friends.frnd_sender AS frnd_id, users.username AS username  FROM friends JOIN users on friends.frnd_sender = users.user_id WHERE frnd_reciever = $1 ;',
+      'SELECT friends.f_owe AS owes ,friends.frnd_sender AS frnd_id, users.username AS username  FROM friends JOIN users on friends.frnd_sender = users.user_id WHERE frnd_reciever = $1 ;',
       [user_id]
     )
     .then((response) => {
       return response.rows;
     });
 
+  senders.map((sender) => {
+    sender.owes = -sender.owes;
+  });
   const friends = recievers.concat(senders);
   return friends;
 };
@@ -136,4 +141,24 @@ const isFriend = async (sender_id, reciever_id) => {
     });
   return isfrnd;
 };
-module.exports = { getUserId, sendFriendRequest, canelFriendRequest, unfriend, getStatus, getFriends, isFriend };
+
+const getRequests = async (username) => {
+  try{const user_id = await getUserId(username);
+  const incoming = await pool.query('SELECT * FROM friend_requests INNER JOIN (SELECT username as name , user_id as id FROM users) AS sender ON friend_requests.fr_sender = sender.id WHERE fr_reciever = $1;', [
+    user_id,
+  ]);
+  const outgoing = await pool.query('SELECT * FROM friend_requests INNER JOIN (SELECT username AS name  , user_id as id FROM users) AS reciever ON friend_requests.fr_reciever = reciever.id WHERE fr_sender = $1;', [ 
+    user_id,
+  ]);
+
+  console.log("incoming ", incoming.rows)
+  console.log("outgoing ", outgoing.rows)
+
+  return { incoming: incoming.rows, outgoing: outgoing.rows };}
+  catch(err){
+    return false;
+  }
+
+};
+
+module.exports = { getUserId, sendFriendRequest, canelFriendRequest, unfriend, getStatus, getFriends, isFriend , getRequests };

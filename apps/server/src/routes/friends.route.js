@@ -7,6 +7,7 @@ const {
   canelFriendRequestController,
   unfriendController,
   getFriendsController,
+  getRequestsController,
 } = require('../controller/friendship.controller.js');
 
 router.post('/getStatus', getStatusController);
@@ -17,6 +18,9 @@ router.post('/cancel', canelFriendRequestController);
 
 router.post('/unfriend', unfriendController);
 
-router.get('/getFriends', getFriendsController);
+router.get('/getFriends/:username', getFriendsController);
+
+router.get('/getRequests/:username', getRequestsController);
+
 
 module.exports = router;
