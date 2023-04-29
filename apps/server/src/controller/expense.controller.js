@@ -41,7 +41,7 @@ const getExpensesOnDateController = async (req, res) => {
 };
 
 const addExpenseController = async (req, res) => {
-  const username = req.username;
+  const username = req.body.username;
   const expense = req.body.expense;
   const success = await addNewExpense(username, expense);
   if (success) {
