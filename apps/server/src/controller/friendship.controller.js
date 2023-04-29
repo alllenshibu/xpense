@@ -44,9 +44,7 @@ const getStatusController = async (req, res) => {
 
 const getFriendsController = async (req, res) => {
 
-  
-  const username = req.username;
-
+  const username = req.body.username;
   const friends = await getFriends(username);
 
   res.status(200).json(friends);
