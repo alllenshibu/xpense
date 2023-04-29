@@ -1,9 +1,14 @@
 const { pool } = require('../config/postgres.config.js'); ///  accepted 0  pending 1 notfriends 2 incRequest 3
 const getUserId = async (username) => {
-  return await pool.query('SELECT user_id FROM users WHERE username = $1;', [username]).then((response) => {
-    console.log('User ID: ' + response.rows[0].user_id);
-    return response.rows[0].user_id;
-  });
+    console.log(username)
+    const res =  await pool.query('SELECT user_id FROM users WHERE username = $1;', [username])
+    if(res.rowCount > 0)
+    {
+    console.log('User ID: ' + res.rows[0].user_id);
+    return res.rows[0].user_id;
+
+}
+return false;
 };
 
 const sendFriendRequest = async (sender, reciever) => {
