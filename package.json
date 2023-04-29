@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "daisyui": "^2.51.6",
     "react-select": "^5.7.0"
   },
   "packageManager": "npm@9.1.2"

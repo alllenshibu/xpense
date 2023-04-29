@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import AddNewExpense from './components/AddNewExpense';
 import Auth from './components/Auth';
 import ExpenseExplorer from './components/ExpenseExplorer';
-import Friends from './components/Friends';
+import Friends from './pages/friendPage/Friends';
 import Overview from './components/Overview';
 import PlusButton from './components/PlusButton';
 import Sidebar from './components/Sidebar';
