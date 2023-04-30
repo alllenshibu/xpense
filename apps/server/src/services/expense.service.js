@@ -147,6 +147,26 @@ const getCategoryExpenses = async (user_id, category_id) => {
   return res;
 };
 
+const getCommonExpenses = async (username, friendName) => {
+
+try
+  {  const user_id = await getUserId(username);
+  const friend_id = await getUserId(friendName);
+  const res = await pool
+    .query(
+      'SELECT * FROM (shares JOIN expenses ON shares.sh_expid = expenses.exp_id) JOIN categories ON shares.sh_cid = categories.c_id WHERE (shares.fr_id = $1 AND shares.sh_payerid = $2) OR (shares.fr_id = $2 AND shares.sh_payerid = $1);',
+      [user_id, friend_id]
+    );
+  console.log('get common expenses returns' + JSON.stringify(res.rows));
+  return res.rows;
+} 
+catch(err){
+  console.log(err);
+  return false;
+
+};
+};
+
 module.exports = {
   getExpenseDetails,
   getAllExpenses,
@@ -155,5 +175,6 @@ module.exports = {
   addShare,
   getCategoryExpenses,
   getExpensesOnDate,
-  EditExpense
+  EditExpense,
+  getCommonExpenses,
 };

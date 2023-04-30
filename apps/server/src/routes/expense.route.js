@@ -8,6 +8,7 @@ const {
   getCategoryExpensesController,
   getExpensesOnDateController,
   EditExpenseController,
+  getCommonExpensesController,
 } = require('../controller/expense.controller.js');
 
 router.get('/', (req, res) => {
@@ -29,6 +30,8 @@ router.post('/get-bc/:username', getCategoryExpensesController);
 router.post('/get-bd/:username', getExpensesOnDateController);
 
 router.post('/edit/:username', EditExpenseController);
+
+router.post('/get-common/:username', getCommonExpensesController);
 
 
 module.exports = router;

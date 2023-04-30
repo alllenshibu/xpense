@@ -31,7 +31,7 @@ const cancelFriendRequest = async (friendName) =>
 
 const RequestBar = ({friendId , friendName , type}) => {
     return (
-        <div className="flex justify-between items-center w-full h-16 p-4 bg-black rounded-md shadow-md">
+        <div className="flex justify-between items-center w-max h-16 gap-5 bg-black rounded-md shadow-md">
             <div className="flex items-center gap-4">
                 <img src="https://picsum.photos/200" className="w-12 h-12 rounded-full" alt="profile" />
                 <div className="flex flex-col">
@@ -41,11 +41,11 @@ const RequestBar = ({friendId , friendName , type}) => {
             </div>
             <div className="flex items-center gap-4">{
                 type == 'received' ? (
-                <div>
-                <button className="btn btn-primary"
+                <div className= "flex gap-4">
+                <button className="w-max h-max bg-green-500 px-2 py-1 rounded-md"
                 onClick={() => acceptFriendRequest(friendName)}
                 >Accept</button>
-                <button className="btn btn-warning"
+                <button className="w-auto h-auto bg-red-500 px-2 py-1 rounded-md"
                 onClick={() => cancelFriendRequest(friendName)}
                 >Reject</button>
                 </div>)

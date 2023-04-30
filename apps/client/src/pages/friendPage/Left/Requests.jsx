@@ -7,11 +7,12 @@ const Requests = ({ user }) => {
 
     const [requests, setRequests] = useState([]);
     const [loading , setLoading] = useState(true);
+    const username  = JSON.parse(localStorage.getItem("user")).username;
     
     useEffect(() => {
 
         const fetchRequests= async () => axios
-        .get(`${import.meta.env.VITE_API_URL}/friends/getRequests/user1`, {
+        .get(`${import.meta.env.VITE_API_URL}/friends/getRequests/${username}`, {
             withCredentials: true,
         })
         .then((res) => {

@@ -5,6 +5,7 @@ const {
   getCategoryExpenses,
   getExpensesOnDate,
   EditExpense,
+  getCommonExpenses,
 } = require('../services/expense.service.js');
 const { getUserId } = require('../services/users.service.js');
 const { getAllShares } = require('../services/shares.service.js');
@@ -72,6 +73,14 @@ const getCategoryExpensesController = async (req, res) => {
   res.status(200).json(result);
 };
 
+const getCommonExpensesController = async (req, res) => {
+  const username = req.params.username;
+  const friend = req.body.friend;
+  const result = await getCommonExpenses(username, friend);
+  res.status(200).json(result);
+};
+
+
 module.exports = {
   getAllExpensesController,
   getExpenseByCategoriesController,
@@ -79,5 +88,6 @@ module.exports = {
   getCategoryExpensesController,
   getExpensesOnDateController,
   EditExpenseController,
+  getCommonExpensesController,
   
 };

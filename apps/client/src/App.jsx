@@ -13,15 +13,22 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [focusedTab, setFocusedTab] = useState('dashboard');
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
       setUser(JSON.parse(user));
     }
+    else {
+      setUser(null);
+      setFocusedTab(null)
+    }
+    setLoading(false);
   }, []);
 
   return (
+    loading ? <div className="h-screen w-screen flex justify-center items-center">Loading...</div> :
     <div className="App h-screen ">
       {!user && (
         <div className="h-full w-96 mx-auto">
@@ -29,6 +36,7 @@ function App() {
         </div>
       )}
       {user && (
+        <div>
         <div className="mx-auto h-full relative flex flex-row justify-center  bg-[var(--primarybg)] items-center">
           <div className="w-96 h-full justify-self-start">
             <Sidebar user={user} setUser={setUser} setFocusedTab={setFocusedTab} />
@@ -52,24 +60,25 @@ function App() {
             <PlusButton />
           </div>
         </div>
-      )}
 
       <div
-        className={
-          (isPopupOpen ? 'fixed' : 'hidden') +
-          ' top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 bg-gray-200 rounded shadow-xl flex flex-col justify-center items-center'
-        }
+      className={
+        (isPopupOpen ? 'fixed' : 'hidden') +
+        ' top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 bg-gray-200 rounded shadow-xl flex flex-col justify-center items-center'
+      }
       >
         <div
           className="absolute -top-10 -right-10 rotate-45"
           onClick={() => {
             setIsPopupOpen(false);
           }}
-        >
+          >
           <PlusButton className="absolute top-0" />
         </div>
         <AddNewExpense user={user} />
       </div>
+          </div>
+          )}
     </div>
   );
 }
