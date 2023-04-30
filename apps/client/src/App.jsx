@@ -35,7 +35,7 @@ function App() {
           </div>
           <div className="w-full h-full bg-[var(--bg-background)] flex flex-col justify-start items-center">
             <Overview />
-            <div className="w-full h-full overflow-y-scroll flex flex-col justify-start items-center">
+            <div className="w-full h-full overflow-y-scroll flex flex-col px-2 justify-start">
               {focusedTab === 'dashboard' && <ExpenseExplorer user={user} />}
               {focusedTab === 'friends' && <Friends user={user} />}
             </div>

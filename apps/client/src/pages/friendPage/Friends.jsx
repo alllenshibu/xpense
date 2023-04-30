@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import  Left from './Left/Left';
+import Right from './Right/Right';
 
 const Friends = ({ user }) => {
   const [friends, setFriends] = useState([]);
@@ -19,9 +20,13 @@ const Friends = ({ user }) => {
   // }, []);
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center gap-8">
+    <div>
       <p className="text-4xl font-semibold">Friends</p>
-        <Left/> 
+      
+      <div className="w-full h-full flex">
+          <Left/> 
+          <Right/>
+      </div>
     </div>
   );
 };
