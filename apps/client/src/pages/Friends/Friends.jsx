@@ -63,43 +63,45 @@ const Friends = ({ user }) => {
 
   return (
     <div className="w-full h-full flex">
-      <div className="bg-blue-500 w-full h-full flex flex-col justify-center items-center gap-8">
-        <p className="text-4xl font-semibold border-b-2 ">Friends</p>
+      <div className="w-full h-full flex flex-col justify-center items-center gap-8">
         <div className="w-full h-full flex flex-col justify-center items-center gap-8">
           {friends.map((friend) => {
             return <FriendBar friend={friend} />;
           })}
         </div>
       </div>
-      <div className="bg-green-400 w-full h-full flex flex-col justify-center items-center gap-8">
-        <p className="text-4xl font-semibold">Add Friend</p>
-        <div className="flex">
-          <input
-            type="text"
-            placeholder="Friend's Username"
-            onChange={(e) => {
-              setFriendName(e.target.value);
-            }}
-          />
-          <button type="submit" className="btn btn-primary" onClick={handleAddFriend}>
-            Add Friend
-          </button>
-        </div>
-      </div>
+
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="bg-red-500 w-full h-full flex flex-col justify-evenly items-center gap-8">
-          <p className="text-4xl font-semibold border-b-2 border-gray-300 pb-2">Incoming Requests</p>
-          {requests.incoming &&
-            requests.incoming.map((request) => (
-              <RequestBar friendId={request.id} friendName={request.name} type="received" />
-            ))}
-          <p className="text-4xl font-semibold border-b-2 border-gray-300 pb-2">Outgoing Requests</p>
-          {requests.outgoing &&
-            requests.outgoing.map((request) => (
-              <RequestBar friendId={request.id} friendName={request.name} type="sent" />
-            ))}
+        <div className="flex flex-col">
+          <div className="w-full flex flex-col justify-center items-center gap-2">
+            <p className="text-2xl font-semibold">Add Friend</p>
+            <div className="flex">
+              <input
+                type="text"
+                placeholder="Start typing..."
+                onChange={(e) => {
+                  setFriendName(e.target.value);
+                }}
+              />
+              <button type="submit" className="btn" onClick={handleAddFriend}>
+                Add Friend
+              </button>
+            </div>
+          </div>
+          <div className="w-96 h-full flex flex-col justify-evenly items-center">
+            <p className="text-xl text-center font-semibold">Incoming Requests</p>
+            {requests.incoming &&
+              requests.incoming.map((request) => (
+                <RequestBar friendId={request.id} friendName={request.name} type="received" />
+              ))}
+            <p className="text-xl text-center font-semibold">Outgoing Requests</p>
+            {requests.outgoing &&
+              requests.outgoing.map((request) => (
+                <RequestBar friendId={request.id} friendName={request.name} type="sent" />
+              ))}
+          </div>
         </div>
       )}
     </div>
