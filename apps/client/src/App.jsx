@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import AddNewExpense from './components/AddNewExpense';
 import Auth from './components/Auth';
 import ExpenseExplorer from './components/ExpenseExplorer';
-import Friends from './pages/friendPage/Friends';
+import Friends from './pages/Friends/Friends';
 import Overview from './components/Overview';
 import PlusButton from './components/PlusButton';
 import Sidebar from './components/Sidebar';
@@ -47,17 +47,24 @@ function App() {
               {focusedTab === 'dashboard' && <ExpenseExplorer user={user} />}
               {focusedTab === 'friends' && <Friends user={user} />}
             </div>
-          </div>
-          {/* <div className="w-96 h-full bg-orange-300 flex flex-col justify-start items-center">
+            <div className="w-full h-full bg-[var(--bg-background)] flex flex-col justify-start items-center">
+              <Overview />
+              <div className="w-full h-full overflow-y-scroll flex flex-col px-2 justify-start">
+                {focusedTab === 'dashboard' && <ExpenseExplorer user={user} />}
+                {focusedTab === 'friends' && <Friends user={user} />}
+              </div>
+            </div>
+            {/* <div className="w-96 h-full bg-orange-300 flex flex-col justify-start items-center">
             <Calendar />
           </div> */}
-          <div
-            className="absolute bottom-20 right-40"
-            onClick={() => {
-              setIsPopupOpen(true);
-            }}
-          >
-            <PlusButton />
+            <div
+              className="absolute bottom-20 right-40"
+              onClick={() => {
+                setIsPopupOpen(true);
+              }}
+            >
+              <PlusButton />
+            </div>
           </div>
         </div>
 

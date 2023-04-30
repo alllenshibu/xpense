@@ -4,7 +4,7 @@
 
 @layer base {
   input {
-    @apply px-4 py-1 border border-black rounded;
+    @apply px-4 py-1 border border-black rounded text-black;
   }
 
   select {
@@ -30,7 +30,7 @@
   }
 
   .sidebar-btn {
-    @apply p-2 w-full text-[var(--white)] text-[16px] font-semibold h-8 flex flex-row justify-start items-center gap-3 rounded-lg hover:bg-[var(--hover1)] ;
+    @apply p-2 w-full text-[var(--white)] text-[16px] font-semibold h-8 flex flex-row justify-start items-center gap-3 rounded-lg hover:bg-[var(--hover1)];
   }
 }
 :root {
@@ -55,11 +55,11 @@
   --color-18: #706f78;
   --color-19: #161618;
   --black: #000000;
-  --white:#ededef;
-  --bg-background:#161618
+  --white: #ededef;
+  --bg-background: #161618;
 }
 
-body{
+body {
   background-color: var(--primarybg);
   color: var(--color-10);
 }
