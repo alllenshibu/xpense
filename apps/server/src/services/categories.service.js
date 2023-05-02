@@ -9,7 +9,7 @@ const AddCategory = async (user_id, category) => {
         return;
       }
       const c_idd = await pool
-        .query('INSERT INTO categories (c_user, c_name) VALUES ($1, $2);', [user_id, category])
+        .query('INSERT INTO categories (c_user, c_name) VALUES ($1, $2) RETURNING c_id;', [user_id, category])
         .then((resp) => {
           console.log('Category added successfully' + resp);
           return resp.rows[0].c_id;

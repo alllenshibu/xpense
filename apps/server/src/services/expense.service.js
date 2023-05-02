@@ -17,47 +17,38 @@ const getAllExpenses = async (user_id) => {
 };
 
 const addNewExpense = async (user, expense) => {
-  try{const user_id = await getUserId(user);
+  let exp_id;
+  try
+  {
+  const user_id = await getUserId(user);
   console.log('user id is ' + user_id);
 
   await pool.query('BEGIN');
-  const exp_id = await pool
+  const res = await pool
     .query('INSERT INTO expenses (payer_id, amount, name, date) VALUES ($1, $2, $3, $4) RETURNING exp_id;', [
       user_id,
       expense.amount,
       expense.name,
       expense.date,
-    ])
-    .then((resp) => {
-      if (resp.rows.length == 0) {
-        ///to be removed *****************
-        console.log('Error: Nothing insertedd');
-      }
-
-      return resp.rows[0].exp_id;
-    });
-    }
-    catch(err){
-      console.log(err);
-      await pool.query('ROLLBACK');
-      return false;
-    }
-    try {
-      await pool.query('BEGIN');
-    expense.group.map(async (share) => {
+    ]);
+   exp_id = res.rows[0].exp_id;
+  
+   
+   await pool.query('BEGIN');
+   expense.group.map(async (share) => {
       const friend_id = await getUserId(share.username);
       const categ_id = await getCategoryId(friend_id, share.category);
       await addShare(exp_id, user_id, friend_id, categ_id, share.amount);
       
     });
     await pool.query('COMMIT');
-  } catch (err) {
+    return true;
+  }
+   catch (err) {
     await pool.query('ROLLBACK');
-    console.log(err);
-    
+    console.log(err);    
     return false;
   }
-  return true;
 };
 const EditExpense = async (user, expense) => {
 try{    
@@ -82,7 +73,9 @@ return false;
 }
 
 const addShare = async(exp_id, payer_id, friend_id, categ_id, share_amount) => {
-  try{let paid = false;
+  try{
+  
+  let paid = false;
   if (friend_id == payer_id) {
     paid = true;
   }
