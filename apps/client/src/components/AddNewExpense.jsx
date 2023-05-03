@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
+const categories = ['food', 'transport', 'entertainment', 'shopping', 'bills', 'other'];
+
 const AddNewExpense = ({ user }) => {
   const username = JSON.parse(localStorage.getItem('user')).username;
   const [amount, setAmount] = useState(0);
   const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
   const [isSplit, setIsSplit] = useState(false);
   const [friends, setFriends] = useState([]);
   const [selectedFriend, setSelectedFriend] = useState('');
@@ -26,7 +29,7 @@ const AddNewExpense = ({ user }) => {
     const expense = {
       name: name,
       amount: amount,
-      category: 'groceries',
+      category: category,
       date: '2021-05-01',
       group: [
         {
@@ -77,7 +80,22 @@ const AddNewExpense = ({ user }) => {
           setAmount(e.target.value);
         }}
       />
+      <select
+        name="category"
+        id="category"
+        onChange={(e) => {
+          setCategory(e.target.value);
+        }}
+      >
+        {categories.map((category) => {
+          return <option value={category}>{category}</option>;
+        })}
+      </select>
 
+      <div className="flex flex-row justify-center items-center gap-2 ">
+        <label htmlFor="is-split">Split</label>
+        <input id="is-split" type="checkbox" checked={isSplit} onChange={() => setIsSplit(!isSplit)} />
+      </div>
       {isSplit ? (
         <>
           <select
@@ -97,14 +115,10 @@ const AddNewExpense = ({ user }) => {
           </button>
         </>
       ) : null}
-      <div className="flex flex-row gap-2">
-        <button className="btn" onClick={() => setIsSplit(!isSplit)}>
-          Split
-        </button>
-        <button className="btn" onClick={addNewExpense}>
-          Add
-        </button>
-      </div>
+
+      <button className="btn" onClick={addNewExpense}>
+        Add
+      </button>
     </div>
   );
 };
