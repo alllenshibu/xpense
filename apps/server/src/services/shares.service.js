@@ -19,7 +19,7 @@ const getAllShares = async (user_id) => {
           share.sh_expid,
           share.sh_payerid,
         ]);
-        return response.rows;
+        return response.rows[0];
       } catch (err) {
         console.log('Error: ' + err);
         return null; // or some other error handling strategy
@@ -29,5 +29,6 @@ const getAllShares = async (user_id) => {
   console.log('Expenses a: ', expenses);
   return expenses;
 };
+
 
 module.exports = { getAllShares };

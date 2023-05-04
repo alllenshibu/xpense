@@ -12,6 +12,7 @@ const getAllExpenses = async (user_id) => {
   const res = await pool.query('SELECT * FROM shares JOIN expenses ON shares.sh_expid = expenses.exp_id JOIN categories ON shares.sh_cid = categories.c_id WHERE shares.fr_id = $1 ;', [user_id]).then((response) => {
     return response.rows;
   });
+  console.log('get all expenses returns' + res.length);
   console.log('get all expenses returns' + JSON.stringify(res));
   return res;
 };

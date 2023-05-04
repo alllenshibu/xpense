@@ -18,9 +18,8 @@ const getAllExpensesController = async (req, res) => {
   const username =  req.params.username; 
   const user     =  await getUserId(username);  
   const expenses =  await getAllExpenses(user);
-  const shares   =  await getAllShares(user);
-
-  res.status(200).json([...shares, ...expenses]);
+  
+  res.status(200).json(expenses);
 };
 
 const EditExpenseController = async (req, res) => {

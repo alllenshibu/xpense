@@ -30,15 +30,23 @@ const ExpenseExplorer = ({ user }) => {
   return (
     <div className="h-full flex flex-row justify-center items-center gap-4 flex-wrap">
       {expenses.map((items) => {
+
+        const date = new Date(items.date).toLocaleDateString(); 
         return (
           <div
             className="h-64 w-48 p-4 flex flex-col justify-between items-center rounded border border-gray-200"
             key={items.exp_id}
           >
             <div className="text-xl">{items.name}</div>
-            <div className="text-2xl font-bold">Rs. {items.owe_amount}</div>
+            <div className="text-2xl font-bold">Amount : {items.amount}</div>
+           {items.paid ? 
+                items.amount !=items.owe_amount ? <div className="text-lg font-bold">You lent  Rs. {items.amount - items.owe_amount}</div> 
+                 : <></>  
+              : 
+            <div className="text-lg font-bold">You owe Rs. {items.owe_amount}</div>
+           }
             <div className="">Category : {items.c_name}</div>
-            <div className="text-xs">{items.date}</div>
+            <div className="text-xs">{date}</div>
           </div>
         );
       })}
