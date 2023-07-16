@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.9.7",
+    "eslint": "^7.32.0",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.8",
+    "turbo": "latest"
+  },
+  "packageManager": "pnpm@7.15.0",
+  "name": "xpense",
+  "husky": {
+    "hooks": {
+      "pre-commit": "turbo run format"
+    }
+  },
+  "engines": {
+    "node": ">=18.6.0",
+    "pnpm": ">=8.6.1"
+  }
+}
