@@ -5,6 +5,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS expense CASCADE;
 DROP TABLE IF EXISTS category CASCADE;
+DROP TABLE IF EXISTS friend_request CASCADE;
+DROP TABLE IF EXISTS friend CASCADE;
 DROP TABLE IF EXISTS split CASCADE;
 
 CREATE TABLE IF NOT EXISTS "user"
@@ -41,6 +43,26 @@ CREATE TABLE IF NOT EXISTS category
 
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES "user" (id)
+);
+
+CREATE TABLE IF NOT EXISTS friend_request
+(
+    user_id    UUID NOT NULL,
+    friend_id  UUID NOT NULL,
+
+    PRIMARY KEY (user_id, friend_id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id),
+    FOREIGN KEY (friend_id) REFERENCES "user" (id)
+);
+
+CREATE TABLE IF NOT EXISTS friend
+(
+    user_id UUID NOT NULL,
+    friend_id UUID NOT NULL,
+
+    PRIMARY KEY (user_id, friend_id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id),
+    FOREIGN KEY (friend_id) REFERENCES "user" (id)
 );
 
 CREATE TABLE IF NOT EXISTS split

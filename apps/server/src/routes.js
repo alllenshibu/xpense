@@ -6,6 +6,7 @@ const { addNewExpenseController, getAllExpensesController, getExpenseByIdControl
 const { getStatsController } = require('./controllers/stats.controller');
 const { createNewSplitController } = require('./controllers/split.controller');
 const { getAllCategoriesController, getCategoryByIdController, addNewCategoryController } = require('./controllers/category.controller');
+const { addNewFriendController, getAllFriendsController, addNewFriendRequestController, getAllFriendRequestsController, acceptFriendRequestConroller } = require('./controllers/friend.controller');
 
 const router = express.Router();
 
@@ -70,5 +71,24 @@ router.get("/stats", authorize, (req, res) => {
 router.get('/', (req, res) => {
     res.send('Yo');
 });
+
+// Friend request routes
+router.post("/friendrequest", authorize, (req, res) => {
+    addNewFriendRequestController(req, res);
+});
+
+router.get("/friendrequest", authorize, (req, res) => {
+    getAllFriendRequestsController(req, res);
+});
+
+router.post("/friend", authorize, (req, res) => {
+    acceptFriendRequestConroller(req, res);
+});
+
+// Friend routes
+router.get("/friend", authorize, (req, res) => {
+    getAllFriendsController(req, res);
+});
+
 
 module.exports = router;
