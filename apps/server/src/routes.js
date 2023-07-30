@@ -5,6 +5,7 @@ const { authorize } = require('./middlewares/auth.middleware');
 const { addNewExpenseController, getAllExpensesController, getExpenseByIdController, editExpenseController } = require('./controllers/expense.controller');
 const { getStatsController } = require('./controllers/stats.controller');
 const { createNewSplitController } = require('./controllers/split.controller');
+const { getAllCategoriesController, getCategoryByIdController, addNewCategoryController } = require('./controllers/category.controller');
 
 const router = express.Router();
 
@@ -45,15 +46,15 @@ router.post("/split", authorize, (req, res) => {
 
 // Category routes
 router.get("/category", authorize, (req, res) => {
-    res.send("Get all categories");
+    getAllCategoriesController(req, res);
 });
 
 router.get("/category/:id", authorize, (req, res) => {
-    res.send("Get category by id");
+    getCategoryByIdController(req, res);
 });
 
 router.post("/category", authorize, (req, res) => {
-    res.send("Create category");
+    addNewCategoryController(req, res);
 });
 
 router.put("/category/:id", authorize, (req, res) => {
