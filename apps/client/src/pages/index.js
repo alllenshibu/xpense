@@ -32,6 +32,9 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    if (cookies.token === undefined) {
+      router.push('/login')
+    }
     fetchExpenses()
   }, [])
 
