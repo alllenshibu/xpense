@@ -4,12 +4,12 @@ const { getStatsService } = require('../services/stats.service');
 // TODO: createNewSplitWithExpenseController
 
 const createNewSplitController = async (req, res) => {
-    const username = req?.user;
+    const email = req?.user;
     const expenseId = req?.body?.expenseId;
     const split = req?.body?.split;
 
-    if (!username || username === '' || username === undefined) {
-        return res.status(400).send('Username is required');
+    if (!email || email === '' || email === undefined) {
+        return res.status(400).send('Email is required');
     }
 
     if (!expenseId || expenseId === '' || expenseId === undefined) {

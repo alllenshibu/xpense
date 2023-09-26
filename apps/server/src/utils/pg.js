@@ -29,6 +29,8 @@ function getPostgresCredentials() {
         throw new Error('Cannot find POSTGRES_DATABASE');
     }
 
+    console.log("Connected to database")
+
     return {
         user,
         password,
@@ -44,9 +46,9 @@ const pool = new Pool({
     host: getPostgresCredentials().host,
     port: getPostgresCredentials().port,
     database: getPostgresCredentials().database,
-    // ssl: {
-    //    rejectUnauthorized: false,
-    // },
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
 module.exports = pool;

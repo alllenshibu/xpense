@@ -2,13 +2,13 @@ const pool = require('../utils/pg');
 
 const split = [
     {
-        username: "alapanoski",
+        email: "alapanoski",
         percentage: 50
     }, {
-        username: "vaib",
+        email: "vaib",
         percentage: 25
     }, {
-        username: "jzf",
+        email: "jzf",
         percentage: 25
     }
 ]
@@ -32,7 +32,7 @@ const createNewSplitService = async (expenseId, split) => {
 
         // Checking if user exists
         for (user of split) {
-            const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user.username]);
+            const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user.email]);
             if (userId?.rows?.length === 0) {
                 throw new Error('User not found');
             }
@@ -54,7 +54,7 @@ const createNewSplitService = async (expenseId, split) => {
 
         // Creating split
         for (payer of split) {
-            const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [payer.username]);
+            const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [payer.email]);
             result = await pool.query('INSERT INTO split (expense_id, user_id, percentage) VALUES ($1, $2, $3)', [expenseId, userId?.rows[0]?.id, payer.percentage]);
         }
 

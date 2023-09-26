@@ -53,7 +53,7 @@ export default function AddNewSplit() {
         })
         setSplit([
             {
-                username: "alapanoski",
+                email: "alapanoski",
                 percentage: 100
             }])
     }, [router.query.id])

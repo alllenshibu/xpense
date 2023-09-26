@@ -12,10 +12,10 @@ export default function SplitEditor({ expenseId, split, setSplit, submitText, ha
         if (response.status !== 200 || response.data.length === 0) {
             alert("User not found")
         }
-        if (split.find(payer => payer.username === newSplitPayer)) {
+        if (split.find(payer => payer.email === newSplitPayer)) {
             alert("User already added")
         } else {
-            setSplit([...split, { username: newSplitPayer, percentage: 100 }])
+            setSplit([...split, { email: newSplitPayer, percentage: 100 }])
         }
         setNewSplitPayer("")
     }
@@ -44,7 +44,7 @@ export default function SplitEditor({ expenseId, split, setSplit, submitText, ha
                     return (
                         <div key={index} className="flex flex-row justify-between items-center">
                             <div className="flex flex-row">
-                                <p>{payer.username}</p>
+                                <p>{payer.email}</p>
                                 <p>{payer.percentage}</p>
                             </div>
                             <div className="flex flex-row">

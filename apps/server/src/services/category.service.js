@@ -3,7 +3,7 @@ const pool = require('../utils/pg');
 const getAllCategoriesService = async (user) => {
     try {
         console.log('Getting all categories');
-        const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user]);
+        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
             throw new Error('User not found');
@@ -27,7 +27,7 @@ const getAllCategoriesService = async (user) => {
 const getCategoryByIdService = async (user, categoryId) => {
     try {
         console.log('Getting categories by id');
-        const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user]);
+        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
             throw new Error('User not found');
@@ -48,7 +48,7 @@ const getCategoryByIdService = async (user, categoryId) => {
 const addNewCategoryService = async (user, name) => {
     try {
         console.log('Adding new category');
-        const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user]);
+        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
             throw new Error('User not found');

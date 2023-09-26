@@ -1,17 +1,32 @@
-const { signupService, loginService, findUserByUsernameService } = require('../services/auth.service');
+const { signupService, loginService, findUserByemailService } = require('../services/auth.service');
 
 const signupController = async (req, res) => {
-    const username = req?.body?.username;
+    const email = req?.body?.email;
     const password = req?.body?.password;
+    const firstName = req?.body?.firstName;
+    const lastName = req?.body?.lastName;
 
-    if (!username || username === '' || username === undefined) {
-        return res.status(400).send('Username is required');
+    if (!email || email === '' || email === undefined) {
+        return res.status(400).send('Email is required');
     }
     if (!password || password === '' || password === undefined) {
         return res.status(400).send('Password is required');
     }
+    if (!firstName || firstName === '' || firstName === undefined) {
+        return res.status(400).send('First name is required');
+    }
+    if (!lastName || lastName === '' || lastName === undefined) {
+        return res.status(400).send('Last name is required');
+    }
+
     try {
-        token = await signupService(req.body.username, req.body.password);
+        token = await signupService(
+            email,
+            password,
+            firstName,
+            lastName
+        );
+
         if (token) {
             const message = {
                 token: token
@@ -24,18 +39,22 @@ const signupController = async (req, res) => {
 }
 
 const loginController = async (req, res) => {
-    const username = req?.body?.username;
+    const email = req?.body?.email;
     const password = req?.body?.password;
 
-    if (!username || username === '' || username === undefined) {
-        return res.status(400).send('Username is required');
+    if (!email || email === '' || email === undefined) {
+        return res.status(400).send('Email is required');
     }
     if (!password || password === '' || password === undefined) {
         return res.status(400).send('Password is required');
     }
 
     try {
-        token = await loginService(req.body.username, req.body.password);
+        token = await loginService(
+            email,
+            password
+        );
+
         if (token) {
             const message = {
                 token: token
@@ -47,15 +66,15 @@ const loginController = async (req, res) => {
     }
 }
 
-const findUserByUsernameController = async (req, res) => {
-    const username = req?.params?.username;
+const findUserByEmailController = async (req, res) => {
+    const email = req?.params?.email;
 
-    if (!username || username === '' || username === undefined) {
-        return res.status(400).send('Username is required');
+    if (!email || email === '' || email === undefined) {
+        return res.status(400).send('Email is required');
     }
 
     try {
-        const userId = await findUserByUsernameService(username);
+        const userId = await findUserByemailService(email);
         if (userId) {
             const message = {
                 userId: userId
@@ -71,5 +90,5 @@ const findUserByUsernameController = async (req, res) => {
 module.exports = {
     signupController,
     loginController,
-    findUserByUsernameController
+    findUserByEmailController
 }

@@ -3,7 +3,7 @@ const pool = require('../utils/pg');
 const getAllExpensesService = async (user) => {
     try {
         console.log('Getting all expenses');
-        const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user]);
+        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
             throw new Error('User not found');
@@ -27,7 +27,7 @@ const getAllExpensesService = async (user) => {
 const getExpenseByIdService = async (user, expenseId) => {
     try {
         console.log('Getting expenses by id');
-        const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user]);
+        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
             throw new Error('User not found');
@@ -48,7 +48,7 @@ const getExpenseByIdService = async (user, expenseId) => {
 const addNewExpenseService = async (user, title, amount, categoryId, timestamp) => {
     try {
         console.log('Adding expense');
-        const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user]);
+        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
             throw new Error('User not found');
@@ -70,7 +70,7 @@ const addNewExpenseService = async (user, title, amount, categoryId, timestamp) 
 const editExpenseService = async (user, title, amount, categoryId, timestamp) => {
     try {
         console.log('Editing expense');
-        const userId = await pool.query('SELECT id FROM "user" WHERE username = $1', [user]);
+        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
             throw new Error('User not found');

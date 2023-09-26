@@ -8,7 +8,7 @@ export default function Signup() {
     const router = useRouter();
 
     const [user, setUser] = useState({
-        username: '',
+        email: '',
         password: ''
     })
 
@@ -45,12 +45,30 @@ export default function Signup() {
                 }}
             >
                 <div>
-                    <label htmlFor="title">Username</label>
+                    <label htmlFor="firstName">First Name</label>
                     <input
-                        id="username"
-                        name="username"
+                        id="firstName"
+                        name="firstName"
                         type="text"
-                        value={user.username}
+                        value={user.firstName}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
+                        id="lastName"
+                        name="lastName"
+                        type="test"
+                        value={user.lastName}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={user.email}
                     />
                 </div>
                 <div>

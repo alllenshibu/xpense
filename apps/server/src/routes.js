@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { signupController, loginController, findUserByUsernameController } = require('./controllers/auth.controller');
+const { signupController, loginController, findUserByEmailController } = require('./controllers/auth.controller');
 const { authorize } = require('./middlewares/auth.middleware');
 const { addNewExpenseController, getAllExpensesController, getExpenseByIdController, editExpenseController } = require('./controllers/expense.controller');
 const { getStatsController } = require('./controllers/stats.controller');
@@ -19,8 +19,8 @@ router.post("/auth/login", async (req, res) => {
     loginController(req, res);
 });
 
-router.get("/user/:username", (req, res) => {
-    findUserByUsernameController(req, res);
+router.get("/user/:email", (req, res) => {
+    findUserByEmailController(req, res);
 });
 
 // Expense routes
