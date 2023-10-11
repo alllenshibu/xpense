@@ -1,14 +1,29 @@
-import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar";
+import React, { ReactNode } from 'react';
+import Image from 'next/image';
 
-export default function DashboardLayout({ children }) {
-    return (
-        <div className="h-full w-full">
-            <Navbar />
-            <div className="w-full flex flex-row">
-                <Sidebar />
-                <div className="h-full w-full">{children}</div>
+import Sidebar from '@/components/Sidebar';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+
+const DashboardLayout = ({ children }) => {
+  return (
+    <>
+      <div className="hidden md:block">
+        <div className="border-t">
+          <div className="bg-background">
+            <div className="grid lg:grid-cols-5">
+              <Sidebar className="hidden lg:block" />
+              <div className="col-span-3 lg:col-span-4 lg:border-l">
+                <div className="h-full px-4 py-6 lg:px-8">{children}</div>
+              </div>
             </div>
+          </div>
         </div>
-    )
-}
+      </div>
+    </>
+  );
+};
+
+export default DashboardLayout;

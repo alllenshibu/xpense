@@ -1,10 +1,36 @@
-import Link from "next/link";
+import { useRouter } from 'next/router';
 
-export default function Sidebar() {
-    return (
-        <div className="w-64 h-full py-4 px-1 flex flex-col justify-start items-start gap-4 text-2xl">
-            <Link href="/" className="w-full py-1 px-2 rounded hover:bg-neutral-200 text-left font-light">Dashboard</Link>
-            <Link href="/" className="w-full py-1 px-2 rounded hover:bg-neutral-200 text-left font-light">Friends</Link>
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+
+const Sidebar = ({ className }) => {
+  const router = useRouter();
+
+  return (
+    <div className={cn('pb-12', className)}>
+      <div className="space-y-4 py-4">
+        <div className="px-3 py-2">
+          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Quick Access</h2>
+          <div className="space-y-1">
+            <Button variant="ghost" className="w-full justify-start">
+              Dashboard
+            </Button>
+            <Button variant="ghost" className="w-full justify-start">
+              Friends
+            </Button>
+          </div>
         </div>
-    )
-}
+        <div className="px-3 py-2">
+          {/*<h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Library</h2>*/}
+          <div className="space-y-1">
+            <Button variant="ghost" className="w-full justify-start">
+              Settings
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
