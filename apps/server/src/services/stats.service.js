@@ -9,16 +9,17 @@ const getStatsService = async (user) => {
             throw new Error('User not found');
         }
 
-        let expenses = await pool.query('SELECT * FROM expense WHERE user_id = $1', [userId?.rows[0]?.id]);
-        expenses = expenses?.rows;
+        let expenses = await pool.query('SELECT SUM(amount) FROM expense WHERE user_id = $1', [userId?.rows[0]?.id]);
+        // console.log(expenses.rows[0].sum );
+        // expenses = expenses?.rows;
 
-        let total = 0.00;
-        for (expense of expenses) {
-            total += parseFloat(expense.amount);
-        }
+        // let total = 0.00;
+        // for (expense of expenses) {
+        //     total += parseFloat(expense.amount);
+        // }
 
         const message = {
-            total: total,
+            total: expenses?.rows[0]?.sum ,
         }
         return message;
 
