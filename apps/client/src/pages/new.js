@@ -1,5 +1,5 @@
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import Expense from "@/components/Expense";
 export default function Page() {
   const router = useRouter()
