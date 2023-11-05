@@ -28,7 +28,7 @@ export default function Login() {
         }
         catch (err) {
             console.log(err)
-            alert("Please")
+            alert(err?.message)
         }
     }
 

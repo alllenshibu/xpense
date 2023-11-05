@@ -28,7 +28,7 @@ export default function Signup() {
         }
         catch (err) {
             console.log(err)
-            alert("Please")
+            alert(err?.message)
         }
     }
 

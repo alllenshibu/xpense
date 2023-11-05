@@ -42,7 +42,7 @@ export default function AddNewSplit() {
         }
         catch (err) {
             console.log(err)
-            alert("Please")
+            alert(err?.message)
         }
     }
 
