@@ -1,11 +1,10 @@
 const express = require('express');
 
+const { signupController, loginController } = require('./controllers/auth.controller');
 const {
-  signupController,
-  loginController,
   findUserByEmailController,
-} = require('./controllers/auth.controller');
-const { deleteUserController } = require('./controllers/user.controller');
+  deleteUserController,
+} = require('./controllers/user.controller');
 const { authorize } = require('./middlewares/auth.middleware');
 const {
   addNewExpenseController,
@@ -39,12 +38,13 @@ router.post('/auth/login', async (req, res) => {
   loginController(req, res);
 });
 
-router.delete('/user', async (req, res) => {
-  deleteUserController(req, res);
-});
-
+// User routes
 router.get('/user/:email', (req, res) => {
   findUserByEmailController(req, res);
+});
+
+router.delete('/user', async (req, res) => {
+  deleteUserController(req, res);
 });
 
 // Expense routes

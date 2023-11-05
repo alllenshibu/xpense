@@ -1,4 +1,24 @@
-const { deleteUserService } = require('../services/user.service');
+const { findUserByEmailService, deleteUserService } = require('../services/user.service');
+
+const findUserByEmailController = async (req, res) => {
+  const email = req?.params?.email;
+
+  if (!email || email === '' || email === undefined) {
+    return res.status(400).send('Email is required');
+  }
+
+  try {
+    const userId = await findUserByEmailService(email);
+    if (userId) {
+      const message = {
+        userId: userId,
+      };
+      res.status(200).send(message);
+    }
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
 
 const deleteUserController = async (req, res) => {
   const userId = req?.body?.userId;
@@ -20,5 +40,6 @@ const deleteUserController = async (req, res) => {
 };
 
 module.exports = {
+  findUserByEmailController,
   deleteUserController,
 };
