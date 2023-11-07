@@ -8,6 +8,7 @@ import DashboardLayout from '@/layouts/DashboardLayout';
 
 import { fetchExpense } from '@/services/expenseServices';
 import MainCard from '@/components/ui/maincard';
+import Catcards from '@/components/ui/cat_cards';
 
 export default function AddNewExpense() {
   const router = useRouter();
@@ -25,10 +26,15 @@ export default function AddNewExpense() {
   return (
     <DashboardLayout>
       <div className="h-full w-full flex md:grid md:grid-cols-2">
-        <div className='flex flex-col'>
-            <MainCard/>
+        <div className="flex flex-col gap-4">
+          <MainCard />
+
+          <div className="flex flex-row justify-between gap-4">
+            <Catcards />
+            <Catcards />
+            <Catcards />
+          </div>
         </div>
-        
       </div>
     </DashboardLayout>
   );
