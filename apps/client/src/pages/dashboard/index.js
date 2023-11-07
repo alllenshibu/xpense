@@ -25,7 +25,7 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <div className="h-full w-full flex md:grid md:grid-cols-2">
+      <div className="h-full w-full flex md:grid md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-4">
           <MainCard />
 
@@ -35,6 +35,8 @@ export default function AddNewExpense() {
             <Catcards />
           </div>
         </div>
+        <div
+          className="bg-[#D9D9D954] h-full rounded-xl "></div>
       </div>
     </DashboardLayout>
   );
