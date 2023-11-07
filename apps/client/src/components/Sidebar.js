@@ -7,7 +7,7 @@ const Sidebar = ({ className }) => {
   const router = useRouter();
 
   return (
-    <div className={cn('pb-12', className)}>
+    <div className={cn('', className)}>
       <div className="space-y-1  bg-green-100 h-[100vh]">
         <div className="w-[250px] h-[310px] ">
           <div className="w-573 h-61 ml-2 ">
