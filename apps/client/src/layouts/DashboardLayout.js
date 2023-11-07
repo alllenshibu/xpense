@@ -10,7 +10,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 const DashboardLayout = ({ children }) => {
   return (
     <>
-      <div className="hidden md:block h-auto md:h-[100vh]">
+      <div className="md:block h-auto md:h-[100vh]">
         <div className="border-t">
           <div className="bg-background">
             <div className="grid lg:grid-cols-5">

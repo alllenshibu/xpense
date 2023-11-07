@@ -9,14 +9,17 @@ const Sidebar = ({ className }) => {
   return (
     <div className={cn('', className)}>
       <div className="space-y-1  bg-green-100 h-[100vh]">
-        <div className="w-[250px] h-[310px] ">
+        <div className="w-[290px] h-[310px] px-1 ">
           <div className="w-573 h-61 ml-2 ">
             <span className="italic text-black text-5xl font-extrabold font-inter ">X</span>
             <span className="italic text-black text-5xl font-thin font-inter ">pense</span>
           </div>
 
           <div className="space-y-2">
-            <Button variant="ghost" className="w-full justify-start mt-10">
+            <Button
+              variant="ghost"
+              className="w-full justify-start hover:bg-[#84C4BF] rounded-xl mt-10"
+            >
               <svg
                 width="26"
                 height="21"
@@ -34,7 +37,7 @@ const Sidebar = ({ className }) => {
               </svg>
               Dashboard
             </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            <Button variant="ghost" className="w-full justify-start hover:bg-[#84C4BF] rounded-xl ">
               <svg
                 width="24"
                 height="23"
@@ -52,7 +55,7 @@ const Sidebar = ({ className }) => {
               </svg>
               Expense
             </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            <Button variant="ghost" className="w-full justify-start hover:bg-[#84C4BF] rounded-xl">
               <svg
                 width="29"
                 height="23"
@@ -70,7 +73,7 @@ const Sidebar = ({ className }) => {
               </svg>
               Goals
             </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            <Button variant="ghost" className="w-full justify-start hover:bg-[#84C4BF] rounded-xl">
               <svg
                 width="24"
                 height="15"
@@ -90,7 +93,7 @@ const Sidebar = ({ className }) => {
               </svg>
               Friends
             </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            <Button variant="ghost" className="w-full justify-start hover:bg-[#84C4BF] rounded-xl">
               <div className="flex items-center">
                 <svg
                   width="12"
@@ -138,7 +141,7 @@ const Sidebar = ({ className }) => {
         <div className=" py-2">
           {/*<h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Library</h2>*/}
           <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
+            <Button variant="ghost" className="w-full justify-start hover:bg-[#84C4BF] rounded-xl">
               <svg
                 width="24"
                 height="24"
