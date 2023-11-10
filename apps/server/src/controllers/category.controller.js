@@ -1,73 +1,141 @@
-const { getAllCategoriesService, getCategoryByIdService, addNewCategoryService } = require('../services/category.service');
-
+const {
+  getAllCategoriesService,
+  getCategoryByIdService,
+  addNewCategoryService,
+  editCategoryService,
+  deleteCategoryService,
+} = require('../services/category.service');
+const { CategoryNotFoundError } = require('../utils/errors');
 
 const getAllCategoriesController = async (req, res) => {
-    const user = req?.user;
+  const user = req?.user;
 
-    if (!user || user === '' || user === undefined) {
-        return res.status(400).send('User is required');
-    }
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
-    try {
-        result = await getAllCategoriesService(user);
-        if (result) {
-            res.status(200).send(result);
-        }
-    } catch (err) {
-        res.status(400).send(err.message);
-    }
-}
+  try {
+    const categories = await getAllCategoriesService(user);
+
+    if (!categories) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ categories: categories });
+  } catch (err) {
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
 const getCategoryByIdController = async (req, res) => {
-    const user = req?.user;
-    const categoryId = req?.params?.id;
+  const user = req?.user;
+  const categoryId = req?.params?.id;
 
-    if (!user || user === '' || user === undefined) {
-        return res.status(400).send('User is required');
-    }
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
+  if (!categoryId || categoryId === '' || categoryId === undefined) {
+    return res.status(400).json({ message: 'Category ID is missing' });
+  }
 
-    if (!categoryId || categoryId === '' || categoryId === undefined) {
-        return res.status(400).send('Category Id is required');
-    }
+  try {
+    const category = await getCategoryByIdService(user, categoryId);
 
-    try {
-        result = await getCategoryByIdService(user, categoryId);
-        if (result) {
-            console.log(result);
-            res.status(200).send(result);
-        }
-    } catch (err) {
-        res.status(400).send(err.message);
-    }
-}
+    if (!category) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ category: category });
+  } catch (err) {
+    if (err instanceof CategoryNotFoundError) return res.status(404).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
 const addNewCategoryController = async (req, res) => {
-    const user = req?.user;
-    const name = req?.body?.name;
+  const user = req?.user;
+  const name = req?.body?.category?.name;
 
-    if (!user || user === '' || user === undefined) {
-        return res.status(400).send('User is required');
-    }
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
-    if (!name || name === '' || name === undefined) {
-        return res.status(400).send('Category name is required');
-    }
+  if (!name || name === '' || name === undefined) {
+    return res.status(400).json({ message: 'Category name is missing' });
+  }
 
-    try {
-        result = await addNewCategoryService(user, name);
+  try {
+    const category = await addNewCategoryService(user, name);
 
-        if (result) {
+    if (!category) return res.status(500).json({ message: 'Something went wrong' });
 
-            res.status(200).send(result);
-        }
-    } catch (err) {
+    return res.status(201).json({ category: category });
+  } catch (err) {
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
-        res.status(400).send(err.message);
-    }
-}
+const editCategoryController = async (req, res) => {
+  const user = req?.user;
+  const id = req?.body?.category?.id;
+  const name = req?.body?.category?.name;
+
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+
+  if (!id || id === '' || id === undefined) {
+    return res.status(400).json({ message: 'Category ID is missing' });
+  }
+
+  if (!name || name === '' || name === undefined) {
+    return res.status(400).json({ message: 'Category name is missing' });
+  }
+
+  try {
+    const category = await editCategoryService(user, id, name);
+
+    if (!category) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ category: category });
+  } catch (err) {
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
+
+const deleteCategoryController = async (req, res) => {
+  const user = req?.user;
+  const categoryId = req?.body?.category?.id;
+
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
+
+  if (!categoryId || categoryId === '' || categoryId === undefined) {
+    return res.status(400).json({ message: 'Category ID is missing' });
+  }
+
+  try {
+    const deleted = await deleteCategoryService(user, categoryId);
+
+    if (!deleted) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ message: 'Successfully deleted category' });
+  } catch (err) {
+    if (err instanceof CategoryNotFoundError) return res.status(404).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
-    getAllCategoriesController,
-    getCategoryByIdController,
-    addNewCategoryController
-}
+  getAllCategoriesController,
+  getCategoryByIdController,
+  addNewCategoryController,
+  editCategoryController,
+  deleteCategoryController,
+};

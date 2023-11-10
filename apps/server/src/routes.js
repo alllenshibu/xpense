@@ -19,6 +19,8 @@ const {
   getAllCategoriesController,
   getCategoryByIdController,
   addNewCategoryController,
+  editCategoryController,
+  deleteCategoryController,
 } = require('./controllers/category.controller');
 const {
   addNewFriendController,
@@ -69,11 +71,6 @@ router.delete('/expense', authorize, (req, res) => {
   deleteExpenseController(req, res);
 });
 
-// Split routes
-router.post('/split', authorize, (req, res) => {
-  createNewSplitController(req, res);
-});
-
 // Category routes
 router.get('/category', authorize, (req, res) => {
   getAllCategoriesController(req, res);
@@ -87,8 +84,17 @@ router.post('/category', authorize, (req, res) => {
   addNewCategoryController(req, res);
 });
 
-router.put('/category/:id', authorize, (req, res) => {
-  res.send('Update category');
+router.put('/category', authorize, (req, res) => {
+  editCategoryController(req, res);
+});
+
+router.delete('/category', authorize, (req, res) => {
+  deleteCategoryController(req, res);
+});
+
+// Split routes
+router.post('/split', authorize, (req, res) => {
+  createNewSplitController(req, res);
 });
 
 // Stats routes

@@ -1,73 +1,119 @@
+const { UserDoesNotExistError, CategoryNotFoundError } = require('../utils/errors');
 const pool = require('../utils/pg');
 
 const getAllCategoriesService = async (user) => {
-    try {
-        console.log('Getting all categories');
-        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
-        if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
-        }
-
-        const result = await pool.query('SELECT * FROM category WHERE user_id = $1', [userId?.rows[0]?.id]);
-
-        // Doesn't work if there are no categories
-        // if (result?.rows?.length > 0) {
-        //     return result?.rows;
-        // } else {
-        //     throw new Error('Something went wrong');
-        // }
-        return result?.rows;
-    } catch (err) {
-        throw new Error(err.message);
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
     }
-}
 
+    const result = await pool.query('SELECT * FROM category WHERE user_id = $1', [
+      userId?.rows[0]?.id,
+    ]);
+
+    const categories = result?.rows;
+
+    return categories;
+  } catch (err) {
+    throw err;
+  }
+};
 
 const getCategoryByIdService = async (user, categoryId) => {
-    try {
-        console.log('Getting categories by id');
-        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
-        if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
-        }
-
-        const result = await pool.query('SELECT * FROM category WHERE user_id = $1 AND id = $2', [userId?.rows[0]?.id, categoryId]);
-        if (result?.rows?.length > 0) {
-            return result?.rows[0];
-        } else {
-            throw new Error('Something went wrong');
-        }
-    } catch (err) {
-        throw new Error(err.message);
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
     }
-}
 
+    const result = await pool.query('SELECT * FROM category WHERE user_id = $1 AND id = $2', [
+      userId?.rows[0]?.id,
+      categoryId,
+    ]);
+
+    if (!(result?.rows?.length > 0)) throw new CategoryNotFoundError('Category not found');
+
+    const category = result?.rows[0];
+
+    return category;
+  } catch (err) {
+    throw err;
+  }
+};
 
 const addNewCategoryService = async (user, name) => {
-    try {
-        console.log('Adding new category');
-        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
-        if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
-        }
-
-        const result = await pool.query('INSERT INTO category (name,  user_id) VALUES ($1, $2) RETURNING id', [name, userId?.rows[0]?.id]);
-        if (result?.rows?.length > 0) {
-            return result?.rows[0]?.id;
-        } else {
-            throw new Error('Something went wrong');
-        }
-    } catch (err) {
-
-        throw new Error(err.message);
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
     }
-}
+
+    const result = await pool.query(
+      'INSERT INTO category (user_id, name) VALUES ($1, $2) RETURNING *',
+      [userId?.rows[0]?.id, name],
+    );
+
+    if (!(result?.rows?.length > 0)) throw new Error('Category not added');
+
+    const category = result?.rows[0];
+    return category;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const editCategoryService = async (user, id, name) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
+
+    const result = await pool.query(
+      'UPDATE category SET name = $1 WHERE user_id = $2 AND id = $3 RETURNING *',
+      [name, userId?.rows[0]?.id, id],
+    );
+
+    if (!(result?.rows?.length > 0)) throw new Error('Category not edited');
+
+    const category = result?.rows[0];
+
+    return category;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const deleteCategoryService = async (user, categoryId) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
+
+    const result = await pool.query('DELETE FROM category WHERE user_id = $1 AND id = $2', [
+      userId?.rows[0]?.id,
+      categoryId,
+    ]);
+
+    if (!(result?.rowCount > 0)) throw new CategoryNotFoundError('Category not found');
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
 
 module.exports = {
-    getAllCategoriesService,
-    getCategoryByIdService,
-    addNewCategoryService
-}
+  getAllCategoriesService,
+  getCategoryByIdService,
+  addNewCategoryService,
+  editCategoryService,
+  deleteCategoryService,
+};

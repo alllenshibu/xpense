@@ -28,9 +28,17 @@ class ExpenseNotFoundError extends Error {
   }
 }
 
+class CategoryNotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'CategoryNotFoundError';
+  }
+}
+
 module.exports = {
   UserAlreadyExistsError,
   UserDoesNotExistError,
   WrongPasswordError,
   ExpenseNotFoundError,
+  CategoryNotFoundError,
 };
