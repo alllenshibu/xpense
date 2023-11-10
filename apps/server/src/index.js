@@ -1,26 +1,22 @@
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3001;
+var cors = require('cors');
 
-const express = require('express')
-const app = express()
-const port = 3001
-var cors = require('cors')
+app.use(cors());
 
-app.use(cors())
-
-
-
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
 const router = require('./routes');
 
-
 app.use('/api', router);
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+  res.send('Hello World!');
+});
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
