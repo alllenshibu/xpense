@@ -35,10 +35,18 @@ class CategoryNotFoundError extends Error {
   }
 }
 
+class PaymentOptionNotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'PaymentOptionNotFoundError';
+  }
+}
+
 module.exports = {
   UserAlreadyExistsError,
   UserDoesNotExistError,
   WrongPasswordError,
   ExpenseNotFoundError,
   CategoryNotFoundError,
+  PaymentOptionNotFoundError,
 };

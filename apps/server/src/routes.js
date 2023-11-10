@@ -29,6 +29,13 @@ const {
   getAllFriendRequestsController,
   acceptFriendRequestConroller,
 } = require('./controllers/friend.controller');
+const {
+  getPaymentOptionByIdController,
+  getAllPaymentOptionsController,
+  addNewPaymentOptionController,
+  editPaymentOptionController,
+  deletePaymentOptionController,
+} = require('./controllers/paymentOption.controller');
 
 const router = express.Router();
 
@@ -90,6 +97,27 @@ router.put('/category', authorize, (req, res) => {
 
 router.delete('/category', authorize, (req, res) => {
   deleteCategoryController(req, res);
+});
+
+// Payment option routes
+router.get('/paymentoption', authorize, (req, res) => {
+  getAllPaymentOptionsController(req, res);
+});
+
+router.get('/paymentoption/:id', authorize, (req, res) => {
+  getPaymentOptionByIdController(req, res);
+});
+
+router.post('/paymentoption', authorize, (req, res) => {
+  addNewPaymentOptionController(req, res);
+});
+
+router.put('/paymentoption', authorize, (req, res) => {
+  editPaymentOptionController(req, res);
+});
+
+router.delete('/paymentoption', authorize, (req, res) => {
+  deletePaymentOptionController(req, res);
 });
 
 // Split routes
