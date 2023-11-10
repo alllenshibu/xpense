@@ -6,7 +6,6 @@ import { useCookies } from 'react-cookie';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
 
-import { fetchExpense } from '@/services/expenseServices';
 import MainCard from '@/components/ui/maincard';
 import Catcards from '@/components/ui/cat_cards';
 
@@ -16,6 +15,21 @@ export default function AddNewExpense() {
   const [cookies, setCookie] = useCookies(['token']);
 
   const [expense, setExpense] = useState({});
+
+
+  const fetchExpense = async () => {
+    const expenseId = router.query.id;
+    const res = await axiosInstance.get('/expense/' + expenseId);
+    if (res.status === 200) {
+      setExpense(res?.data?.expense);
+    } else if (res.statud === 404) {
+      alert('Expense not found');
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
+    }
+  };
 
   useEffect(() => {
     fetchExpense(cookies.token, router.query.id).then((data) => {
