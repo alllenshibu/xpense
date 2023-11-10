@@ -11,6 +11,7 @@ const {
   getAllExpensesController,
   getExpenseByIdController,
   editExpenseController,
+  deleteExpenseController,
 } = require('./controllers/expense.controller');
 const { getStatsController } = require('./controllers/stats.controller');
 const { createNewSplitController } = require('./controllers/split.controller');
@@ -60,8 +61,12 @@ router.post('/expense', authorize, (req, res) => {
   addNewExpenseController(req, res);
 });
 
-router.put('/expense/:id', authorize, (req, res) => {
+router.put('/expense', authorize, (req, res) => {
   editExpenseController(req, res);
+});
+
+router.delete('/expense', authorize, (req, res) => {
+  deleteExpenseController(req, res);
 });
 
 // Split routes

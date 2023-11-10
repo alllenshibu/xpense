@@ -1,97 +1,119 @@
+const { UserDoesNotExistError, ExpenseNotFoundError } = require('../utils/errors');
 const pool = require('../utils/pg');
 
 const getAllExpensesService = async (user) => {
-    try {
-        console.log('Getting all expenses');
-        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
-        if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
-        }
-
-        const result = await pool.query('SELECT * FROM expense WHERE user_id = $1', [userId?.rows[0]?.id]);
-
-        // Doesn't work if there are no expenses
-        // if (result?.rows?.length > 0) {
-        //     return result?.rows;
-        // } else {
-        //     throw new Error('Something went wrong');
-        // }
-        return result?.rows;
-    } catch (err) {
-        throw new Error(err.message);
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
     }
-}
 
+    const result = await pool.query('SELECT * FROM expense WHERE user_id = $1', [
+      userId?.rows[0]?.id,
+    ]);
+
+    const expenses = result?.rows;
+
+    return expenses;
+  } catch (err) {
+    throw err;
+  }
+};
 
 const getExpenseByIdService = async (user, expenseId) => {
-    try {
-        console.log('Getting expenses by id');
-        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
-        if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
-        }
-
-        const result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND id = $2', [userId?.rows[0]?.id, expenseId]);
-        if (result?.rows?.length > 0) {
-            return result?.rows[0];
-        } else {
-            throw new Error('Something went wrong');
-        }
-    } catch (err) {
-        throw new Error(err.message);
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
     }
-}
 
+    const result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND id = $2', [
+      userId?.rows[0]?.id,
+      expenseId,
+    ]);
+
+    if (!(result?.rows?.length > 0)) throw new ExpenseNotFoundError('Expense not found');
+
+    const expense = result?.rows[0];
+
+    return expense;
+  } catch (err) {
+    throw err;
+  }
+};
 
 const addNewExpenseService = async (user, title, amount, categoryId, timestamp) => {
-    try {
-        console.log('Adding expense');
-        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
-        if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
-        }
-
-        const result = await pool.query('INSERT INTO expense (title, amount, category_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id', [title, amount, categoryId, timestamp, userId?.rows[0]?.id]);
-        if (result?.rows?.length > 0) {
-            return result?.rows[0]?.id;
-        } else {
-            throw new Error('Something went wrong');
-        }
-    } catch (err) {
-
-        throw new Error(err.message);
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
     }
-}
 
+    const result = await pool.query(
+      'INSERT INTO expense (title, amount, category_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [title, amount, categoryId, timestamp, userId?.rows[0]?.id],
+    );
 
-const editExpenseService = async (user, title, amount, categoryId, timestamp) => {
-    try {
-        console.log('Editing expense');
-        const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+    if (!(result?.rows?.length > 0)) throw new Error('Expense not added');
 
-        if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
-        }
+    const expense = result?.rows[0];
+    return expense;
+  } catch (err) {
+    throw err;
+  }
+};
 
-        const result = await pool.query('UPDATE expense SET title = $1, amount = $2, category_id = $3, timestamp = $4 WHERE user_id = $5 RETURNING id', [title, amount, categoryId, timestamp, userId?.rows[0]?.id]);
-        if (result?.rows?.length > 0) {
-            return result?.rows[0]?.id;
-        } else {
-            throw new Error('Something went wrong');
-        }
-    } catch (err) {
+const editExpenseService = async (user, id, title, amount, categoryId, timestamp) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
-        throw new Error(err.message);
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
     }
-}
 
+    const result = await pool.query(
+      'UPDATE expense SET title = $1, amount = $2, category_id = $3, timestamp = $4 WHERE user_id = $5 AND id = $6 RETURNING *',
+      [title, amount, categoryId, timestamp, userId?.rows[0]?.id, id],
+    );
+
+    if (!(result?.rows?.length > 0)) throw new Error('Expense not edited');
+
+    const expense = result?.rows[0];
+
+    return expense;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const deleteExpenseService = async (user, expenseId) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
+
+    const result = await pool.query('DELETE FROM expense WHERE user_id = $1 AND id = $2', [
+      userId?.rows[0]?.id,
+      expenseId,
+    ]);
+
+    if (!(result?.rowCount > 0)) throw new ExpenseNotFoundError('Expense not found');
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
 
 module.exports = {
-    getAllExpensesService,
-    getExpenseByIdService,
-    addNewExpenseService,
-    editExpenseService
-}
+  getAllExpensesService,
+  getExpenseByIdService,
+  addNewExpenseService,
+  editExpenseService,
+  deleteExpenseService,
+};

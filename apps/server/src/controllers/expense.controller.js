@@ -1,127 +1,161 @@
-const { getAllExpensesService, addNewExpenseService, getExpenseByIdService, editExpenseService } = require('../services/expense.service');
+const {
+  getAllExpensesService,
+  addNewExpenseService,
+  getExpenseByIdService,
+  editExpenseService,
+  deleteExpenseService,
+} = require('../services/expense.service');
+const { UserDoesNotExistError, ExpenseNotFoundError } = require('../utils/errors');
 
 const getAllExpensesController = async (req, res) => {
-    const user = req?.user;
+  const user = req?.user;
 
-    if (!user || user === '' || user === undefined) {
-        return res.status(400).send('User is required');
-    }
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
-    try {
-        result = await getAllExpensesService(user);
-        if (result) {
-            res.status(200).send(result);
-        }
-    } catch (err) {
-        res.status(400).send(err.message);
-    }
-}
+  try {
+    const expenses = await getAllExpensesService(user);
+
+    if (!expenses) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ expenses: expenses });
+  } catch (err) {
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
 const getExpenseByIdController = async (req, res) => {
-    const user = req?.user;
-    const expenseId = req?.params?.id;
+  const user = req?.user;
+  const expenseId = req?.params?.id;
 
-    if (!user || user === '' || user === undefined) {
-        return res.status(400).send('User is required');
-    }
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
+  if (!expenseId || expenseId === '' || expenseId === undefined) {
+    return res.status(400).json({ message: 'Expense ID is missing' });
+  }
 
-    if (!expenseId || expenseId === '' || expenseId === undefined) {
-        return res.status(400).send('Expense Id is required');
-    }
+  try {
+    const expense = await getExpenseByIdService(user, expenseId);
 
-    try {
-        result = await getExpenseByIdService(user, expenseId);
-        if (result) {
-            console.log(result);
-            res.status(200).send(result);
-        }
-    } catch (err) {
-        res.status(400).send(err.message);
-    }
-}
+    if (!expense) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ expense: expense });
+  } catch (err) {
+    if (err instanceof ExpenseNotFoundError) return res.status(404).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
 const addNewExpenseController = async (req, res) => {
-    const user = req?.user;
-    const title = req?.body?.expense?.title;
-    const amount = req?.body?.expense?.amount;
-    const categoryId = req?.body?.expense?.categoryId;
-    const timestamp = req?.body?.expense?.timestamp;
+  const user = req?.user;
+  const title = req?.body?.expense?.title;
+  const amount = req?.body?.expense?.amount;
+  const categoryId = req?.body?.expense?.categoryId;
+  const timestamp = req?.body?.expense?.timestamp;
 
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
+  if (!title || title === '' || title === undefined) {
+    return res.status(400).json({ message: 'Title is missing' });
+  }
+  if (!amount || amount === '' || amount === undefined) {
+    return res.status(400).json({ message: 'Amount is missing' });
+  }
 
-    if (!user || user === '' || user === undefined) {
-        return res.status(400).send('User is required');
-    }
+  if (!timestamp || timestamp === '' || timestamp === undefined) {
+    return res.status(400).json({ message: 'Timestamp is missing' });
+  }
 
-    if (!title || title === '' || title === undefined) {
-        return res.status(400).send('Title is required');
-    }
-    if (!amount || amount === '' || amount === undefined) {
-        return res.status(400).send('Amount is required');
-    }
+  try {
+    const expense = await addNewExpenseService(user, title, amount, categoryId, timestamp);
 
-    if (!timestamp || timestamp === '' || timestamp === undefined) {
-        return res.status(400).send('Timestamp is required');
-    }
+    if (!expense) return res.status(500).json({ message: 'Something went wrong' });
 
-
-    try {
-        result = await addNewExpenseService(user, title, amount, categoryId, timestamp);
-
-        if (result) {
-
-            res.status(200).send(result);
-        }
-    } catch (err) {
-
-        res.status(400).send(err.message);
-    }
-}
-
+    return res.status(201).json({ expense: expense });
+  } catch (err) {
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
 const editExpenseController = async (req, res) => {
-    const user = req?.user;
-    const title = req?.body?.expense?.title;
-    const amount = req?.body?.expense?.amount;
-    const categoryId = req?.body?.expense?.categoryId;
-    const timestamp = req?.body?.expense?.timestamp;
+  const user = req?.user;
+  const id = req?.body?.expense?.id;
+  const title = req?.body?.expense?.title;
+  const amount = req?.body?.expense?.amount;
+  const categoryId = req?.body?.expense?.categoryId;
+  const timestamp = req?.body?.expense?.timestamp;
 
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
+  if (!id || id === '' || id === undefined) {
+    return res.status(400).json({ message: 'Expense ID is missing' });
+  }
 
-    if (!user || user === '' || user === undefined) {
-        return res.status(400).send('User is required');
-    }
+  if (!title || title === '' || title === undefined) {
+    return res.status(400).json({ message: 'Title is missing' });
+  }
+  if (!amount || amount === '' || amount === undefined) {
+    return res.status(400).json({ message: 'Amount is missing' });
+  }
 
-    if (!title || title === '' || title === undefined) {
-        return res.status(400).send('Title is required');
-    }
-    if (!amount || amount === '' || amount === undefined) {
-        return res.status(400).send('Amount is required');
-    }
+  if (!timestamp || timestamp === '' || timestamp === undefined) {
+    return res.status(400).json({ message: 'Timestamp is missing' });
+  }
 
-    if (!timestamp || timestamp === '' || timestamp === undefined) {
-        return res.status(400).send('Timestamp is required');
-    }
+  try {
+    const expense = await editExpenseService(user, id, title, amount, categoryId, timestamp);
 
+    if (!expense) return res.status(500).json({ message: 'Something went wrong' });
 
-    try {
-        result = await editExpenseService(user, title, amount, categoryId, timestamp);
+    return res.status(200).json({ expense: expense });
+  } catch (err) {
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
-        if (result) {
+const deleteExpenseController = async (req, res) => {
+  const user = req?.user;
+  const expenseId = req?.body?.expense?.id;
 
-            res.status(200).send(result);
-        }
-    } catch (err) {
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something went wrong' });
+  }
 
-        res.status(400).send(err.message);
-    }
-}
+  if (!expenseId || expenseId === '' || expenseId === undefined) {
+    return res.status(400).json({ message: 'Expense ID is missing' });
+  }
 
+  try {
+    const deleted = await deleteExpenseService(user, expenseId);
+
+    if (!deleted) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ message: 'Successfully deleted expense' });
+  } catch (err) {
+    if (err instanceof ExpenseNotFoundError) return res.status(404).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 
 module.exports = {
-    getAllExpensesController,
-    getExpenseByIdController,
-    addNewExpenseController,
-    editExpenseController
-}
+  getAllExpensesController,
+  getExpenseByIdController,
+  addNewExpenseController,
+  editExpenseController,
+  deleteExpenseController,
+};
