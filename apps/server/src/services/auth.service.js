@@ -20,7 +20,7 @@ const signupService = async (email, password, firstName, lastName) => {
     );
 
     if (!(result?.rows?.length > 0)) {
-      throw new Error('More than one user exists with the same credentials');
+      throw new Error('User not created');
     }
 
     user = result.rows[0];
