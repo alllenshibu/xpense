@@ -1,4 +1,9 @@
 const { signupService, loginService } = require('../services/auth.service');
+const {
+  UserAlreadyExistsError,
+  UserDoesNotExistError,
+  WrongPasswordError,
+} = require('../utils/errors');
 
 const signupController = async (req, res) => {
   const email = req?.body?.email;
@@ -7,29 +12,28 @@ const signupController = async (req, res) => {
   const lastName = req?.body?.lastName;
 
   if (!email || email === '' || email === undefined) {
-    return res.status(400).send('Email is required');
+    return res.status(400).json({ message: 'Email is missing' });
   }
   if (!password || password === '' || password === undefined) {
-    return res.status(400).send('Password is required');
+    return res.status(400).json({ message: 'Password is missing' });
   }
   if (!firstName || firstName === '' || firstName === undefined) {
-    return res.status(400).send('First name is required');
+    return res.status(400).json({ message: 'First name is missing' });
   }
   if (!lastName || lastName === '' || lastName === undefined) {
-    return res.status(400).send('Last name is required');
+    return res.status(400).json({ message: 'Last name is missing' });
   }
 
   try {
-    token = await signupService(email, password, firstName, lastName);
+    let token = await signupService(email, password, firstName, lastName);
 
-    if (token) {
-      const message = {
-        token: token,
-      };
-      res.status(200).send(message);
-    }
+    if (!token) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(201).json({ token: token });
   } catch (err) {
-    res.status(400).send(err.message);
+    if (err instanceof UserAlreadyExistsError)
+      return res.status(409).json({ message: err.message });
+    return res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
@@ -38,23 +42,22 @@ const loginController = async (req, res) => {
   const password = req?.body?.password;
 
   if (!email || email === '' || email === undefined) {
-    return res.status(400).send('Email is required');
+    return res.status(400).json({ message: 'Email is required' });
   }
   if (!password || password === '' || password === undefined) {
-    return res.status(400).send('Password is required');
+    return res.status(400).json({ message: 'Password is required' });
   }
 
   try {
-    token = await loginService(email, password);
+    let token = await loginService(email, password);
 
-    if (token) {
-      const message = {
-        token: token,
-      };
-      res.status(200).send(message);
-    }
+    if (!token) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(201).json({ token: token });
   } catch (err) {
-    res.status(400).send(err.message);
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    if (err instanceof WrongPasswordError) return res.status(401).json({ message: err.message });
+    return res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
