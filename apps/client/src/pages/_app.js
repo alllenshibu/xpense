@@ -8,10 +8,10 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
-      if (!token && (router.pathname !== '/login' || router.pathname !== '/signup'))
+      if (!token && router.pathname !== '/login' && router.pathname !== '/signup')
         router.push('/login');
     }
-  });
+  }, []);
 
   return <Component {...pageProps} />;
 }
