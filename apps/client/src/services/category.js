@@ -4,8 +4,12 @@ const fetchAllCategories = async () => {
   return await axiosInstance.get('/category');
 };
 
-const fetchCategoryById = async (categoryId) => {
-  return await axiosInstance.get('/category/' + categoryId);
+const fetchCategoryById = async ({ categoryId, fetchExpenses = false }) => {
+  return await axiosInstance.get('/category/' + categoryId, {
+    params: {
+      fetchExpenses: fetchExpenses,
+    },
+  });
 };
 
 const addNewCategory = async (category) => {

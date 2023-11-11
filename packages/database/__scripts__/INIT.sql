@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS "user"
 CREATE TABLE IF NOT EXISTS payment_option
 (
     id       UUID                 DEFAULT uuid_generate_v4(),
-
+    
     user_id  UUID        NOT NULL,
     name     VARCHAR(32) NOT NULL,
     disabled BOOLEAN     NOT NULL DEFAULT FALSE,

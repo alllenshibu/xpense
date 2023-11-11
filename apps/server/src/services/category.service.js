@@ -1,7 +1,7 @@
 const { UserDoesNotExistError, CategoryNotFoundError } = require('../utils/errors');
 const pool = require('../utils/pg');
 
-const getAllCategoriesService = async (user) => {
+const getAllCategoriesService = async ({ user }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -21,7 +21,7 @@ const getAllCategoriesService = async (user) => {
   }
 };
 
-const getCategoryByIdService = async (user, categoryId) => {
+const getCategoryByIdService = async ({ user, categoryId, fetchExpenses }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -29,7 +29,9 @@ const getCategoryByIdService = async (user, categoryId) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM category WHERE user_id = $1 AND id = $2', [
+    let result = null;
+
+    result = await pool.query('SELECT * FROM category WHERE user_id = $1 AND id = $2', [
       userId?.rows[0]?.id,
       categoryId,
     ]);
@@ -38,13 +40,22 @@ const getCategoryByIdService = async (user, categoryId) => {
 
     const category = result?.rows[0];
 
+    if (fetchExpenses === 'true') {
+      result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND category_id = $2', [
+        userId?.rows[0]?.id,
+        categoryId,
+      ]);
+
+      category.expenses = result?.rows;
+    }
+
     return category;
   } catch (err) {
     throw err;
   }
 };
 
-const addNewCategoryService = async (user, name) => {
+const addNewCategoryService = async ({ user, name }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -66,7 +77,7 @@ const addNewCategoryService = async (user, name) => {
   }
 };
 
-const editCategoryService = async (user, id, name) => {
+const editCategoryService = async ({ user, id, name }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -89,7 +100,7 @@ const editCategoryService = async (user, id, name) => {
   }
 };
 
-const deleteCategoryService = async (user, categoryId) => {
+const deleteCategoryService = async ({ user, categoryId }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 

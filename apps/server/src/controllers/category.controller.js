@@ -11,12 +11,12 @@ const getAllCategoriesController = async (req, res) => {
   const user = req?.user;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
   try {
-    const categories = await getAllCategoriesService(user);
+    const categories = await getAllCategoriesService({ user });
 
     if (!categories) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -30,18 +30,29 @@ const getAllCategoriesController = async (req, res) => {
 const getCategoryByIdController = async (req, res) => {
   const user = req?.user;
   const categoryId = req?.params?.id;
+  const fetchExpenses = req?.query?.fetchExpenses || false;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!categoryId || categoryId === '' || categoryId === undefined) {
+  if (
+    !categoryId ||
+    categoryId === '' ||
+    categoryId === undefined ||
+    categoryId === 'undefined' ||
+    categoryId === null
+  ) {
     return res.status(400).json({ message: 'Category ID is missing' });
   }
 
+  if (fetchExpenses === 'true') fetchExpenses = true;
+  else if (fetchExpenses === 'false') fetchExpenses = false;
+  else return res.status(400).json({ message: 'Invalid query parameter fetchExpenses' });
+
   try {
-    const category = await getCategoryByIdService(user, categoryId);
+    const category = await getCategoryByIdService({ user, categoryId, fetchExpenses });
 
     if (!category) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -57,16 +68,16 @@ const addNewCategoryController = async (req, res) => {
   const name = req?.body?.category?.name;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!name || name === '' || name === undefined) {
+  if (!name || name === '' || name === undefined || name === 'undefined' || name === null) {
     return res.status(400).json({ message: 'Category name is missing' });
   }
 
   try {
-    const category = await addNewCategoryService(user, name);
+    const category = await addNewCategoryService({ user, name });
 
     if (!category) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -83,20 +94,20 @@ const editCategoryController = async (req, res) => {
   const name = req?.body?.category?.name;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!id || id === '' || id === undefined) {
+  if (!id || id === '' || id === undefined || id === 'undefined' || id === null) {
     return res.status(400).json({ message: 'Category ID is missing' });
   }
 
-  if (!name || name === '' || name === undefined) {
+  if (!name || name === '' || name === undefined || name === 'undefined' || name === null) {
     return res.status(400).json({ message: 'Category name is missing' });
   }
 
   try {
-    const category = await editCategoryService(user, id, name);
+    const category = await editCategoryService({ user, id, name });
 
     if (!category) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -112,16 +123,22 @@ const deleteCategoryController = async (req, res) => {
   const categoryId = req?.body?.category?.id;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!categoryId || categoryId === '' || categoryId === undefined) {
+  if (
+    !categoryId ||
+    categoryId === '' ||
+    categoryId === undefined ||
+    categoryId === 'undefined' ||
+    categoryId === null
+  ) {
     return res.status(400).json({ message: 'Category ID is missing' });
   }
 
   try {
-    const deleted = await deleteCategoryService(user, categoryId);
+    const deleted = await deleteCategoryService({ user, categoryId });
 
     if (!deleted) return res.status(500).json({ message: 'Something went wrong' });
 
