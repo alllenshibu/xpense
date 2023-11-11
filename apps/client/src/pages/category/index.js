@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAllCategories } from '@/services/category';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
+import Category from '@/components/Category';
 
 export default function AddNewExpense() {
   const [categories, setCategories] = useState([]);
@@ -24,8 +25,11 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
+      <h2 className='text-4xl font-bold'>Categories</h2>
       <div className="h-full w-full flex items-center justify-center">
-        {JSON.stringify(categories)}
+        {categories.map((category) => (
+          <Category key={category.id} category={category} />
+        ))}
       </div>
     </DashboardLayout>
   );

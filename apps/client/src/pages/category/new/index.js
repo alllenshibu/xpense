@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { addNewCategory } from '@/services/category';
+import CategoryEditor from '@/components/CategoryEditor';
 
 export default function AddNewExpense() {
   const router = useRouter();
@@ -29,7 +30,10 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <div className="h-full w-full flex items-center justify-center"></div>
+      <h2 className='text-4xl font-bold'>New Category</h2>
+      <div className="h-full w-full flex items-center justify-center">
+        <CategoryEditor category={category} setCategory={setCategory} handleSubmit={handleSubmit} />
+      </div>
     </DashboardLayout>
   );
 }

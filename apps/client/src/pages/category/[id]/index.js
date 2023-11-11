@@ -32,6 +32,7 @@ export default function AddNewExpense() {
     <DashboardLayout>
       <div className="h-full w-full flex items-center justify-center">
         {JSON.stringify(category)}
+        <p>Also show expenses from this category</p>
       </div>
     </DashboardLayout>
   );

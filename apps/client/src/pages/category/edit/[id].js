@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { editCategoryById, fetchCategoryById } from '@/services/category';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
+import CategoryEditor from '@/components/CategoryEditor';
 
 export default function AddNewExpense() {
   const router = useRouter();
@@ -47,8 +48,9 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
+      <h2 className="text-4xl font-bold">Edit Category</h2>
       <div className="h-full w-full flex items-center justify-center">
-        {JSON.stringify(category)}
+        <CategoryEditor category={category} setCategory={setCategory} handleSubmit={handleSubmit} />
       </div>
     </DashboardLayout>
   );
