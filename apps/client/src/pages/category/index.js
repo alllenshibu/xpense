@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { fetchAllCategories } from '@/lib/category';
+import { fetchAllCategories } from '@/services/category';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
 
