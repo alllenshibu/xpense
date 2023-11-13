@@ -57,6 +57,7 @@ const addNewExpenseController = async (req, res) => {
   const title = req?.body?.expense?.title;
   const amount = req?.body?.expense?.amount;
   const categoryId = req?.body?.expense?.categoryId;
+  const paymentOptionId = req?.body?.expense?.paymentOptionId;
   const timestamp = req?.body?.expense?.timestamp;
 
   // User is missing due to some error in authentication middleware
@@ -76,7 +77,14 @@ const addNewExpenseController = async (req, res) => {
   }
 
   try {
-    const expense = await addNewExpenseService(user, title, amount, categoryId, timestamp);
+    const expense = await addNewExpenseService(
+      user,
+      title,
+      amount,
+      categoryId,
+      paymentOptionId,
+      timestamp,
+    );
 
     if (!expense) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -93,6 +101,7 @@ const editExpenseController = async (req, res) => {
   const title = req?.body?.expense?.title;
   const amount = req?.body?.expense?.amount;
   const categoryId = req?.body?.expense?.categoryId;
+  const paymentOptionId = req?.body?.expense?.paymentOptionId;
   const timestamp = req?.body?.expense?.timestamp;
 
   // User is missing due to some error in authentication middleware
@@ -116,7 +125,15 @@ const editExpenseController = async (req, res) => {
   }
 
   try {
-    const expense = await editExpenseService(user, id, title, amount, categoryId, timestamp);
+    const expense = await editExpenseService(
+      user,
+      id,
+      title,
+      amount,
+      categoryId,
+      paymentOptionId,
+      timestamp,
+    );
 
     if (!expense) return res.status(500).json({ message: 'Something went wrong' });
 

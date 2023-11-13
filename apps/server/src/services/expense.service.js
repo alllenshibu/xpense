@@ -44,7 +44,14 @@ const getExpenseByIdService = async (user, expenseId) => {
   }
 };
 
-const addNewExpenseService = async (user, title, amount, categoryId, timestamp) => {
+const addNewExpenseService = async (
+  user,
+  title,
+  amount,
+  categoryId,
+  paymentOptionId,
+  timestamp,
+) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -53,8 +60,8 @@ const addNewExpenseService = async (user, title, amount, categoryId, timestamp) 
     }
 
     const result = await pool.query(
-      'INSERT INTO expense (title, amount, category_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [title, amount, categoryId, timestamp, userId?.rows[0]?.id],
+      'INSERT INTO expense (title, amount, category_id, payment_id timestamp, user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [title, amount, categoryId, paymentOptionId, timestamp, userId?.rows[0]?.id],
     );
 
     if (!(result?.rows?.length > 0)) throw new Error('Expense not added');
@@ -66,7 +73,15 @@ const addNewExpenseService = async (user, title, amount, categoryId, timestamp) 
   }
 };
 
-const editExpenseService = async (user, id, title, amount, categoryId, timestamp) => {
+const editExpenseService = async (
+  user,
+  id,
+  title,
+  amount,
+  categoryId,
+  paymentOptionId,
+  timestamp,
+) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -75,8 +90,8 @@ const editExpenseService = async (user, id, title, amount, categoryId, timestamp
     }
 
     const result = await pool.query(
-      'UPDATE expense SET title = $1, amount = $2, category_id = $3, timestamp = $4 WHERE user_id = $5 AND id = $6 RETURNING *',
-      [title, amount, categoryId, timestamp, userId?.rows[0]?.id, id],
+      'UPDATE expense SET title = $1, amount = $2, category_id = $3, payment_id = $4 timestamp = $5 WHERE user_id = $6 AND id = $7 RETURNING *',
+      [title, amount, categoryId, paymentOptionId, timestamp, userId?.rows[0]?.id, id],
     );
 
     if (!(result?.rows?.length > 0)) throw new Error('Expense not edited');

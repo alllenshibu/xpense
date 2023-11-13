@@ -19,7 +19,7 @@ const addNewExpense = async (expense) => {
 };
 
 const editExpenseById = async (expenseId, expense) => {
-  return await axiosInstance.put('/expense/' + expenseId, {
+  return await axiosInstance.put('/expense/', {
     expense: expense,
   });
 };

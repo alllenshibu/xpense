@@ -35,6 +35,7 @@ class CategoryNotFoundError extends Error {
   }
 }
 
+// Payment option errors
 class PaymentOptionNotFoundError extends Error {
   constructor(message) {
     super(message);

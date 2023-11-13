@@ -6,6 +6,7 @@ import axiosInstance from '@/lib/axiosInstance';
 import ExpenseEditor from '@/components/ExpenseEditor';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { fetchAllCategories } from '@/services/category';
+import { fetchAllPaymentOptions } from '@/services/paymentOption';
 
 export default function AddNewExpense() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function AddNewExpense() {
   const [isLoading, setIsLoading] = useState(true);
   const [expense, setExpense] = useState({});
   const [categories, setCategories] = useState([]);
+  const [paymentOptions, setPaymentOptions] = useState([]);
 
   const fetchExpense = async () => {
     const expenseId = router.query.id;
@@ -26,7 +28,6 @@ export default function AddNewExpense() {
         'timestamp',
         new Date(res?.data?.expense?.timestamp).toISOString().slice(0, 16),
       );
-
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -45,10 +46,21 @@ export default function AddNewExpense() {
     }
   };
 
+  const fetchPaymentOptions = async () => {
+    const res = await fetchAllPaymentOptions();
+    if (res.status === 200) {
+      setPaymentOptions(res?.data?.paymentOptions);
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosInstance.put('/expense/' + router.query.id, {
+      const res = await axiosInstance.put('/expense/', {
         expense: expense,
       });
       if (res.status === 200) {
@@ -66,6 +78,7 @@ export default function AddNewExpense() {
   useEffect(() => {
     fetchExpense();
     fetchCategories();
+    fetchPaymentOptions();
     setIsLoading(false);
   }, [router.query.id]);
 
@@ -76,6 +89,7 @@ export default function AddNewExpense() {
           expense={expense}
           setExpense={setExpense}
           categories={categories}
+          paymentOptions={paymentOptions}
           submitText={'Edit'}
           handleSubmit={handleSubmit}
         />

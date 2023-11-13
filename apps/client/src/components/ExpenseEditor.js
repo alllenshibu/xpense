@@ -4,6 +4,7 @@ export default function ExpenseEditor({
   expense,
   setExpense,
   categories,
+  paymentOptions,
   submitText,
   handleSubmit,
 }) {
@@ -38,6 +39,16 @@ export default function ExpenseEditor({
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label htmlFor="paymentOptionId">Payment Option</label> 
+        <select id="paymentOptionId" name="paymentOptionId" value={expense.paymentOptionId}>
+          {paymentOptions.map((paymentOption) => (
+            <option key={paymentOption.id} value={paymentOption.id}>
+              {paymentOption.name}
             </option>
           ))}
         </select>
