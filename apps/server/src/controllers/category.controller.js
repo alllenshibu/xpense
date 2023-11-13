@@ -30,7 +30,7 @@ const getAllCategoriesController = async (req, res) => {
 const getCategoryByIdController = async (req, res) => {
   const user = req?.user;
   const categoryId = req?.params?.id;
-  const fetchExpenses = req?.query?.fetchExpenses || false;
+  let fetchExpenses = req?.query?.fetchExpenses || false;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
