@@ -3,7 +3,7 @@ import axios from 'axios';
 let token;
 
 if (typeof window !== 'undefined') {
-  token = localStorage.getItem('token');
+  token = localStorage.getItem(process.env.NEXT_PUBLIC_AUTH_TOKEN);
 }
 
 const axiosInstance = axios.create({
