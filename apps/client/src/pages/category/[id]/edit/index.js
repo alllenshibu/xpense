@@ -14,6 +14,8 @@ export default function AddNewExpense() {
 
   const fetchCategory = async () => {
     const categoryId = router.query.id;
+    if(!categoryId) return;
+    
     const res = await fetchCategoryById(categoryId);
     if (res.status === 200) {
       setCategory(res?.data?.category);

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 export default function ExpenseEditor({
   expense,
   setExpense,
@@ -5,6 +7,9 @@ export default function ExpenseEditor({
   submitText,
   handleSubmit,
 }) {
+  useEffect(() => {
+    console.log(expense);
+  }, [expense]);
   return (
     <form
       className="w-full md:w-2/5 flex flex-col gap-4"
@@ -26,7 +31,7 @@ export default function ExpenseEditor({
           value={expense.amount}
           placeholder="499.49"
         />
-      </div>  
+      </div>
       <div>
         <label htmlFor="categoryId">Category</label>
         <select id="categoryId" name="categoryId" value={expense.categoryId}>

@@ -12,7 +12,10 @@ export default function AddNewExpense() {
 
   const fetchCategory = async () => {
     const categoryId = router.query.id;
-    const res = await fetchCategoryById({ categoryId, fetchExpenses: true });
+    if (!categoryId) return;
+
+
+    const res = await fetchCategoryById(categoryId);
     if (res.status === 200) {
       setCategory(res?.data?.category);
     } else if (res.status === 404) {
@@ -32,7 +35,6 @@ export default function AddNewExpense() {
     <DashboardLayout>
       <div className="h-full w-full flex items-center justify-center">
         {JSON.stringify(category)}
-        <p>Also show expenses from this category</p>
       </div>
     </DashboardLayout>
   );

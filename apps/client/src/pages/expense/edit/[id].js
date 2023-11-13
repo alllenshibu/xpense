@@ -5,15 +5,19 @@ import axiosInstance from '@/lib/axiosInstance';
 
 import ExpenseEditor from '@/components/ExpenseEditor';
 import DashboardLayout from '@/layouts/DashboardLayout';
+import { fetchAllCategories } from '@/services/category';
 
 export default function AddNewExpense() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
   const [expense, setExpense] = useState({});
+  const [categories, setCategories] = useState([]);
 
   const fetchExpense = async () => {
     const expenseId = router.query.id;
+    if (expenseId === undefined) return;
+
     const res = await axiosInstance.get('/expense/' + expenseId);
     if (res.status === 200) {
       setExpense(res?.data?.expense);
@@ -22,6 +26,18 @@ export default function AddNewExpense() {
         'timestamp',
         new Date(res?.data?.expense?.timestamp).toISOString().slice(0, 16),
       );
+
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
+    }
+  };
+
+  const fetchCategories = async () => {
+    const res = await fetchAllCategories();
+    if (res.status === 200) {
+      setCategories(res?.data?.categories);
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -39,7 +55,7 @@ export default function AddNewExpense() {
         router.push('/expense/' + router.query.id);
       } else if (res.status === 500) {
         alert('Something went wrong with the server');
-      } else {  
+      } else {
         alert('Something went wrong');
       }
     } catch (err) {
@@ -49,22 +65,20 @@ export default function AddNewExpense() {
 
   useEffect(() => {
     fetchExpense();
+    fetchCategories();
     setIsLoading(false);
   }, [router.query.id]);
 
   return (
     <DashboardLayout>
       <div className="h-full w-full flex items-center justify-center">
-        {isLoading ? (
-          <div className="text-2xl">Loading...</div>
-        ) : (
-          <ExpenseEditor
-            expense={expense}
-            setExpense={setExpense}
-            submitText={'Edit'}
-            handleSubmit={handleSubmit}
-          />
-        )}
+        <ExpenseEditor
+          expense={expense}
+          setExpense={setExpense}
+          categories={categories}
+          submitText={'Edit'}
+          handleSubmit={handleSubmit}
+        />
         {JSON.stringify(expense)}
       </div>
     </DashboardLayout>

@@ -17,7 +17,7 @@ export default function AddNewExpense() {
       e.preventDefault();
       const res = await addNewCategory(category);
       if (res.status === 201) {
-        router.push('/');
+        router.push('/category');
       } else if (res.status === 500) {
         alert('Something went wrong with the server');
       } else {
@@ -30,7 +30,7 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <h2 className='text-4xl font-bold'>New Category</h2>
+      <h2 className="text-4xl font-bold">New Category</h2>
       <div className="h-full w-full flex items-center justify-center">
         <CategoryEditor category={category} setCategory={setCategory} handleSubmit={handleSubmit} />
       </div>

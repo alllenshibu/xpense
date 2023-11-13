@@ -9,7 +9,7 @@ export default function Category({ category }) {
 
   const handleEditButtonClick = () => {
     console.log('Edit button clicked');
-    router.push(`/category/edit/${category.id}`);
+    router.push(`/category/${category.id}/edit`);
   };
 
   return (
