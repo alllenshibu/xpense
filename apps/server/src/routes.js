@@ -23,11 +23,8 @@ const {
   deleteCategoryController,
 } = require('./controllers/category.controller');
 const {
-  addNewFriendController,
-  getAllFriendsController,
-  addNewFriendRequestController,
   getAllFriendRequestsController,
-  acceptFriendRequestConroller,
+  sendNewFriendRequestController,
 } = require('./controllers/friend.controller');
 const {
   getPaymentOptionByIdController,
@@ -135,21 +132,21 @@ router.get('/', (req, res) => {
 });
 
 // Friend request routes
-router.post('/friendrequest', authorize, (req, res) => {
-  addNewFriendRequestController(req, res);
-});
-
 router.get('/friendrequest', authorize, (req, res) => {
   getAllFriendRequestsController(req, res);
 });
 
-router.post('/friend', authorize, (req, res) => {
-  acceptFriendRequestConroller(req, res);
+router.post('/friendrequest', authorize, (req, res) => {
+  sendNewFriendRequestController(req, res);
 });
 
-// Friend routes
-router.get('/friend', authorize, (req, res) => {
-  getAllFriendsController(req, res);
-});
+// router.post('/friend', authorize, (req, res) => {
+//   acceptFriendRequestConroller(req, res);
+// });
+
+// // Friend routes
+// router.get('/friend', authorize, (req, res) => {
+//   getAllFriendsController(req, res);
+// });
 
 module.exports = router;

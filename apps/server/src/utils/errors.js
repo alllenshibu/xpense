@@ -43,6 +43,21 @@ class PaymentOptionNotFoundError extends Error {
   }
 }
 
+// Friend errors
+class RequestedUserDoesNotExistError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'RequestedUserDoesNotExistError';
+  }
+}
+
+class DuplicateFriendRequestError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'DuplicateFriendRequestError';
+  }
+}
+
 module.exports = {
   UserAlreadyExistsError,
   UserDoesNotExistError,
@@ -50,4 +65,6 @@ module.exports = {
   ExpenseNotFoundError,
   CategoryNotFoundError,
   PaymentOptionNotFoundError,
+  RequestedUserDoesNotExistError,
+  DuplicateFriendRequestError,
 };
