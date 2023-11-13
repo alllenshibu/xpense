@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
-
+import axios from 'axios';
 import MainCard from '@/components/ui/maincard';
 import Catcards from '@/components/ui/cat_cards';
 
@@ -13,7 +13,7 @@ export default function AddNewExpense() {
 
   const fetchExpense = async () => {
     const expenseId = router.query.id;
-    const res = await axiosInstance.get('/expense/' + expenseId);
+    const res = await axios.get('/expense/' + expenseId);
     if (res.status === 200) {
       setExpense(res?.data?.expense);
     } else if (res.statud === 404) {
@@ -41,6 +41,7 @@ export default function AddNewExpense() {
             <Catcards />
           </div>
         </div>
+        
         <div className="bg-[#D9D9D954] h-full rounded-xl "></div>
       </div>
     </DashboardLayout>
