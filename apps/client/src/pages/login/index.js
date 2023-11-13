@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import axios from 'axios';
 
@@ -49,6 +50,14 @@ export default function Login() {
         <div>
           <label htmlFor="password">Password</label>
           <input id="password" name="password" type="password" value={user.password} />
+        </div>
+        <div className="flex justify-center items-center">
+          <p>
+            New here?{' '}
+            <Link className="font-bold" href="/signup">
+              Signup
+            </Link>
+          </p>
         </div>
         <div>
           <button onClick={handleSubmit} type="submit" className="w-auto btn btn-primary">

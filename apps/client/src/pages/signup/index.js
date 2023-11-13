@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import axios from 'axios';
+import Link from 'next/link';
 
 export default function Signup() {
   const router = useRouter();
@@ -57,6 +58,14 @@ export default function Signup() {
         <div>
           <label htmlFor="password">Password</label>
           <input id="password" name="password" type="password" value={user.password} />
+        </div>
+        <div className="flex justify-center items-center">
+          <p>
+            Already registered?{' '}
+            <Link className="font-bold" href="/login">
+              Login
+            </Link>
+          </p>
         </div>
         <div>
           <button onClick={handleSubmit} type="submit" className="w-auto btn btn-primary">
