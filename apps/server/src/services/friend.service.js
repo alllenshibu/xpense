@@ -41,7 +41,7 @@ const sendNewFriendRequestService = async ({ user, requestedUser }) => {
       throw new RequestedUserDoesNotExistError('Requested user does not exist');
     }
 
-    const result = await pool.query(
+    let result = await pool.query(
       'SELECT * FROM friend_request WHERE user_id = $1 AND friend_id = $2',
       [userId?.rows[0]?.id, requestedUserId?.rows[0]?.id],
     );

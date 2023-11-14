@@ -52,7 +52,7 @@ const sendNewFriendRequestController = async (req, res) => {
 
     if (!friendRequest) return res.status(500).json({ message: 'Something went wrong' });
 
-    return res.status(200).json({ friendRequest: friendRequest });
+    return res.status(201).json({ friendRequest: friendRequest });
   } catch (err) {
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     else if (err instanceof RequestedUserDoesNotExistError)
