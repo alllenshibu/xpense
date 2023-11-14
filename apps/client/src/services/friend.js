@@ -12,4 +12,16 @@ const sendNewFriendRequest = async (requestedUser) => {
     })
 }
 
-export {fetchAllFriendRequests, sendNewFriendRequest}
+const fetchAllFriends = async () => {
+    return await axiosInstance.get('/friend')
+}
+
+const acceptFriendRequest = async (requestedUser) => {
+    return await axiosInstance.post("/friend", {
+        friend: {
+            id: requestedUser
+        }
+    })
+}
+
+export {fetchAllFriendRequests, sendNewFriendRequest, fetchAllFriends, acceptFriendRequest}
