@@ -60,7 +60,7 @@ const addNewExpenseService = async (
     }
 
     const result = await pool.query(
-      'INSERT INTO expense (title, amount, category_id, payment_id timestamp, user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      'INSERT INTO expense (title, amount, category_id, payment_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
       [title, amount, categoryId, paymentOptionId, timestamp, userId?.rows[0]?.id],
     );
 
