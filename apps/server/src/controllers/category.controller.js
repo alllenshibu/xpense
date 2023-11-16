@@ -30,7 +30,6 @@ const getAllCategoriesController = async (req, res) => {
 const getCategoryByIdController = async (req, res) => {
   const user = req?.user;
   const categoryId = req?.params?.id;
-  const fetchExpenses = req?.query?.fetchExpenses || false;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
@@ -47,12 +46,8 @@ const getCategoryByIdController = async (req, res) => {
     return res.status(400).json({ message: 'Category ID is missing' });
   }
 
-  if (fetchExpenses === 'true') fetchExpenses = true;
-  else if (fetchExpenses === 'false') fetchExpenses = false;
-  else return res.status(400).json({ message: 'Invalid query parameter fetchExpenses' });
-
   try {
-    const category = await getCategoryByIdService({ user, categoryId, fetchExpenses });
+    const category = await getCategoryByIdService({ user, categoryId });
 
     if (!category) return res.status(500).json({ message: 'Something went wrong' });
 

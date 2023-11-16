@@ -5,7 +5,7 @@ export default function Expense({ expense }) {
 
     const handleEditButtonClick = () => {
         console.log("Edit button clicked")
-        router.push(`/expense/edit/${expense.id}`)
+        router.push(`/expense/${expense.id}/edit`)
     }
 
     return (

@@ -1,108 +1,168 @@
+const {
+    UserDoesNotExistError,
+    RequestedUserDoesNotExistError,
+    DuplicateFriendRequestError,
+    FriendRequestDoesNotExistError
+} = require('../utils/errors');
 const pool = require('../utils/pg');
 
-const addNewFriendRequestService = async (user, friend) => {
+const getAllFriendRequestsService = async ({user}) => {
     try {
-        console.log('Adding new friend requests');
         const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
+            throw new UserDoesNotExistError('User does not exist');
         }
 
-        const friendId = await pool.query('SELECT id FROM "user" WHERE email = $1', [friend]);
+        const result = await pool.query('SELECT * FROM friend_request WHERE user_id = $1', [
+            userId?.rows[0]?.id,
+        ]);
 
-        if (friendId?.rows?.length === 0) {
-            throw new Error('Friend not found');
-        }
+        const friendRequests = result?.rows;
 
-
-        const result = await pool.query('INSERT INTO friend_request (user_id, friend_id) VALUES ($1, $2)', [userId?.rows[0]?.id, friendId?.rows[0]?.id]);
-
-        return result?.rows;
+        return friendRequests;
     } catch (err) {
-        throw new Error(err.message);
+        throw err;
     }
-}
+};
 
-
-const acceptFriendRequestService = async (user, friend) => {
+const sendNewFriendRequestService = async ({user, requestedUser}) => {
     try {
-        console.log('Adding new friend');
         const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
+            throw new UserDoesNotExistError('User does not exist');
         }
 
-        const friendId = await pool.query('SELECT id FROM "user" WHERE email = $1', [friend]);
+        const requestedUserId = await pool.query('SELECT id FROM "user" WHERE email = $1', [
+            requestedUser,
+        ]);
 
-        if (friendId?.rows?.length === 0) {
-            throw new Error('Friend not found');
+        if (requestedUserId?.rows?.length === 0) {
+            throw new RequestedUserDoesNotExistError('Requested user does not exist');
         }
 
-        // Check whether the friend has actually sent a friend request
-        const friendRequests = await pool.query('SELECT email FROM "user" INNER JOIN friend_request  ON id = friend_id WHERE user_id = $1', [userId?.rows[0]?.id]);
+        let result = await pool.query(
+            'SELECT * FROM friend_request WHERE user_id = $1 AND friend_id = $2',
+            [userId?.rows[0]?.id, requestedUserId?.rows[0]?.id],
+        );
 
-        if (friendRequests?.rows?.length === 0) {
-            throw new Error('Friend request not found');
+        if (result?.rows?.length > 0) {
+            throw new DuplicateFriendRequestError('Friend request already exists');
         }
 
-        for (let friendRequest of friendRequests?.rows) {
-            if (friendRequest?.email === friend) {
-                const result = await pool.query('INSERT INTO friend (user_id, friend_id) VALUES ($1, $2), ($2, $1)', [userId?.rows[0]?.id, friendId?.rows[0]?.id]);
-                // Deleting friend request
-                await pool.query("DELETE FROM friend_request WHERE user_id = $1 AND friend_id = $2", [userId?.rows[0]?.id, friendId?.rows[0]?.id]);
-                console.log(r2);
-                return result?.rows;
-            }
-        }
+        result = await pool.query(
+            'INSERT INTO friend_request(user_id, friend_id) VALUES($1, $2) RETURNING *',
+            [userId?.rows[0]?.id, requestedUserId?.rows[0]?.id],
+        );
 
-        throw new Error('Friend request creation went wrong');
+        const friendRequest = result?.rows;
 
+        return friendRequest;
     } catch (err) {
-        throw new Error(err.message);
+        throw err;
     }
-}
+};
 
-
-const getAllFriendRequestsService = async (user) => {
+const getAllFriendsService = async ({user}) => {
     try {
-        console.log('Getting all friends');
         const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
+            throw new UserDoesNotExistError('User does not exist');
         }
 
-        const result = await pool.query('SELECT email FROM "user" INNER JOIN friend_request  ON id = friend_id WHERE user_id = $1', [userId?.rows[0]?.id]);
+        const result = await pool.query(
+            `SELECT 
+                friend_id as "friendId", 
+                first_name as "firstName", 
+                last_name as "lastName", 
+                email 
+             FROM 
+                friend JOIN "user" 
+             ON friend.friend_id = "user".id 
+                WHERE user_id = $1  `,
+            [userId?.rows[0]?.id],
+        );
 
-        return result?.rows;
+        const friends = result?.rows;
+
+        return friends;
     } catch (err) {
-        throw new Error(err.message);
+        throw err;
     }
 }
 
-const getAllFriendsService = async (user) => {
+const acceptFriendRequestService = async ({user, requestedUser}) => {
     try {
-        console.log('Getting all friends');
         const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
         if (userId?.rows?.length === 0) {
-            throw new Error('User not found');
+            throw new UserDoesNotExistError('User does not exist');
         }
 
-        const result = await pool.query('SELECT email FROM "user" INNER JOIN friend  ON id = friend_id WHERE user_id = $1', [userId?.rows[0]?.id]);
+        const requestedUserId = await pool.query('SELECT id FROM "user" WHERE id = $1', [
+            requestedUser,
+        ]);
 
-        return result?.rows;
-    } catch (err) {
-        throw new Error(err.message);
+        if (requestedUserId?.rows?.length === 0) {
+            throw new RequestedUserDoesNotExistError('Requested user does not exist');
+        }
+
+        let result = await pool.query(
+            'SELECT * FROM friend_request WHERE user_id = $1 AND friend_id = $2',
+            [userId?.rows[0]?.id, requestedUserId?.rows[0]?.id],
+        );
+
+        if (result?.rows?.length === 0) {
+            throw new FriendRequestDoesNotExistError('Friend request does not exist');
+        }
+
+        await pool.query('BEGIN');
+
+        result = await pool.query(
+            'DELETE FROM friend_request WHERE user_id = $1 AND friend_id = $2',
+            [userId?.rows[0]?.id, requestedUserId?.rows[0]?.id],
+        );
+
+        if (result?.rowCount === 0) {
+            throw new Error('Cannot delete friend request')
+        }
+
+        // One way
+        result = await pool.query(
+            'INSERT INTO friend(user_id, friend_id) VALUES($1, $2) RETURNING *',
+            [userId?.rows[0]?.id, requestedUserId?.rows[0]?.id],
+        );
+
+        if (result?.rows?.length === 0) {
+            throw new Error('Cannot insert friend')
+        }
+
+        // The other way
+        result = await pool.query(
+            'INSERT INTO friend(friend_id, user_id) VALUES($1, $2) RETURNING *',
+            [userId?.rows[0]?.id, requestedUserId?.rows[0]?.id],
+        );
+
+        if (result?.rows?.length === 0) {
+            throw new Error('Cannot insert friend')
+        }
+        await pool.query('COMMIT');
+
+        const friend = result?.rows;
+
+        return friend;
+    } catch
+        (err) {
+        await pool.query('ROLLBACK');
+        throw err;
     }
 }
-
 
 module.exports = {
-    addNewFriendRequestService,
-    acceptFriendRequestService,
     getAllFriendRequestsService,
-    getAllFriendsService
-}
+    sendNewFriendRequestService,
+    getAllFriendsService,
+    acceptFriendRequestService,
+};

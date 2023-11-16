@@ -11,12 +11,12 @@ const getAllPaymentOptionsController = async (req, res) => {
   const user = req?.user;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
   try {
-    const paymentOptions = await getAllPaymentOptionsService(user);
+    const paymentOptions = await getAllPaymentOptionsService({ user });
 
     if (!paymentOptions) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -32,22 +32,28 @@ const getPaymentOptionByIdController = async (req, res) => {
   const paymentOptionId = req?.params?.id;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!paymentOptionId || paymentOptionId === '' || paymentOptionId === undefined) {
+  if (
+    !paymentOptionId ||
+    paymentOptionId === '' ||
+    paymentOptionId === undefined ||
+    paymentOptionId === 'undefined' ||
+    paymentOptionId === null
+  ) {
     return res.status(400).json({ message: 'Payment option ID is missing' });
   }
 
   try {
-    const paymentOption = await getPaymentOptionByIdService(user, paymentOptionId);
+    const paymentOption = await getPaymentOptionByIdService({ user, paymentOptionId });
 
     if (!paymentOption) return res.status(500).json({ message: 'Something went wrong' });
 
     return res.status(200).json({ paymentOption: paymentOption });
   } catch (err) {
-    if (err instanceof PaymentOptionChangeEvent)
+    if (err instanceof PaymentOptionNotFoundError)
       return res.status(404).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
@@ -58,16 +64,16 @@ const addNewPaymentOptionController = async (req, res) => {
   const name = req?.body?.paymentOption?.name;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!name || name === '' || name === undefined) {
+  if (!name || name === '' || name === undefined || name === 'undefined' || name === null) {
     return res.status(400).json({ message: 'Payment option name is missing' });
   }
 
   try {
-    const paymentOption = await addNewPaymentOptionService(user, name);
+    const paymentOption = await addNewPaymentOptionService({ user, name });
 
     if (!paymentOption) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -84,20 +90,20 @@ const editPaymentOptionController = async (req, res) => {
   const name = req?.body?.paymentOption?.name;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!id || id === '' || id === undefined) {
-    return res.status(400).json({ message: 'Payment ID is missing' });
+  if (!id || id === '' || id === undefined || id === 'undefined' || id === null) {
+    return res.status(400).json({ message: 'Payment option ID is missing' });
   }
 
-  if (!name || name === '' || name === undefined) {
-    return res.status(400).json({ message: 'Payment name is missing' });
+  if (!name || name === '' || name === undefined || name === 'undefined' || name === null) {
+    return res.status(400).json({ message: 'Payment option name is missing' });
   }
 
   try {
-    const paymentOption = await editPaymentOptionService(user, id, name);
+    const paymentOption = await editPaymentOptionService({ user, id, name });
 
     if (!paymentOption) return res.status(500).json({ message: 'Something went wrong' });
 
@@ -113,16 +119,22 @@ const deletePaymentOptionController = async (req, res) => {
   const paymentOptionId = req?.body?.paymentOption?.id;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!paymentOptionId || paymentOptionId === '' || paymentOptionId === undefined) {
+  if (
+    !paymentOption ||
+    paymentOption === '' ||
+    paymentOption === undefined ||
+    paymentOption === 'undefined' ||
+    paymentOption === null
+  ) {
     return res.status(400).json({ message: 'Payment option ID is missing' });
   }
 
   try {
-    const deleted = await deletePaymentOptionService(user, paymentOptionId);
+    const deleted = await deletePaymentOptionService({ user, paymentOptionId });
 
     if (!deleted) return res.status(500).json({ message: 'Something went wrong' });
 

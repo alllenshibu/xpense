@@ -1,7 +1,7 @@
 const { UserDoesNotExistError, PaymentOptionNotFoundError } = require('../utils/errors');
 const pool = require('../utils/pg');
 
-const getAllPaymentOptionsService = async (user) => {
+const getAllPaymentOptionsService = async ({ user }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -21,7 +21,7 @@ const getAllPaymentOptionsService = async (user) => {
   }
 };
 
-const getPaymentOptionByIdService = async (user, paymentOptionId) => {
+const getPaymentOptionByIdService = async ({ user, paymentOptionId }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -29,7 +29,9 @@ const getPaymentOptionByIdService = async (user, paymentOptionId) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM payment_option WHERE user_id = $1 AND id = $2', [
+    let result = null;
+
+    result = await pool.query('SELECT * FROM payment_option WHERE user_id = $1 AND id = $2', [
       userId?.rows[0]?.id,
       paymentOptionId,
     ]);
@@ -39,13 +41,20 @@ const getPaymentOptionByIdService = async (user, paymentOptionId) => {
 
     const paymentOption = result?.rows[0];
 
+    result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND payment_id = $2', [
+      userId?.rows[0]?.id,
+      paymentOptionId,
+    ]);
+
+    paymentOption.expenses = result?.rows;
+
     return paymentOption;
   } catch (err) {
     throw err;
   }
 };
 
-const addNewPaymentOptionService = async (user, name) => {
+const addNewPaymentOptionService = async ({ user, name }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -67,7 +76,7 @@ const addNewPaymentOptionService = async (user, name) => {
   }
 };
 
-const editPaymentOptionService = async (user, id, name) => {
+const editPaymentOptionService = async ({ user, id, name }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -90,7 +99,7 @@ const editPaymentOptionService = async (user, id, name) => {
   }
 };
 
-const deletePaymentOptionService = async (user, paymentOptionId) => {
+const deletePaymentOptionService = async ({ user, paymentOptionId }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 

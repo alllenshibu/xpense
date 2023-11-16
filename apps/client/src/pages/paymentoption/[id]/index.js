@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { fetchCategoryById } from '@/services/category';
+import { fetchPaymentOptionById } from '@/services/paymentOption';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
 
 export default function AddNewExpense() {
   const router = useRouter();
 
-  const [category, setCategory] = useState({});
+  const [paymentOption, setPaymentOption] = useState({});
 
-  const fetchCategory = async () => {
-    const categoryId = router.query.id;
-    if (!categoryId) return;
+  const fetchPaymentOption = async () => {
+    const paymentOptionId = router.query.id;
+    if (!paymentOptionId) return;
 
 
-    const res = await fetchCategoryById(categoryId);
+    const res = await fetchPaymentOptionById(paymentOptionId);
     if (res.status === 200) {
-      setCategory(res?.data?.category);
+      setPaymentOption(res?.data?.paymentOption);
     } else if (res.status === 404) {
-      alert('Category not found');
+      alert('Payment option not found');
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -28,13 +28,13 @@ export default function AddNewExpense() {
   };
 
   useEffect(() => {
-    fetchCategory();
+    fetchPaymentOption();
   }, [router.query.id]);
 
   return (
     <DashboardLayout>
       <div className="h-full w-full flex items-center justify-center">
-        {JSON.stringify(category)}
+        {JSON.stringify(paymentOption)}
       </div>
     </DashboardLayout>
   );

@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem(process.env.NEXT_PUBLIC_AUTH_TOKEN);
       if (!token && router.pathname !== '/login' && router.pathname !== '/signup')
         router.push('/login');
     }

@@ -1,20 +1,20 @@
 import { useRouter } from 'next/router';
 
-export default function Category({ category }) {
+export default function PaymentOption({ paymentOption }) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/category/${category.id}`);
+    router.push(`/paymentoption/${paymentOption.id}`);
   };
 
   const handleEditButtonClick = () => {
     console.log('Edit button clicked');
-    router.push(`/category/${category.id}/edit`);
+    router.push(`/paymentoption/${paymentOption.id}/edit`);
   };
 
   return (
     <div
-      key={category.id}
+      key={paymentOption.id}
       className="relative h-40 w-48 p-4 flex flex-col justify-evenly items-start rounded-md ring-1 ring-neutral-300"
       onClick={handleClick}
     >
@@ -34,7 +34,7 @@ export default function Category({ category }) {
           ></path>
         </svg>
       </button>
-      <p className="font-semibold tracking-wide">{category.name}</p>
+      <p className="font-semibold tracking-wide">{paymentOption.name}</p>
     </div>
   );
 }
