@@ -18,7 +18,7 @@ export default function Login() {
       const res = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/auth/login', user);
       if (res.status === 201) {
         localStorage.setItem(process.env.NEXT_PUBLIC_AUTH_TOKEN, res?.data?.token);
-        router.push('/');
+        router.push('/dashboard');
       } else if (res.status === 401) {
         alert('Wrong credentials');
       } else if (res.status === 500) {

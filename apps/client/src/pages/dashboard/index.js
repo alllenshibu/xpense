@@ -12,7 +12,7 @@ import { fetchAllCategories } from '@/services/category';
 export default function AddNewExpense() {
   const [income, setIncome] = React.useState(0);
   const [category, setCategory] = React.useState(0);
-  const fetchCategory = async () => {
+    const fetchCategory = async () => {
     const res = await axiosInstance.get('/getcategorysum');
     if (res.status === 200) {
       setCategory(res?.data?.total);
@@ -103,7 +103,7 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <div className="h-full w-full flex md:grid md:grid-cols-2 gap-4">
+      <div className="h-[100vh] w-full flex md:grid md:grid-cols-2 gap-4 ">
         <div className="flex flex-col gap-4">
           <MainCard />
 
@@ -112,14 +112,14 @@ export default function AddNewExpense() {
             <Catcards />
             <Catcards />
           </div>
-          <div className="flex flex-col  gap-4 flex-wrap">
+          <div className="flex flex-col gap-4  h-[70vh] overflow-y-scroll overflow-x-hidden">
             {expenses.map((expense) => (
               <Expense expense={expense} />
             ))}
           </div>
         </div>
 
-        <div className="bg-[#D9D9D954] h-full rounded-xl flex justify-center py-4 items ">
+        <div className="bg-[#D9D9D954] h-full overflow-y-scroll rounded-xl flex justify-center py-4 items ">
           <ExpenseEditor
             expense={expense}
             setExpense={setExpense}
@@ -128,7 +128,7 @@ export default function AddNewExpense() {
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />
-        </div>
+                  </div>
       </div>
     </DashboardLayout>
   );

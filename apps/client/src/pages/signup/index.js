@@ -18,7 +18,7 @@ export default function Signup() {
       const res = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/auth/signup', user);
       if (res.status === 201) {
         localStorage.setItem(process.env.NEXT_PUBLIC_AUTH_TOKEN, res?.data?.token);
-        router.push('/');
+        router.push('/dashboard');
       } else if (res.status === 409) {
         alert('User already exists');
       } else if (res.status === 500) {
