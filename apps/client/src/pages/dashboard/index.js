@@ -7,9 +7,30 @@ import axios from 'axios';
 import MainCard from '@/components/ui/maincard';
 import Catcards from '@/components/ui/cat_cards';
 import ExpenseEditor from '@/components/ExpenseEditor';
-import { fetchAllCategories } from '@/services/category';
+import { addNewCategory, fetchAllCategories } from '@/services/category';
+import CategoryEditor from '@/components/CategoryEditor';
 
 export default function AddNewExpense() {
+  const [categorynew, setCategorynew] = useState({
+    name: '',
+  });
+
+  const handleSubmit2 = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await addNewCategory(category);
+      if (res.status === 201) {
+        router.push('/category');
+      } else if (res.status === 500) {
+        alert('Something went wrong with the server');
+      } else {
+        alert('Something went wrong');
+      }
+    } catch (err) {
+      alert(err?.message);
+    }
+  };
+
   const [income, setIncome] = React.useState(0);
   const [category, setCategory] = React.useState(0);
   const fetchCategory = async () => {
@@ -119,7 +140,7 @@ export default function AddNewExpense() {
           </div>
         </div>
 
-        <div className="bg-[#D9D9D954] h-full rounded-xl flex justify-center py-4 items ">
+        <div className="bg-[#D9D9D954] h-full rounded-xl flex flex-col justify-center py-4 items-center ">
           <ExpenseEditor
             expense={expense}
             setExpense={setExpense}
@@ -128,6 +149,14 @@ export default function AddNewExpense() {
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />
+          <h2 className="text-4xl font-bold">New Category</h2>
+          <div className="h-full w-full flex items-center justify-center">
+            <CategoryEditor
+              category={categorynew}
+              setCategory={setCategorynew}
+              handleSubmit={handleSubmit2}
+            />
+          </div>
         </div>
       </div>
     </DashboardLayout>
