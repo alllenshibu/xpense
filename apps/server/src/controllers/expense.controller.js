@@ -4,6 +4,7 @@ const {
   getExpenseByIdService,
   editExpenseService,
   deleteExpenseService,
+  addIncomeService,
 } = require('../services/expense.service');
 const { UserDoesNotExistError, ExpenseNotFoundError } = require('../utils/errors');
 
@@ -82,7 +83,7 @@ const addNewExpenseController = async (req, res) => {
       title,
       amount,
       categoryId,
-     // paymentOptionId,
+      // paymentOptionId,
       timestamp,
     );
 
@@ -170,10 +171,48 @@ const deleteExpenseController = async (req, res) => {
   }
 };
 
+const addNewIncomeController = async (req, res) => {
+  console.log(req?.body);
+  const user = req?.user;
+  console.log(user);
+
+  const amount = req?.body?.income?.amount;
+  console.log(amount);
+
+  // const paymentOptionId = req?.body?.expense?.paymentOptionId;
+  // const timestamp = req?.body?.income?.timestamp;
+
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something huh went wrong' });
+  }
+
+  if (!amount || amount === '' || amount === undefined) {
+    return res.status(400).json({ message: 'Amount is missing' });
+  }
+
+  // if (!timestamp || timestamp === '' || timestamp === undefined) {
+  //   return res.status(400).json({ message: 'Timestamp is missing' });
+  // }
+
+  try {
+    const income = await addIncomeService(user, amount);
+
+    if (!income) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(201).json({ income: income });
+  } catch (err) {
+    console.log(err);
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
+
 module.exports = {
   getAllExpensesController,
   getExpenseByIdController,
   addNewExpenseController,
   editExpenseController,
   deleteExpenseController,
+  addNewIncomeController,
 };

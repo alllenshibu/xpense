@@ -23,9 +23,20 @@ const editExpenseById = async (expenseId, expense) => {
     expense: expense,
   });
 };
-
+const addNewIncome = async (income) => {
+  return await axiosInstance.post('/addincome', {
+    income: income,
+  });
+};
 const deleteExpense = async (expenseId) => {
   return await axiosInstance.delete('/expense/' + expenseId);
 };
 
-export { fetchAllExpenses, fetchExpenseById, addNewExpense, editExpenseById, deleteExpense };
+export {
+  fetchAllExpenses,
+  fetchExpenseById,
+  addNewExpense,
+  editExpenseById,
+  deleteExpense,
+  addNewIncome,
+};

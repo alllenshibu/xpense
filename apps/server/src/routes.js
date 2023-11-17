@@ -12,6 +12,7 @@ const {
   getExpenseByIdController,
   editExpenseController,
   deleteExpenseController,
+  addNewIncomeController,
 } = require('./controllers/expense.controller');
 const { getStatsController } = require('./controllers/stats.controller');
 const { createNewSplitController } = require('./controllers/split.controller');
@@ -150,16 +151,19 @@ router.post('/friend', authorize, (req, res) => {
   acceptFriendRequestController(req, res);
 });
 
+router.post('/addincome', authorize, (req, res) => {
+  addNewIncomeController(req, res);
+});
 // // Friend routes
 // router.get('/friend', authorize, (req, res) => {
 //   getAllFriendsController(req, res);
 // });
 
-router.get('/expenditure',authorize, (req, res) => {
+router.get('/expenditure', authorize, (req, res) => {
   getStatsController(req, res);
 });
 
-router.get('/getcategorysum',authorize, (req, res) => {
-    getStatsController(req, res);
+router.get('/getcategorysum', authorize, (req, res) => {
+  getStatsController(req, res);
 });
 module.exports = router;

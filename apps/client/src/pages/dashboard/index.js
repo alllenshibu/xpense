@@ -9,6 +9,7 @@ import Catcards from '@/components/ui/cat_cards';
 import ExpenseEditor from '@/components/ExpenseEditor';
 import { addNewCategory, fetchAllCategories } from '@/services/category';
 import CategoryEditor from '@/components/CategoryEditor';
+import IncomeEditor from '@/components/IncomeEditor';
 
 export default function AddNewExpense() {
   const [categorynew, setCategorynew] = useState({
@@ -150,6 +151,7 @@ export default function AddNewExpense() {
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />
+          <IncomeEditor/>
         </div>
       </div>
     </DashboardLayout>
