@@ -23,6 +23,30 @@ CREATE TABLE IF NOT EXISTS "user"
 
     PRIMARY KEY (id)
 );
+-- Create a function to add default category and payment option
+CREATE OR REPLACE FUNCTION add_default_category_and_payment()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Add default category
+    INSERT INTO category (user_id, name)
+    VALUES (NEW.id, '(default)');
+
+    -- Add default payment option
+    INSERT INTO payment_option (user_id, name)
+    VALUES (NEW.id, '(default)');
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create a trigger to invoke the function on user creation
+CREATE TRIGGER add_default_category_and_payment_trigger
+AFTER INSERT
+ON "user"
+FOR EACH ROW
+EXECUTE FUNCTION add_default_category_and_payment();
+
+
 
 CREATE TABLE IF NOT EXISTS payment_option
 (
