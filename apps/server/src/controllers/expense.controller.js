@@ -57,7 +57,7 @@ const addNewExpenseController = async (req, res) => {
   const title = req?.body?.expense?.title;
   const amount = req?.body?.expense?.amount;
   const categoryId = req?.body?.expense?.categoryId;
-  const paymentOptionId = req?.body?.expense?.paymentOptionId;
+  // const paymentOptionId = req?.body?.expense?.paymentOptionId;
   const timestamp = req?.body?.expense?.timestamp;
 
   // User is missing due to some error in authentication middleware
@@ -82,7 +82,7 @@ const addNewExpenseController = async (req, res) => {
       title,
       amount,
       categoryId,
-      paymentOptionId,
+     // paymentOptionId,
       timestamp,
     );
 

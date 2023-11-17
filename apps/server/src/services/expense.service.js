@@ -49,7 +49,7 @@ const addNewExpenseService = async (
   title,
   amount,
   categoryId,
-  paymentOptionId,
+  // paymentOptionId,
   timestamp,
 ) => {
   try {
@@ -62,8 +62,8 @@ const addNewExpenseService = async (
     console.log({ title, amount, categoryId, paymentOptionId, timestamp, userId: userId?.rows[0]?.id });
 
     const result = await pool.query(
-      'INSERT INTO expense (title, amount, category_id, payment_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [title, amount, categoryId, paymentOptionId, timestamp, userId?.rows[0]?.id],
+      'INSERT INTO expense (title, amount, category_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [title, amount, categoryId, timestamp, userId?.rows[0]?.id],
     );
 
     if (!(result?.rows?.length > 0)) throw new Error('Expense not added');
