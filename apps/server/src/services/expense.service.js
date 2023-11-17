@@ -127,10 +127,49 @@ const deleteExpenseService = async (user, expenseId) => {
   }
 };
 
+const addIncomeService = async (user, income) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
+    const result = await pool.query(
+      'INSERT INTO income (income , user_id) VALUES ($1, $2) RETURNING *',
+      [income, userId?.rows[0]?.id],
+    );
+
+    if (!(result?.rows?.length > 0)) throw new Error('income not added');
+
+    const income = result?.rows[0];
+    return income;
+  } catch (error) {}
+};
+const getIncomeservice = async (user, timestamp) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
+    const result = await pool.query(
+      'SELECT sum(income) FROM income WHERE user_id = $1 and timestamp = $2',
+      [userId?.rows[0]?.id, timestamp],
+    );
+
+    if (!(result?.rows?.length > 0)) throw new Error('income not added');
+
+    const income = result?.rows[0];
+    return income;
+  } catch (error) {}
+};
+
 module.exports = {
   getAllExpensesService,
   getExpenseByIdService,
   addNewExpenseService,
   editExpenseService,
   deleteExpenseService,
+  addIncomeService,
+  getIncomeservice,
 };
