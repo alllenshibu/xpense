@@ -67,7 +67,10 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
+      <div className="max-w-md mx-auto rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-700 to-cyan-00">
       <div className="h-full w-full flex items-center justify-center">
+      
+
         <ExpenseEditor
           expense={expense}
           setExpense={setExpense}
@@ -76,6 +79,7 @@ export default function AddNewExpense() {
           submitText={'Add'}
           handleSubmit={handleSubmit}
         />
+        </div>
       </div>
     </DashboardLayout>
   );
