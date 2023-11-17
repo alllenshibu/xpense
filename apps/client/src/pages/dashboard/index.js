@@ -33,7 +33,7 @@ export default function AddNewExpense() {
 
   const [income, setIncome] = React.useState(0);
   const [category, setCategory] = React.useState(0);
-    const fetchCategory = async () => {
+  const fetchCategory = async () => {
     const res = await axiosInstance.get('/getcategorysum');
     if (res.status === 200) {
       setCategory(res?.data?.total);
@@ -70,6 +70,7 @@ export default function AddNewExpense() {
       });
       if (res.status === 201) {
         router.push('/dashboard');
+        expenses.push(res.data.expense);
       } else if (res.status === 500) {
         alert('Something went wrong with the server');
       } else {
@@ -149,7 +150,7 @@ export default function AddNewExpense() {
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />
-                  </div>
+        </div>
       </div>
     </DashboardLayout>
   );

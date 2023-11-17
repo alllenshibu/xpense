@@ -91,7 +91,9 @@ const Sidebar = ({ className }) => {
             <div
               className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
               style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
-              onClick={()=>{router.push('/friends')}}
+              onClick={() => {
+                router.push('/friend');
+              }}
             >
               <svg
                 width="24"
@@ -115,7 +117,9 @@ const Sidebar = ({ className }) => {
             <div
               className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
               style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
-              onClick={()=>{router.push('/category')}}
+              onClick={() => {
+                router.push('/category');
+              }}
             >
               <svg
                 width="24"
