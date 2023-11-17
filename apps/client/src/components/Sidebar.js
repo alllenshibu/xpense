@@ -16,27 +16,37 @@ const Sidebar = ({ className }) => {
           </div>
 
           <div className="space-y-2">
-            
-            
-<div className="w-full justify-start gap-2 hover:bg-[#84C4BF] rounded-xl mt-10" style={{ display: 'flex', alignItems: 'center' }}>
-  <svg
-    width="26"
-    height="21"
-    viewBox="0 0 26 21"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g id="transactions">
-      <path
-        id="Vector"
-        d="M13 19.6875C6.71759 19.6875 1.625 15.5743 1.625 10.5C1.625 5.42574 6.71759 1.3125 13 1.3125C19.2824 1.3125 24.375 5.42574 24.375 10.5C24.375 15.5743 19.2824 19.6875 13 19.6875ZM13 7.74375H8.45V9.58125H18.6875L13 4.9875V7.74375ZM7.3125 11.4187L13 16.0125V13.2562H17.55V11.4187H7.3125Z"
-        fill="#BDBDBD"
-      />
-    </g>
-  </svg>
-  <span style={{ marginLeft: '8px' }}>Dashboard</span>
-</div>
-<div className="w-full justify-start gap-2 hover:bg-[#84C4BF] rounded-xl mt-30" style={{ display: 'flex', alignItems: 'center',marginTop: '20px'}}>
+            <div
+              onClick={() => {
+                router.push('/dashboard');
+              }}
+              className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-10"
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <svg
+                width="26"
+                height="21"
+                viewBox="0 0 26 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="transactions">
+                  <path
+                    id="Vector"
+                    d="M13 19.6875C6.71759 19.6875 1.625 15.5743 1.625 10.5C1.625 5.42574 6.71759 1.3125 13 1.3125C19.2824 1.3125 24.375 5.42574 24.375 10.5C24.375 15.5743 19.2824 19.6875 13 19.6875ZM13 7.74375H8.45V9.58125H18.6875L13 4.9875V7.74375ZM7.3125 11.4187L13 16.0125V13.2562H17.55V11.4187H7.3125Z"
+                    fill="#BDBDBD"
+                  />
+                </g>
+              </svg>
+              <span style={{ marginLeft: '8px' }}>Dashboard</span>
+            </div>
+            <div
+              onClick={() => {
+                router.push('/expense');
+              }}
+              className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
+              style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
+            >
               <svg
                 width="24"
                 height="23"
@@ -54,7 +64,13 @@ const Sidebar = ({ className }) => {
               </svg>
               <span style={{ marginLeft: '8px' }}>Expense</span>
             </div>
-            <div className="w-full justify-start gap-2 hover:bg-[#84C4BF] rounded-xl mt-30" style={{ display: 'flex', alignItems: 'center',marginTop: '20px' }}>
+            <div
+              onClick={() => {
+                router.push('/goals');
+              }}
+              className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
+              style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
+            >
               <svg
                 width="29"
                 height="23"
@@ -72,7 +88,11 @@ const Sidebar = ({ className }) => {
               </svg>
               Goals
             </div>
-            <div className="w-full justify-start gap-2 hover:bg-[#84C4BF] rounded-xl mt-30" style={{ display: 'flex', alignItems: 'center',marginTop: '20px' }}>
+            <div
+              className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
+              style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
+              onClick={()=>{router.push('/friends')}}
+            >
               <svg
                 width="24"
                 height="15"
@@ -92,7 +112,11 @@ const Sidebar = ({ className }) => {
               </svg>
               Friends
             </div>
-            <div className="w-full justify-start gap-2 hover:bg-[#84C4BF] rounded-xl mt-30" style={{ display: 'flex', alignItems: 'center',marginTop: '20px' }}>
+            <div
+              className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
+              style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
+              onClick={()=>{router.push('/category')}}
+            >
               <svg
                 width="24"
                 height="15"
@@ -112,7 +136,10 @@ const Sidebar = ({ className }) => {
               </svg>
               Category
             </div>
-            <div className="w-full justify-start gap-2 hover:bg-[#84C4BF] rounded-xl mt-30" style={{ display: 'flex', alignItems: 'center' ,marginTop: '20px'}}>
+            <div
+              className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
+              style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
+            >
               <div className="flex items-center">
                 <svg
                   width="12"
@@ -157,10 +184,10 @@ const Sidebar = ({ className }) => {
             </div>
           </div>
         </div>
-        <div className=" py-2">
+        <div className=" py-4">
           {/*<h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Library</h2>*/}
-          <div className="space-y-1">
-          <div className="w-full justify-start gap-2 hover:bg-[#84C4BF] rounded-xl mt-30" style={{ display: 'flex', alignItems: 'center' ,marginTop:'30 px'}}>
+          {/* <div className="space-y-2">
+          <div className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30" style={{ display: 'flex', alignItems: 'center' ,marginTop:'30 px'}}>
               <svg
                 width="24"
                 height="24"
@@ -178,7 +205,7 @@ const Sidebar = ({ className }) => {
               </svg>
               Settings
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
