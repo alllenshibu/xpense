@@ -90,6 +90,7 @@ const addNewExpenseController = async (req, res) => {
 
     return res.status(201).json({ expense: expense });
   } catch (err) {
+    console.log(err);
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }

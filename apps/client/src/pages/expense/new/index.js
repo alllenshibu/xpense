@@ -15,6 +15,7 @@ export default function AddNewExpense() {
     title: '',
     amount: '',
     categoryId: '',
+    paymentOptionId: '',
     timestamp: new Date().toISOString().slice(0, 16),
   });
 
@@ -63,6 +64,7 @@ export default function AddNewExpense() {
 
   useEffect(() => {
     fetchCategories();
+    fetchPaymentOptions()
   }, []);
 
   return (
