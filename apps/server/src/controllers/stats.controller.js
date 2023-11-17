@@ -11,10 +11,11 @@ const getStatsController = async (req, res) => {
     try {
         const result = await getStatsService(user);
         if (result) {
-            res.status(200).send(result);
+            return res.status(200).json(result);
+            
         }
     } catch (err) {
-        res.status(400).send(err.message);
+        return res.status(400).send(err.message);
     }
 }
 

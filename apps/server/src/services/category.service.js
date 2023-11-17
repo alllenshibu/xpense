@@ -118,11 +118,43 @@ const deleteCategoryService = async ({ user, categoryId }) => {
     throw err;
   }
 };
+const getSumCategoriesService = async ({ user }) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
+
+    const result = await pool.query(
+      `select
+  sum(amount),
+  category.name,
+  "user".email
+from
+  expense
+  join category on category.id = expense.category_id
+  join "user" on "user".id = expense.user_id
+group by
+  category,
+  category.name,
+  "user".email
+  where "user".id=$1;`,
+      [userId?.rows[0]?.id],
+    );
+
+    const categories = result?.rows;
+
+    return categories;
+  } catch (err) {
+    throw err;
+  }
+};
 module.exports = {
   getAllCategoriesService,
   getCategoryByIdService,
   addNewCategoryService,
   editCategoryService,
   deleteCategoryService,
+  getSumCategoriesService
 };

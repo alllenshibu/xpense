@@ -4,6 +4,7 @@ const {
   addNewCategoryService,
   editCategoryService,
   deleteCategoryService,
+  getSumCategoriesService,
 } = require('../services/category.service');
 const { CategoryNotFoundError } = require('../utils/errors');
 
@@ -144,6 +145,20 @@ const deleteCategoryController = async (req, res) => {
   }
 };
 
+const getbyCategory = async (req, res) => {
+  try {
+    const user = req?.user;
+    const result=await getSumCategoriesService({ user });
+    if (result) {
+      return res.status(200).json(result);
+    }
+  
+    
+  } catch (error) {
+    return res.status(401).send(error.message);
+    
+  }
+};
 module.exports = {
   getAllCategoriesController,
   getCategoryByIdController,

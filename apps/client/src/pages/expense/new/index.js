@@ -15,12 +15,10 @@ export default function AddNewExpense() {
     title: '',
     amount: '',
     categoryId: '',
-    paymentOptionId: '',
     timestamp: new Date().toISOString().slice(0, 16),
   });
 
   const [categories, setCategories] = useState([]);
-  const [paymentOptions, setPaymentOptions] = useState([]);
 
   const handleSubmit = async (e) => {
     try {
@@ -29,7 +27,7 @@ export default function AddNewExpense() {
         expense: expense,
       });
       if (res.status === 201) {
-        router.push('/expense/' + res?.data?.expense?.id);
+        router.push('/dashboard');
       } else if (res.status === 500) {
         alert('Something went wrong with the server');
       } else {
@@ -51,36 +49,21 @@ export default function AddNewExpense() {
     }
   };
 
-  const fetchPaymentOptions = async () => {
-    const res = await fetchAllPaymentOptions();
-    if (res.status === 200) {
-      setPaymentOptions(res.data.paymentOptions);
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
-  };
-
   useEffect(() => {
     fetchCategories();
-    fetchPaymentOptions()
   }, []);
 
   return (
     <DashboardLayout>
       <div className="max-w-md mx-auto rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-700 to-cyan-00">
-      <div className="h-full w-full flex items-center justify-center">
-      
-
-        <ExpenseEditor
-          expense={expense}
-          setExpense={setExpense}
-          categories={categories}
-          paymentOptions={paymentOptions}
-          submitText={'Add'}
-          handleSubmit={handleSubmit}
-        />
+        <div className="h-full w-full flex items-center justify-center">
+          <ExpenseEditor
+            expense={expense}
+            setExpense={setExpense}
+            categories={categories}
+            submitText={'Add'}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </div>
     </DashboardLayout>

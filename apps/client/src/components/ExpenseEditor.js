@@ -4,7 +4,6 @@ export default function ExpenseEditor({
   expense,
   setExpense,
   categories,
-  paymentOptions,
   submitText,
   handleSubmit,
 }) {
@@ -43,7 +42,7 @@ export default function ExpenseEditor({
           ))}
         </select>
       </div>
-      <div>
+      {/* <div>
         <label htmlFor="paymentOptionId">Payment Option</label> 
         <select id="paymentOptionId" name="paymentOptionId" value={expense.paymentOptionId}>
           {paymentOptions.map((paymentOption) => (
@@ -52,7 +51,7 @@ export default function ExpenseEditor({
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
       <div>
         <label htmlFor="date">Date and Time</label>
         <input id="date" name="date" type="datetime-local" value={expense.timestamp} />

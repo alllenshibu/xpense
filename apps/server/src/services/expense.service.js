@@ -59,7 +59,7 @@ const addNewExpenseService = async (
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    console.log({ title, amount, categoryId, paymentOptionId, timestamp, userId: userId?.rows[0]?.id });
+    console.log({ title, amount, categoryId, timestamp, userId: userId?.rows[0]?.id });
 
     const result = await pool.query(
       'INSERT INTO expense (title, amount, category_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',

@@ -21,6 +21,7 @@ const getStatsService = async (user) => {
         const message = {
             total: expenses?.rows[0]?.sum ,
         }
+        console.log(message);
         return message;
 
     } catch (err) {

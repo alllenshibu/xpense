@@ -10,9 +10,26 @@ import ExpenseEditor from '@/components/ExpenseEditor';
 import { fetchAllCategories } from '@/services/category';
 
 export default function AddNewExpense() {
-   const [expenses, setExpenses] = useState([]);
-  
-   const router = useRouter();
+  const [income, setIncome] = React.useState(0);
+  const [category, setCategory] = React.useState(0);
+  const fetchCategory = async () => {
+    const res = await axiosInstance.get('/getcategorysum');
+    if (res.status === 200) {
+      setCategory(res?.data?.total);
+      console.log(res?.data?.total);
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
+    }
+  };
+  // useEffect(() => {
+  //   fetchExpenses();
+  // }, []);
+
+  const [expenses, setExpenses] = useState([]);
+
+  const router = useRouter();
 
   const [expense, setExpense] = useState({
     title: '',
@@ -64,25 +81,25 @@ export default function AddNewExpense() {
     }
   };
 
-  
-    const fetchExpenses = async () => {
-      const res = await axiosInstance.get('/expense');
-      if (res.status === 200) {
-        setExpenses(res?.data?.expenses);
-      } else if (res.status === 500) {
-        alert('Something went wrong with the server');
-      } else {
-        alert('Something went wrong');
-      }
-    };
+  const fetchExpenses = async () => {
+    const res = await axiosInstance.get('/expense');
+    if (res.status === 200) {
+      setExpenses(res?.data?.expenses);
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
+    }
+  };
 
-    const handleAddNewExpense = () => {
-      router.push('/expense/new');
-    };
-    useEffect(() => {
-      fetchCategories();
-      fetchExpenses();
-    }, []);
+  const handleAddNewExpense = () => {
+    router.push('/expense/new');
+  };
+  useEffect(() => {
+    fetchCategories();
+    fetchExpenses();
+    fetchCategory();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -95,23 +112,22 @@ export default function AddNewExpense() {
             <Catcards />
             <Catcards />
           </div>
-          <div className='flex flex-row  gap-4'>
+          <div className="flex flex-col  gap-4 flex-wrap">
             {expenses.map((expense) => (
-          <Expense expense={expense} />
-        ))}
+              <Expense expense={expense} />
+            ))}
           </div>
-
         </div>
-        
+
         <div className="bg-[#D9D9D954] h-full rounded-xl flex justify-center py-4 items ">
-              <ExpenseEditor
-          expense={expense}
-          setExpense={setExpense}
-          categories={categories}
-          paymentOptions={paymentOptions}
-          submitText={'Add'}
-          handleSubmit={handleSubmit}
-        />
+          <ExpenseEditor
+            expense={expense}
+            setExpense={setExpense}
+            categories={categories}
+            paymentOptions={paymentOptions}
+            submitText={'Add'}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </div>
     </DashboardLayout>
