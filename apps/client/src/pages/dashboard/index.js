@@ -69,7 +69,7 @@ export default function AddNewExpense() {
         expense: expense,
       });
       if (res.status === 201) {
-        router.push('/expense/' + res?.data?.expense?.id);
+        router.push('/dashboard');
       } else if (res.status === 500) {
         alert('Something went wrong with the server');
       } else {
