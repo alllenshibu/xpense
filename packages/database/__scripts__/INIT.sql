@@ -30,6 +30,10 @@ BEGIN
     -- Add default category
     INSERT INTO category (user_id, name)
     VALUES (NEW.id, '(default)');
+    INSERT INTO category (user_id, name)
+    VALUES (NEW.id, 'Groceries');
+    INSERT INTO category (user_id, name)
+    VALUES (NEW.id, 'Entertainment');
 
     -- Add default payment option
     INSERT INTO payment_option (user_id, name)
