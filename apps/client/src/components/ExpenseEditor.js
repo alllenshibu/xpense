@@ -13,14 +13,14 @@ export default function ExpenseEditor({
   }, [expense]);
   return (
     <form
-      className="w-full md:w-2/5 flex flex-col gap-4"
+      className="w-full md:w-3/5 flex flex-col gap-4"
       onChange={(e) => {
         e.preventDefault();
         setExpense({ ...expense, [e.target.name]: e.target.value });
       }}
     >
       <div>
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title" className=''>Title</label>
         <input id="title" name="title" type="text" value={expense.title} placeholder="Groceries" />
       </div>
       <div>

@@ -1,23 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
+import axiosInstance from '@/lib/axiosInstance';
+import Expense from '@/components/Expense';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import axios from 'axios';
 import MainCard from '@/components/ui/maincard';
 import Catcards from '@/components/ui/cat_cards';
+import ExpenseEditor from '@/components/ExpenseEditor';
+import { fetchAllCategories } from '@/services/category';
 
 export default function AddNewExpense() {
-  const router = useRouter();
+   const [expenses, setExpenses] = useState([]);
+  
+   const router = useRouter();
 
-  const [expense, setExpense] = useState({});
+  const [expense, setExpense] = useState({
+    title: '',
+    amount: '',
+    categoryId: '',
+    timestamp: new Date().toISOString().slice(0, 16),
+  });
 
-  const fetchExpense = async () => {
-    const expenseId = router.query.id;
-    const res = await axios.get('/expense/' + expenseId);
+  const [categories, setCategories] = useState([]);
+  const [paymentOptions, setPaymentOptions] = useState([]);
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await axiosInstance.post('/expense', {
+        expense: expense,
+      });
+      if (res.status === 201) {
+        router.push('/expense/' + res?.data?.expense?.id);
+      } else if (res.status === 500) {
+        alert('Something went wrong with the server');
+      } else {
+        alert('Something went wrong');
+      }
+    } catch (err) {
+      alert(err?.message);
+    }
+  };
+
+  const fetchCategories = async () => {
+    const res = await fetchAllCategories();
     if (res.status === 200) {
-      setExpense(res?.data?.expense);
-    } else if (res.statud === 404) {
-      alert('Expense not found');
+      setCategories(res.data.categories);
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -25,9 +53,36 @@ export default function AddNewExpense() {
     }
   };
 
-  useEffect(() => {
-    fetchExpense();
-  }, [router.query.id]);
+  const fetchPaymentOptions = async () => {
+    const res = await fetchAllPaymentOptions();
+    if (res.status === 200) {
+      setPaymentOptions(res.data.paymentOptions);
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
+    }
+  };
+
+  
+    const fetchExpenses = async () => {
+      const res = await axiosInstance.get('/expense');
+      if (res.status === 200) {
+        setExpenses(res?.data?.expenses);
+      } else if (res.status === 500) {
+        alert('Something went wrong with the server');
+      } else {
+        alert('Something went wrong');
+      }
+    };
+
+    const handleAddNewExpense = () => {
+      router.push('/expense/new');
+    };
+    useEffect(() => {
+      fetchCategories();
+      fetchExpenses();
+    }, []);
 
   return (
     <DashboardLayout>
@@ -40,9 +95,24 @@ export default function AddNewExpense() {
             <Catcards />
             <Catcards />
           </div>
+          <div className='flex flex-row  gap-4'>
+            {expenses.map((expense) => (
+          <Expense expense={expense} />
+        ))}
+          </div>
+
         </div>
         
-        <div className="bg-[#D9D9D954] h-full rounded-xl "></div>
+        <div className="bg-[#D9D9D954] h-full rounded-xl flex justify-center py-4 items ">
+              <ExpenseEditor
+          expense={expense}
+          setExpense={setExpense}
+          categories={categories}
+          paymentOptions={paymentOptions}
+          submitText={'Add'}
+          handleSubmit={handleSubmit}
+        />
+        </div>
       </div>
     </DashboardLayout>
   );
