@@ -127,25 +127,21 @@ const getSumCategoriesService = async ({ user }) => {
     }
 
     const result = await pool.query(
-      `select
-  sum(amount),
-  category.name,
-  "user".email
-from
-  expense
-  join category on category.id = expense.category_id
-  join "user" on "user".id = expense.user_id
-group by
-  category,
-  category.name,
-  "user".email
-  where "user".id=$1;`,
+      `SELECT 
+       c.name,
+       SUM(e.amount) AS total_expense
+FROM expense e
+JOIN "user" u ON e.user_id = u.id
+JOIN category c ON e.category_id = c.id
+WHERE u.id = $1  
+GROUP BY u.first_name, u.last_name, c.name;
+;`,
       [userId?.rows[0]?.id],
     );
 
-    const categories = result?.rows;
+    const Categorysum = result?.rows;
 
-    return categories;
+    return Categorysum;
   } catch (err) {
     throw err;
   }

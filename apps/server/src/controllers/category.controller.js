@@ -165,4 +165,5 @@ module.exports = {
   addNewCategoryController,
   editCategoryController,
   deleteCategoryController,
+  getbyCategory
 };

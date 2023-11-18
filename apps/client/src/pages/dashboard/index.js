@@ -7,7 +7,7 @@ import axios from 'axios';
 import MainCard from '@/components/ui/maincard';
 import Catcards from '@/components/ui/cat_cards';
 import ExpenseEditor from '@/components/ExpenseEditor';
-import { addNewCategory, fetchAllCategories } from '@/services/category';
+import { addNewCategory, fetchAllCategories, fetchCategorysum } from '@/services/category';
 import CategoryEditor from '@/components/CategoryEditor';
 import IncomeEditor from '@/components/IncomeEditor';
 
@@ -15,6 +15,7 @@ export default function AddNewExpense() {
   const [categorynew, setCategorynew] = useState({
     name: '',
   });
+  const [categorysum, setCategorysum] = useState([]);
 
   const handleSubmit2 = async (e) => {
     try {
@@ -93,10 +94,11 @@ export default function AddNewExpense() {
     }
   };
 
-  const fetchPaymentOptions = async () => {
-    const res = await fetchAllPaymentOptions();
+  const categorySum = async () => {
+    const res = await fetchCategorysum();
     if (res.status === 200) {
-      setPaymentOptions(res.data.paymentOptions);
+      setCategorysum(res.data);
+      console.log(res.data);
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -122,6 +124,7 @@ export default function AddNewExpense() {
     fetchCategories();
     fetchExpenses();
     fetchCategory();
+    categorySum();
   }, []);
 
   return (

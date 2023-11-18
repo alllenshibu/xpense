@@ -8,6 +8,11 @@ const fetchCategoryById = async (categoryId) => {
   return await axiosInstance.get('/category/' + categoryId);
 };
 
+const fetchCategorysum = async () => {
+  return await axiosInstance.get('/categorysum');
+};
+
+
 const addNewCategory = async (category) => {
   return await axiosInstance.post('/category', {
     category: category,
@@ -28,4 +33,4 @@ const deleteCategory = async (categoryId) => {
   });
 };
 
-export { fetchAllCategories, fetchCategoryById, addNewCategory, editCategoryById, deleteCategory };
+export { fetchAllCategories, fetchCategoryById, addNewCategory, editCategoryById, deleteCategory ,fetchCategorysum};

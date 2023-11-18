@@ -22,6 +22,7 @@ const {
   addNewCategoryController,
   editCategoryController,
   deleteCategoryController,
+  getbyCategory,
 } = require('./controllers/category.controller');
 const {
   getAllFriendRequestsController,
@@ -165,5 +166,9 @@ router.get('/expenditure', authorize, (req, res) => {
 
 router.get('/getcategorysum', authorize, (req, res) => {
   getStatsController(req, res);
+});
+
+router.get('/categorysum', authorize, (req, res) => {
+  getbyCategory(req, res);
 });
 module.exports = router;
