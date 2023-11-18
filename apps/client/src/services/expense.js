@@ -24,7 +24,7 @@ const editExpenseById = async (expenseId, expense) => {
   });
 };
 const addNewIncome = async (income) => {
-  return await axiosInstance.post('/addincome', {
+  return await axiosInstance.post('/income', {
     income: income,
   });
 };
