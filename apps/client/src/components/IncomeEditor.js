@@ -1,24 +1,24 @@
 import { addNewIncome } from '@/services/expense';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function IncomeEditor() {
+
+  const router = useRouter();
+
   const [income, setIncome] = useState({
     amount: 0,
   });
 
   const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      const res = await addNewIncome(income);
-      if (res.status === 201) {
-        router.push('/dashboard');
-      } else if (res.status === 500) {
-        alert('Something went wrong with the server');
-      } else {
-        alert('Something went wrong');
-      }
-    } catch (err) {
-      alert(err?.message);
+    e.preventDefault();
+    const res = await addNewIncome(income);
+    if (res.status === 201) {
+      router.push('/dashboard');
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
     }
   };
 
@@ -36,7 +36,7 @@ export default function IncomeEditor() {
       </div>
       <div>
         <button onClick={handleSubmit} type="submit" className="w-auto btn btn-primary">
-          { 'Submit'}
+          {'Submit'}
         </button>
       </div>
     </form>

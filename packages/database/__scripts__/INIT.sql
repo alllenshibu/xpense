@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS friend_request CASCADE;
 DROP TABLE IF EXISTS friend CASCADE;
 DROP TABLE IF EXISTS split CASCADE;
 DROP TABLE IF EXISTS goal CASCADE;
+DROP TABLE IF EXISTS income CASCADE;
 
 CREATE TABLE IF NOT EXISTS "user"
 (
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "user"
 
     first_name VARCHAR(32)  NOT NULL,
     last_name  VARCHAR(32)  NOT NULL,
-    email      VARCHAR(32)  NOT NULL,
+    email      VARCHAR(32)  NOT NULL,   
     password   VARCHAR(256) NOT NULL,
 
     PRIMARY KEY (id)
@@ -136,6 +137,18 @@ CREATE TABLE IF NOT EXISTS split
 
     PRIMARY KEY (id),
     FOREIGN KEY (expense_id) REFERENCES expense (id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id)
+);
+
+CREATE TABLE IF NOT EXISTS income
+(
+    id         UUID DEFAULT uuid_generate_v4(),
+
+    user_id    UUID          NOT NULL,
+    amount     NUMERIC(10, 2) NOT NULL,
+    timestamp  TIMESTAMPTZ    NOT NULL,
+
+    PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES "user" (id)
 );
 
