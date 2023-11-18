@@ -145,7 +145,7 @@ export default function AddNewExpense() {
           </div>
         </div>
 
-        <div className="bg-[#D9D9D954] h-full overflow-y-scroll rounded-xl flex justify-center py-4 items ">
+        <div className="bg-[#D9D9D954] h-full overflow-y-scroll rounded-xl flex flex-col py-4 items-center gap-4 ">
           <ExpenseEditor
             expense={expense}
             setExpense={setExpense}
@@ -154,6 +154,7 @@ export default function AddNewExpense() {
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />
+          <p>Add Income</p>
           <IncomeEditor />
         </div>
       </div>
