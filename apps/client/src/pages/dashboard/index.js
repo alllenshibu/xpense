@@ -134,9 +134,9 @@ export default function AddNewExpense() {
           <MainCard />
 
           <div className="flex flex-row justify-between gap-4">
-            <Catcards />
-            <Catcards />
-            <Catcards />
+            {categorysum.map((category) => (
+              <Catcards category={category.name} amount={category.total_expense} />
+            ))}
           </div>
           <div className="flex flex-col gap-4  h-[70vh] overflow-y-scroll overflow-x-hidden">
             {expenses.map((expense) => (
@@ -154,7 +154,7 @@ export default function AddNewExpense() {
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />
-          <IncomeEditor/>
+          <IncomeEditor />
         </div>
       </div>
     </DashboardLayout>
