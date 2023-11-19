@@ -18,7 +18,11 @@
   "name": "xpense",
   "husky": {
     "hooks": {
-      "pre-commit": "turbo run format"
+      "pre-commit": "pnpm run format && husky install"
     }
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "react-chartjs-2": "^5.2.0"
   }
 }

@@ -10,12 +10,17 @@ import ExpenseEditor from '@/components/ExpenseEditor';
 import { addNewCategory, fetchAllCategories, fetchCategorysum } from '@/services/category';
 import CategoryEditor from '@/components/CategoryEditor';
 import IncomeEditor from '@/components/IncomeEditor';
+import { Bar } from 'react-chartjs-2';
+import StackedBarChart from '@/components/StackedBarChart';
 
 export default function AddNewExpense() {
   const [categorynew, setCategorynew] = useState({
     name: '',
   });
+  
+ 
   const [categorysum, setCategorysum] = useState([]);
+  
 
   const handleSubmit2 = async (e) => {
     try {
@@ -129,21 +134,25 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
+      
       <div className="h-[100vh] w-full flex md:grid md:grid-cols-2 gap-4 ">
         <div className="flex flex-col gap-4">
           <MainCard />
-
+          
           <div className="flex flex-row justify-between gap-4">
             {categorysum.map((category) => (
               <Catcards category={category.name} amount={category.total_expense} />
             ))}
           </div>
+          <div>
+          <StackedBarChart /></div>
           <div className="flex flex-col gap-4  h-[70vh] overflow-y-scroll overflow-x-hidden">
             {expenses.map((expense) => (
               <Expense expense={expense} />
             ))}
           </div>
         </div>
+        
 
         <div className="bg-[#D9D9D954] h-full overflow-y-scroll rounded-xl flex flex-col py-4 items-center gap-4 ">
           <ExpenseEditor
@@ -157,6 +166,7 @@ export default function AddNewExpense() {
           <p>Add Income</p>
           <IncomeEditor />
         </div>
+        
       </div>
     </DashboardLayout>
   );

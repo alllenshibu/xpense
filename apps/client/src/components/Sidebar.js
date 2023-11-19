@@ -9,7 +9,7 @@ const Sidebar = ({ className }) => {
   return (
     <div className={cn('', className)}>
       <div className="space-y-1  bg-[#045757] h-[100vh] text-white">
-        <div className="w-[290px] h-[335px] px-1 text-white">
+        <div className="w-[245px] h-[335px] px-1 text-white">
           <div className="w-573 h-61 ml-2 ">
             <span className="italic text-white text-5xl font-extrabold font-inter ">X</span>
             <span className="italic text-white text-5xl font-thin font-inter ">pense</span>
@@ -121,23 +121,15 @@ const Sidebar = ({ className }) => {
                 router.push('/category');
               }}
             >
-              <svg
-                width="24"
-                height="15"
-                viewBox="0 0 24 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="Group">
-                  <path
-                    id="Vector"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M10.4957 14.0597C10.4957 14.0597 9.04272 14.0597 9.04272 12.902C9.04272 11.7443 10.4957 8.27131 16.3077 8.27131C22.1196 8.27131 23.5726 11.7443 23.5726 12.902C23.5726 14.0597 22.1196 14.0597 22.1196 14.0597H10.4957ZM16.3077 7.11364C17.4637 7.11364 18.5725 6.74773 19.3899 6.09641C20.2074 5.4451 20.6666 4.56173 20.6666 3.64062C20.6666 2.71953 20.2074 1.83615 19.3899 1.18484C18.5725 0.53352 17.4637 0.167614 16.3077 0.167614C15.1516 0.167614 14.0429 0.53352 13.2254 1.18484C12.4079 1.83615 11.9487 2.71953 11.9487 3.64062C11.9487 4.56173 12.4079 5.4451 13.2254 6.09641C14.0429 6.74773 15.1516 7.11364 16.3077 7.11364ZM7.90357 14.0597C7.68817 13.6983 7.58075 13.302 7.58973 12.902C7.58973 11.3333 8.57776 9.71839 10.4027 8.59545C9.49182 8.37183 8.54281 8.26248 7.58973 8.27131C1.77776 8.27131 0.324768 11.7443 0.324768 12.902C0.324768 14.0597 1.77776 14.0597 1.77776 14.0597H7.90357ZM6.86323 7.11364C7.82662 7.11364 8.75056 6.80871 9.43178 6.26595C10.113 5.72319 10.4957 4.98704 10.4957 4.21946C10.4957 3.45188 10.113 2.71573 9.43178 2.17297C8.75056 1.63021 7.82662 1.32528 6.86323 1.32528C5.89984 1.32528 4.9759 1.63021 4.29468 2.17297C3.61346 2.71573 3.23075 3.45188 3.23075 4.21946C3.23075 4.98704 3.61346 5.72319 4.29468 6.26595C4.9759 6.80871 5.89984 7.11364 6.86323 7.11364Z"
-                    fill="#BDBDBD"
-                  />
-                </g>
-              </svg>
+              <svg width="20" height="29" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+
+<g id="SVGRepo_iconCarrier"> <path d="M17 10H19C21 10 22 9 22 7V5C22 3 21 2 19 2H17C15 2 14 3 14 5V7C14 9 15 10 17 10Z" stroke="#e1e0d1" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/> <path d="M5 22H7C9 22 10 21 10 19V17C10 15 9 14 7 14H5C3 14 2 15 2 17V19C2 21 3 22 5 22Z" stroke="#e1e0d1" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.60" d="M6 10C8.20914 10 10 8.20914 10 6C10 3.79086 8.20914 2 6 2C3.79086 2 2 3.79086 2 6C2 8.20914 3.79086 10 6 10Z" stroke="#e1e0d1" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.60" d="M18 22C20.2091 22 22 20.2091 22 18C22 15.7909 20.2091 14 18 14C15.7909 14 14 15.7909 14 18C14 20.2091 15.7909 22 18 22Z" stroke="#e1e0d1" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/> </g>
+
+</svg>
+
               Category
             </div>
             <div
