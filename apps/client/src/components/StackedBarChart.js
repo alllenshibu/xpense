@@ -16,20 +16,33 @@ const StackedBarChart = () => {
         chartRef.current.chart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'],
+            labels: [
+              'Jan',
+              'Feb',
+              'Mar',
+              'Apr',
+              'May',
+              'June',
+              'Jul',
+              'Aug',
+              'Sept',
+              'Oct',
+              'Nov',
+              'Dec',
+            ],
             datasets: [
               {
                 label: 'Income',
                 data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 100)),
-                backgroundColor: 'rgba(47, 211, 233, 0.81)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
+                backgroundColor: '#84C4BF',
+                borderRadius: 5,
+                borderWidth: 2,
               },
               {
                 label: 'Expense',
                 data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 100)),
-                backgroundColor: 'rgba(13, 125, 137, 0.8)',
-                borderColor: 'rgba(13, 125, 132, 1)',
+                backgroundColor: '#045757',
+                borderRadius: 5,
                 borderWidth: 1,
               },
             ],
@@ -44,10 +57,11 @@ const StackedBarChart = () => {
             responsive: true,
             scales: {
               x: {
-                stacked: true,
+                stacked: false,
+                
               },
               y: {
-                stacked: true,
+                stacked: false,
               },
             },
           },
@@ -64,14 +78,14 @@ const StackedBarChart = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: '10px' }}>
+      {/* <div style={{ marginBottom: '10px' }}>
         <label htmlFor="yearDropdown">Select Year: </label>
         <select id="yearDropdown" onChange={handleYearChange} value={selectedYear}>
           <option value={new Date().getFullYear() - 1}>{new Date().getFullYear() - 1}</option>
           <option value={new Date().getFullYear()}>{new Date().getFullYear()}</option>
           <option value={new Date().getFullYear() + 1}>{new Date().getFullYear() + 1}</option>
         </select>
-      </div>
+      </div> */}
       <div style={{ width: '450px', height: '220px', border: '1px solid #ccc', padding: '10px' }}>
         <canvas ref={chartRef} />
       </div>
