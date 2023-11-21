@@ -38,7 +38,6 @@ const PieChart = () => {
               label: 'Income',
               data: categories.map((category) => category.total_expense),
               backgroundColor: colors,
-              borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1,
             },
           ],
@@ -48,7 +47,7 @@ const PieChart = () => {
             legend: {
               position: 'bottom',
               borderRadius: 10,
-              
+
             },
           },
         },

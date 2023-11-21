@@ -24,12 +24,12 @@ export default function first(second) {
 
   return (
     <DashboardLayout background={'#f0f0f0'}>
-      <div className="grid grid-cols-2 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 ">
         <div className="flex flex-col gap-2">
           <MainCard />
           <div className="flex flex-col justify-center  w-[100%] rounded-xl shadow-lg p-4 gap-2 bg-white ">
             <p className="font-bold text-left text-xl">Latest Transactions</p>
-            {expenses.slice(0,5).map((expense) => (
+            {expenses.slice(0, 5).map((expense) => (
               <div className="flex flex-row justify-between">
                 <div className="flex flex-col">
                   <p className="font text-left font-semibold">{expense.title}</p>
@@ -45,6 +45,7 @@ export default function first(second) {
             <StackedBarChart />
           </div>
           <div className="flex flex-col justify-center items-center w-[80%] rounded-xl shadow-lg bg-white ">
+            <p className="font-bold text-left text-xl self-start p-4">Spending this month</p>
             <PieChart />
           </div>
         </div>
