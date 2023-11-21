@@ -4,6 +4,10 @@ const fetchAllExpenses = async () => {
   return await axiosInstance.get('/expense');
 };
 
+const getIncome = async () => {
+  return await axiosInstance.get('/getincome');
+};
+
 const fetchExpenseById = async ({ expenseId, fetchDetails = false }) => {
   return await axiosInstance.get('/expense/' + expenseId, {
     params: {

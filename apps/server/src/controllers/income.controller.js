@@ -1,4 +1,4 @@
-const { addNewIncomeService } = require('../services/income.service');
+const { addNewIncomeService, getIncomeservice } = require('../services/income.service');
 
 const addNewIncomeController = async (req, res) => {
   console.log(req?.body);
@@ -37,6 +37,26 @@ const addNewIncomeController = async (req, res) => {
   }
 };
 
+const getIncomeController = async (req, res) => {
+  const user = req?.user;
+
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'Something huh went wrong' });
+  }
+
+  try {
+    const income = await getIncomeservice(user);
+
+    if (!income) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ income: income });
+  } catch (err) {
+    console.log(err);
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+}
 module.exports = {
   addNewIncomeController,
+  getIncomeController
 };

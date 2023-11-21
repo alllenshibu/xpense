@@ -46,12 +46,13 @@ const PieChart = () => {
         options: {
           plugins: {
             legend: {
-              position: 'bottom', // Set the legend position to bottom
+              position: 'bottom',
+              borderRadius: 10,
+              
             },
           },
         },
       });
-
     }
   };
 

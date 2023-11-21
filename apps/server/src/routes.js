@@ -37,7 +37,7 @@ const {
   deletePaymentOptionController,
 } = require('./controllers/paymentOption.controller');
 
-const { addNewIncomeController } = require('./controllers/income.controller');
+const { addNewIncomeController, getIncomeController } = require('./controllers/income.controller');
 
 const router = express.Router();
 
@@ -167,5 +167,9 @@ router.get('/getcategorysum', authorize, (req, res) => {
 
 router.get('/categorysum', authorize, (req, res) => {
   getbyCategory(req, res);
+});
+
+router.get('/getincome', authorize, (req, res) => {
+  getIncomeController(req, res);
 });
 module.exports = router;

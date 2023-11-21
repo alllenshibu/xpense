@@ -24,17 +24,16 @@ const addNewIncomeService = async (user, amount) => {
   }
 };
 
-const getIncomeservice = async (user, timestamp) => {
+const getIncomeservice = async (user) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
     if (userId?.rows?.length === 0) {
       throw new UserDoesNotExistError('User does not exist');
     }
-    const result = await pool.query(
-      'SELECT sum(amount) FROM income WHERE user_id = $1 and timestamp = $2',
-      [userId?.rows[0]?.id, timestamp],
-    );
+    const result = await pool.query('SELECT sum(amount) FROM income WHERE user_id = $1', [
+      userId?.rows[0]?.id,
+    ]);
 
     if (!(result?.rows?.length > 0)) throw new Error('income not added');
 
