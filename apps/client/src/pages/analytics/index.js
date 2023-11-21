@@ -23,13 +23,13 @@ export default function first(second) {
   }, []);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout background={'#f0f0f0'}>
       <div className="grid grid-cols-2 ">
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           <MainCard />
-          <div className="flex flex-col justify-center  w-[100%] rounded-xl shadow-lg p-4 gap-2 ">
+          <div className="flex flex-col justify-center  w-[100%] rounded-xl shadow-lg p-4 gap-2 bg-white ">
             <p className="font-bold text-left text-xl">Latest Transactions</p>
-            {expenses.map((expense) => (
+            {expenses.slice(0,5).map((expense) => (
               <div className="flex flex-row justify-between">
                 <div className="flex flex-col">
                   <p className="font text-left font-semibold">{expense.title}</p>
@@ -40,11 +40,11 @@ export default function first(second) {
             ))}
           </div>
         </div>
-        <div className="flex flex-col  items-center">
-          <div className="flex flex-col justify-center items-center p-4 rounded-lg ">
+        <div className="flex flex-col  items-center gap-2">
+          <div className="flex flex-col justify-center items-center p-4 rounded-xl shadow-lg bg-white ">
             <StackedBarChart />
           </div>
-          <div className="flex flex-col justify-center items-center w-[80%] rounded-xl shadow-lg ">
+          <div className="flex flex-col justify-center items-center w-[80%] rounded-xl shadow-lg bg-white ">
             <PieChart />
           </div>
         </div>

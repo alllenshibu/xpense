@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children,background }) => {
   return (
     <>
       <div className="md:block h-auto md:h-[100vh] overflow-hidden  ">
@@ -16,7 +16,7 @@ const DashboardLayout = ({ children }) => {
             <div className="grid lg:grid-cols-5">
               <Sidebar className="hidden lg:block" />
               <div className="col-span-3 lg:col-span-4 h-[100vh]  lg:border-l">
-                <div className="h-full  px-4 py-6 lg:px-8">{children}</div>
+                <div className={`h-full  px-4 py-6 lg:px-8 bg-[${background}]`}>{children}</div>
               </div>
             </div>
           </div>

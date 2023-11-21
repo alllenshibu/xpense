@@ -144,8 +144,7 @@ export default function AddNewExpense() {
               <Catcards category={category.name} amount={category.total_expense} />
             ))}
           </div>
-          <div>
-          <StackedBarChart /></div>
+         
           <div className="flex flex-col gap-4  h-[70vh] overflow-y-scroll overflow-x-hidden">
             {expenses.map((expense) => (
               <Expense expense={expense} />

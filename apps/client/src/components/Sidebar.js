@@ -42,7 +42,7 @@ const Sidebar = ({ className }) => {
             </div>
             <div
               onClick={() => {
-                router.push('/expense');
+                router.push('/analytics');
               }}
               className="w-full justify-start p-2 gap-2 hover:bg-[#84C4BF] rounded-xl mt-30"
               style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}
@@ -62,7 +62,7 @@ const Sidebar = ({ className }) => {
                   />
                 </g>
               </svg>
-              <span style={{ marginLeft: '8px' }}>Expense</span>
+              <span style={{ marginLeft: '8px' }}>Analytics</span>
             </div>
             <div
               onClick={() => {

@@ -49,19 +49,34 @@ const StackedBarChart = () => {
           },
           options: {
             plugins: {
-              title: {
-                display: true,
-                text: `Monthly Analysis - ${selectedYear}`,
+              legend: {
+                display: false,
               },
             },
             responsive: true,
             scales: {
+              xAxes: [
+                {
+                  gridLines: {
+                    color: 'rgba(0, 0, 0, 0)',
+                    display: false,
+                  },
+                },
+              ],
+              yAxes: [
+                {
+                  gridLines: {
+                    color: 'rgba(0, 0, 0, 0)',
+                  },
+                },
+              ],
               x: {
                 stacked: false,
-                
+                display: true,
               },
               y: {
                 stacked: false,
+                display: false,
               },
             },
           },
@@ -86,7 +101,7 @@ const StackedBarChart = () => {
           <option value={new Date().getFullYear() + 1}>{new Date().getFullYear() + 1}</option>
         </select>
       </div> */}
-      <div style={{ width: '450px', height: '220px', border: '1px solid #ccc', padding: '10px' }}>
+      <div style={{ width: '450px', height: '220px' }}>
         <canvas ref={chartRef} />
       </div>
     </div>

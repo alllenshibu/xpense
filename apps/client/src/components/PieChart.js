@@ -7,12 +7,7 @@ import { fetchAllCategories, fetchCategorysum } from '@/services/category';
 const PieChart = () => {
   const chartRef = useRef(null);
   const [categories, setCategories] = useState([]);
-  const colors = [
-    'rgba(47, 211, 233, 0.81)',
-    'rgba(255, 99, 132, 0.8)',
-    'rgba(255, 205, 86, 0.8)',
-    'rgba(75, 192, 192, 0.8)',
-  ];
+  const colors = ['#00BFA5', '#008080', '#00CED1', 'rgba(75, 192, 192, 0.8)'];
 
   const fetchCategories = async () => {
     try {
@@ -35,7 +30,7 @@ const PieChart = () => {
         chartRef.current.chart.destroy();
       }
       chartRef.current.chart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
           labels: categories.map((category) => category.name),
           datasets: [
