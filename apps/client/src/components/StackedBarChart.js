@@ -23,9 +23,7 @@ const StackedBarChart = () => {
       alert('Something went wrong');
     }
   };
-  useEffect(() => {
-    getExpenses();
-  }, []);
+
   useEffect(() => {
     const ctx = chartRef.current?.getContext('2d');
 
@@ -104,10 +102,16 @@ const StackedBarChart = () => {
         });
       }
     };
+   const fetchData = async () => {
+     await getExpenses();
+     updateChart();
+   };
 
-    updateChart();
+   fetchData();
   }, [selectedYear]);
 
+ 
+  
   const handleYearChange = (e) => {
     setSelectedYear(parseInt(e.target.value, 10));
   };
