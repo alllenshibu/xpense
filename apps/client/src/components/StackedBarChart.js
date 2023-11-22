@@ -1,10 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
+import axiosInstance from '@/lib/axiosInstance';
 
 const StackedBarChart = () => {
   const chartRef = useRef(null);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Default to the current year
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  // Default to the current year
 
+  const [expenses, setExpenses] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const getExpenses = async () => {
+    const res = await axiosInstance.get('/expensesbymonth');
+    if (res.status === 200) {
+      res.data.expenses.map((expense) => (expenses[expense.month - 1] = expense.sum));
+      console.log(expenses);
+      console.log(res.data.expenses);
+    } else if (res.status === 500) {
+      alert('Something went wrong with the server');
+    } else {
+      alert('Something went wrong');
+    }
+  };
+  useEffect(() => {
+    getExpenses();
+  }, []);
   useEffect(() => {
     const ctx = chartRef.current?.getContext('2d');
 
@@ -40,7 +58,7 @@ const StackedBarChart = () => {
               },
               {
                 label: 'Expense',
-                data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 100)),
+                data: expenses,
                 backgroundColor: '#045757',
                 borderRadius: 5,
                 borderWidth: 1,
