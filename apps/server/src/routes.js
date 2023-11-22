@@ -12,6 +12,7 @@ const {
   getExpenseByIdController,
   editExpenseController,
   deleteExpenseController,
+  getExpenseByMonthController,
 } = require('./controllers/expense.controller');
 const { getStatsController } = require('./controllers/stats.controller');
 const { createNewSplitController } = require('./controllers/split.controller');
@@ -38,6 +39,7 @@ const {
 } = require('./controllers/paymentOption.controller');
 
 const { addNewIncomeController, getIncomeController } = require('./controllers/income.controller');
+const { getExpenseByMonth } = require('./services/expense.service');
 
 const router = express.Router();
 
@@ -171,5 +173,9 @@ router.get('/categorysum', authorize, (req, res) => {
 
 router.get('/getincome', authorize, (req, res) => {
   getIncomeController(req, res);
+});
+
+router.get('/expensesbymonth', authorize, (req, res) => {
+  getExpenseByMonthController(req, res);
 });
 module.exports = router;

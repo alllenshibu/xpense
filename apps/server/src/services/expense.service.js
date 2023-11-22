@@ -44,6 +44,30 @@ const getExpenseByIdService = async (user, expenseId) => {
   }
 };
 
+const getExpenseByMonth = async (user) => {
+  try {
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
+
+    const result = await pool.query(
+      'SELECT extract(month from timestamp) as month,sum(amount) FROM expense WHERE user_id = $1  group by extract(month from timestamp) order by  extract(month from timestamp)',
+      [userId?.rows[0]?.id],
+    );
+
+    if (!(result?.rows?.length > 0)) throw new ExpenseNotFoundError('Expense not found');
+
+    const expense = result?.rows;
+    console.log(expense);
+
+    return expense;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const addNewExpenseService = async (
   user,
   title,
@@ -127,12 +151,11 @@ const deleteExpenseService = async (user, expenseId) => {
   }
 };
 
-
-
 module.exports = {
   getAllExpensesService,
   getExpenseByIdService,
   addNewExpenseService,
   editExpenseService,
   deleteExpenseService,
+  getExpenseByMonth,
 };

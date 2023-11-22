@@ -2,6 +2,7 @@ const {
   getAllExpensesService,
   addNewExpenseService,
   getExpenseByIdService,
+  getExpenseByMonth,
   editExpenseService,
   deleteExpenseService,
   addIncomeService,
@@ -53,6 +54,25 @@ const getExpenseByIdController = async (req, res) => {
   }
 };
 
+const getExpenseByMonthController = async (req, res) => {
+  const user = req?.user;
+
+  // User is missing due to some error in authentication middleware
+  if (!user || user === '' || user === undefined) {
+    return res.status(500).json({ message: 'User not defined Something went wrong' });
+  }
+
+  try {
+    const expenses = await getExpenseByMonth(user);
+
+    if (!expenses) return res.status(500).json({ message: 'Something went wrong' });
+
+    return res.status(200).json({ expenses: expenses });
+  } catch (err) {
+    if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
+    return res.status(500).send({ message: 'Something went wrong' });
+  }
+};
 const addNewExpenseController = async (req, res) => {
   const user = req?.user;
   const title = req?.body?.expense?.title;
@@ -171,12 +191,11 @@ const deleteExpenseController = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   getAllExpensesController,
   getExpenseByIdController,
   addNewExpenseController,
   editExpenseController,
   deleteExpenseController,
+  getExpenseByMonthController,
 };
