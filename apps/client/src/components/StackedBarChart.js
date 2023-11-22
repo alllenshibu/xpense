@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {Chart} from 'chart.js';
+import { Chart } from 'chart.js/auto';
 import axiosInstance from '@/lib/axiosInstance';
 
 const StackedBarChart = () => {
@@ -8,12 +8,15 @@ const StackedBarChart = () => {
   // Default to the current year
 
   const [expenses, setExpenses] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [income, setIncome] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
   const getExpenses = async () => {
     const res = await axiosInstance.get('/expensesbymonth');
     if (res.status === 200) {
-      res.data.expenses.map((expense) => (expenses[expense.month - 1] = expense.sum));
-      console.log(expenses);
-      console.log(res.data.expenses);
+      res.data.expenses.expense.map((expense) => (expenses[expense.month - 1] = expense.sum));
+      res.data.expenses.income.map((income1) => (income[income1.month - 1] = income1.sum));
+      console.log(income);
+      console.log(res.data);
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -51,7 +54,7 @@ const StackedBarChart = () => {
             datasets: [
               {
                 label: 'Income',
-                data: Array.from({ length: 12 }, () => Math.floor(Math.random() * 100)),
+                data: income,
                 backgroundColor: '#84C4BF',
                 borderRadius: 5,
                 borderWidth: 2,
