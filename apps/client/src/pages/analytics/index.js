@@ -93,7 +93,7 @@ export default function first(second) {
 
           <div className="flex flex-col justify-center  w-[100%] rounded-xl shadow-lg p-4 gap-2 bg-white ">
             <p className="font-bold text-left text-xl">Latest Transactions</p>
-            {expenses.slice(0, 5).map((expense) => (
+            {expenses.slice(0, 6).map((expense) => (
               <div className="flex flex-row justify-between">
                 <div className="flex flex-col">
                   <p className="font text-left font-semibold">{expense.title}</p>
@@ -106,9 +106,10 @@ export default function first(second) {
         </div>
         <div className="flex flex-col  items-center gap-2">
           <div className="flex flex-col justify-center items-center p-4 rounded-xl shadow-lg bg-white ">
+            <p className="font-bold text-left text-xl self-start pb-4">Report</p>
             <StackedBarChart />
           </div>
-          <div className="flex flex-col justify-center items-center w-[80%] rounded-xl shadow-lg bg-white ">
+          <div className="flex flex-col justify-center items-center w-[83%] rounded-xl shadow-lg bg-white ">
             <p className="font-bold text-left text-xl self-start p-4">Spending this month</p>
             <PieChart />
           </div>
