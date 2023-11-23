@@ -38,7 +38,7 @@ const {
   deletePaymentOptionController,
 } = require('./controllers/paymentOption.controller');
 
-const { addNewIncomeController, getIncomeController } = require('./controllers/income.controller');
+const { addNewIncomeController, getIncomeController, getIncomeByMonthController } = require('./controllers/income.controller');
 const { getExpenseByMonth } = require('./services/expense.service');
 
 const router = express.Router();
@@ -178,4 +178,5 @@ router.get('/getincome', authorize, (req, res) => {
 router.get('/expensesbymonth', authorize, (req, res) => {
   getExpenseByMonthController(req, res);
 });
+
 module.exports = router;

@@ -1,4 +1,8 @@
-const { addNewIncomeService, getIncomeservice } = require('../services/income.service');
+const {
+  addNewIncomeService,
+  getIncomeservice,
+  getIncomeByMonth,
+} = require('../services/income.service');
 
 const addNewIncomeController = async (req, res) => {
   console.log(req?.body);
@@ -55,8 +59,10 @@ const getIncomeController = async (req, res) => {
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
-}
+};
+
 module.exports = {
   addNewIncomeController,
-  getIncomeController
+  getIncomeController,
+  
 };

@@ -31,6 +31,7 @@ const getIncomeservice = async (user) => {
 
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+    console.log(userId);
 
     if (userId?.rows?.length === 0) {
       throw new UserDoesNotExistError('User does not exist');
@@ -49,7 +50,10 @@ const getIncomeservice = async (user) => {
   }
 };
 
+
+
 module.exports = {
   addNewIncomeService,
   getIncomeservice,
+ 
 };
