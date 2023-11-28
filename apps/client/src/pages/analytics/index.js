@@ -55,7 +55,7 @@ export default function first(second) {
               <p className="font-semibold text-slate-500 text-left text-sm self-start px-4 ">
                 Total Income
               </p>
-              <p className="font-bold text-left text-xl self-start px-4">${income[month - 1]}</p>
+              <p className="font-bold text-left text-xl self-start px-4">₹{income[month - 1]}</p>
               {income[month - 1] < income[month - 2] ? (
                 <div className="bg-[rgba(250,0,0,0.2)] rounded-xl flex flex-row w-16 justify-center mx-4 mt-1">
                   <p className=" z-20 text-red-500 font-semibold   text-left text-sm self-center px-2">
@@ -74,7 +74,7 @@ export default function first(second) {
               <p className="font-semibold text-slate-500 text-left text-sm self-start px-4 ">
                 Total Expense
               </p>
-              <p className="font-bold text-left text-xl self-start px-4">${expenses2[month - 1]}</p>
+              <p className="font-bold text-left text-xl self-start px-4">₹{expenses2[month - 1]}</p>
               {expenses2[month - 1] > expenses2[month - 2] ? (
                 <div className="bg-[rgba(250,0,0,0.2)] rounded-xl flex flex-row w-16 justify-center mx-4 mt-1">
                   <p className=" z-20 text-red-500 font-semibold   text-left text-sm self-center px-2">
@@ -99,7 +99,7 @@ export default function first(second) {
                   <p className="font text-left font-semibold">{expense.title}</p>
                   <p className="text-left  text-slate-400 ">category</p>
                 </div>
-                <p className="font-semibold text-red-500">-${expense.amount}</p>
+                <p className="font-semibold text-red-500">-₹{expense.amount}</p>
               </div>
             ))}
           </div>
