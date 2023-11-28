@@ -11,7 +11,7 @@ import Navigation from '@/components/BottomNav';
 const DashboardLayout = ({ children,background }) => {
   return (
     <>
-      <div className="md:block h-auto md:h-[100vh] overflow-auto lg:overflow-hidden  ">
+      <div className="md:block h-auto md:h-[100vh]  md:overflow-hidden  ">
         <div className="border-t">
           <div className="bg-background">
             <div className="grid lg:grid-cols-5">

@@ -43,3 +43,22 @@
 #__next {
   @apply h-full w-full;
 }
+
+
+
+  ::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+
+ 
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+   background-color: #70d4bd;
+    border-radius: 100px;
+
+}
