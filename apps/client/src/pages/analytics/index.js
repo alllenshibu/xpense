@@ -3,6 +3,7 @@ import StackedBarChart from '@/components/StackedBarChart';
 import MainCard from '@/components/ui/maincard';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import axiosInstance from '@/lib/axiosInstance';
+import nextAxiosInstance from '@/lib/nextAxiosInstance';
 import { useEffect, useState } from 'react';
 
 export default function first(second) {
@@ -31,9 +32,9 @@ export default function first(second) {
   };
 
   const fetchExpenses = async () => {
-    const res = await axiosInstance.get('/expense');
+    const res = await nextAxiosInstance.get('/getexpenses');
     if (res.status === 200) {
-      setExpenses(res?.data?.expenses);
+      setExpenses(res?.data);
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -97,7 +98,7 @@ export default function first(second) {
               <div className="flex flex-row justify-between">
                 <div className="flex flex-col">
                   <p className="font text-left font-semibold">{expense.title}</p>
-                  <p className="text-left  text-slate-400 ">category</p>
+                  <p className="text-left  text-slate-400 ">{expense.name}</p>
                 </div>
                 <p className="font-semibold text-red-500">-₹{expense.amount}</p>
               </div>

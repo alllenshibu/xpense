@@ -12,7 +12,6 @@ import CategoryEditor from '@/components/CategoryEditor';
 import IncomeEditor from '@/components/IncomeEditor';
 import { Bar } from 'react-chartjs-2';
 import StackedBarChart from '@/components/StackedBarChart';
-import nextaxiosInstance from '@/lib/nextAxiosInstance';
 
 export default function AddNewExpense() {
   const [categorynew, setCategorynew] = useState({
@@ -73,7 +72,7 @@ export default function AddNewExpense() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const res = await nextaxiosInstance.post('/getexpenses', {
+      const res = await axiosInstance.post('/expense', {
         expense: expense,
       });
       if (res.status === 201) {
