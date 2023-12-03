@@ -12,15 +12,14 @@ import CategoryEditor from '@/components/CategoryEditor';
 import IncomeEditor from '@/components/IncomeEditor';
 import { Bar } from 'react-chartjs-2';
 import StackedBarChart from '@/components/StackedBarChart';
+import nextAxiosInstance from '@/lib/nextAxiosInstance';
 
 export default function AddNewExpense() {
   const [categorynew, setCategorynew] = useState({
     name: '',
   });
-  
- 
+
   const [categorysum, setCategorysum] = useState([]);
-  
 
   const handleSubmit2 = async (e) => {
     try {
@@ -112,9 +111,9 @@ export default function AddNewExpense() {
   };
 
   const fetchExpenses = async () => {
-    const res = await axiosInstance.get('/expense');
+    const res = await nextAxiosInstance.get('/getexpenses');
     if (res.status === 200) {
-      setExpenses(res?.data?.expenses);
+      setExpenses(res?.data);
     } else if (res.status === 500) {
       alert('Something went wrong with the server');
     } else {
@@ -134,27 +133,25 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      
       <div className="h-[100vh] w-full flex md:grid flex-col md:grid-cols-2 gap-4 ">
         <div className="flex flex-col gap-4">
           <MainCard />
-          
+
           <div className="flex flex-row justify-between gap-4">
             {categorysum.map((category) => (
               <Catcards category={category.name} amount={category.total_expense} />
             ))}
           </div>
-         
+
           <div className="flex flex-col gap-4  h-[70vh] overflow-y-scroll overflow-x-hidden">
             {expenses.map((expense) => (
               <Expense expense={expense} />
             ))}
           </div>
         </div>
-        
 
         <div className="bg-[#D9D9D954] h-full overflow-y-scroll rounded-xl flex flex-col py-4 items-center gap-4 ">
-           <p className='text-xl  font-bold px-4'>Add Expense</p>
+          <p className="text-xl  font-bold px-4">Add Expense</p>
           <ExpenseEditor
             expense={expense}
             setExpense={setExpense}
@@ -163,10 +160,9 @@ export default function AddNewExpense() {
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />
-          <p className='text-xl font-bold px-4'>Add Income</p>
+          <p className="text-xl font-bold px-4">Add Income</p>
           <IncomeEditor />
         </div>
-        
       </div>
     </DashboardLayout>
   );
