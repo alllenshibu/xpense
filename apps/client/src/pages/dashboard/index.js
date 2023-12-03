@@ -138,7 +138,7 @@ export default function AddNewExpense() {
           <MainCard />
 
           <div className="flex flex-row justify-between gap-4">
-            {categorysum.map((category) => (
+            {categorysum.slice(0,4).map((category) => (
               <Catcards category={category.name} amount={category.total_expense} />
             ))}
           </div>
@@ -150,7 +150,7 @@ export default function AddNewExpense() {
           </div>
         </div>
 
-        <div className="bg-[#D9D9D954] h-full overflow-y-scroll rounded-xl flex flex-col py-4 items-center gap-4 ">
+        <div className="bg-[#D9D9D954] h-full overflow-y-scroll rounded-xl lg:flex-col py-4 items-center gap-4 hidden lg:flex">
           <p className="text-xl  font-bold px-4">Add Expense</p>
           <ExpenseEditor
             expense={expense}
