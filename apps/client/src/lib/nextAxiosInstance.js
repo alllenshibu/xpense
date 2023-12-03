@@ -7,7 +7,7 @@ if (typeof window !== 'undefined') {
 }
 
 const nextAxiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: process.env.NEXT_PUBLIC_NEXT_URL,
   headers: {
     'Content-Type': 'application/json',
     Authorization: token ? 'Bearer ' + token : '',
