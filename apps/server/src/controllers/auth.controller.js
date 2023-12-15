@@ -49,9 +49,9 @@ const signupController = async (req, res) => {
 
     return res.status(201).json({ token: token });
   } catch (err) {
+    console.error(err);
     if (err instanceof UserAlreadyExistsError)
       return res.status(409).json({ message: err.message });
-    console.error(err);
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };
@@ -80,9 +80,9 @@ const loginController = async (req, res) => {
 
     return res.status(200).json({ token: token });
   } catch (err) {
+    console.error(err);
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     if (err instanceof WrongPasswordError) return res.status(401).json({ message: err.message });
-    console.error(err);
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };

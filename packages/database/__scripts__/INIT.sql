@@ -2,8 +2,8 @@ DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TRIGGER def_cats ON "user" CASCADE;
-DROP FUNCTION create_def_cats() CASCADE;
+DROP TRIGGER IF EXISTS def_cats ON "user" CASCADE;
+DROP FUNCTION IF EXISTS create_def_cats() CASCADE;
 
 DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS payment_option CASCADE;
@@ -34,11 +34,8 @@ CREATE TABLE IF NOT EXISTS "user"
       INSERT INTO category (user_id, name)
       VALUES (NEW.id, '(default)');
 
-      INSERT INTO category (user_id, name)
-      VALUES (NEW.id, 'Groceries');
-
-      INSERT INTO category (user_id, name)
-      VALUES (NEW.id, 'Entertainment');
+      INSERT INTO payment_option (user_id, name)
+      VALUES (NEW.id, '(default)');
 
       RETURN NEW;
   END;
@@ -49,8 +46,6 @@ CREATE TABLE IF NOT EXISTS "user"
       ON "user"
       FOR EACH ROW
   EXECUTE FUNCTION create_def_cats();
-
-
 
 CREATE TABLE IF NOT EXISTS payment_option
 (

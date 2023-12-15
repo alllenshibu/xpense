@@ -21,7 +21,7 @@ const getAllCategoriesService = async ({ user }) => {
   }
 };
 
-const getCategoryByIdService = async ({ user, categoryId }) => {
+const getCategoryByIdService = async ({ user, categoryId, getExpenses }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -40,12 +40,14 @@ const getCategoryByIdService = async ({ user, categoryId }) => {
 
     const category = result?.rows[0];
 
-    result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND category_id = $2', [
-      userId?.rows[0]?.id,
-      categoryId,
-    ]);
+    if (getExpenses) {
+      result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND category_id = $2', [
+        userId?.rows[0]?.id,
+        categoryId,
+      ]);
 
-    category.expenses = result?.rows;
+      category.expenses = result?.rows;
+    }
 
     return category;
   } catch (err) {
@@ -152,5 +154,5 @@ module.exports = {
   addNewCategoryService,
   editCategoryService,
   deleteCategoryService,
-  getSumCategoriesService
+  getSumCategoriesService,
 };

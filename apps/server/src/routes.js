@@ -95,11 +95,11 @@ router.post('/category', authorize, (req, res) => {
   addNewCategoryController(req, res);
 });
 
-router.put('/category', authorize, (req, res) => {
+router.put('/category/:id', authorize, (req, res) => {
   editCategoryController(req, res);
 });
 
-router.delete('/category', authorize, (req, res) => {
+router.delete('/category/:id', authorize, (req, res) => {
   deleteCategoryController(req, res);
 });
 
@@ -116,11 +116,11 @@ router.post('/paymentoption', authorize, (req, res) => {
   addNewPaymentOptionController(req, res);
 });
 
-router.put('/paymentoption', authorize, (req, res) => {
+router.put('/paymentoption/:id', authorize, (req, res) => {
   editPaymentOptionController(req, res);
 });
 
-router.delete('/paymentoption', authorize, (req, res) => {
+router.delete('/paymentoption/:id', authorize, (req, res) => {
   deletePaymentOptionController(req, res);
 });
 

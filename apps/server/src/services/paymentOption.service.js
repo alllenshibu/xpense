@@ -21,7 +21,7 @@ const getAllPaymentOptionsService = async ({ user }) => {
   }
 };
 
-const getPaymentOptionByIdService = async ({ user, paymentOptionId }) => {
+const getPaymentOptionByIdService = async ({ user, paymentOptionId, getExpenses }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -41,12 +41,14 @@ const getPaymentOptionByIdService = async ({ user, paymentOptionId }) => {
 
     const paymentOption = result?.rows[0];
 
-    result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND payment_id = $2', [
-      userId?.rows[0]?.id,
-      paymentOptionId,
-    ]);
+    if (getExpenses) {
+      result = await pool.query('SELECT * FROM expense WHERE user_id = $1 AND payment_id = $2', [
+        userId?.rows[0]?.id,
+        paymentOptionId,
+      ]);
 
-    paymentOption.expenses = result?.rows;
+      paymentOption.expenses = result?.rows;
+    }
 
     return paymentOption;
   } catch (err) {
@@ -99,7 +101,7 @@ const editPaymentOptionService = async ({ user, id, name }) => {
   }
 };
 
-const deletePaymentOptionService = async ({ user, paymentOptionId }) => {
+const deletePaymentOptionService = async ({ user, id }) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -109,7 +111,7 @@ const deletePaymentOptionService = async ({ user, paymentOptionId }) => {
 
     const result = await pool.query('DELETE FROM payment_option WHERE user_id = $1 AND id = $2', [
       userId?.rows[0]?.id,
-      paymentOptionId,
+      id,
     ]);
 
     if (!(result?.rowCount > 0)) throw new PaymentOptionNotFoundError('Payment option not found');
