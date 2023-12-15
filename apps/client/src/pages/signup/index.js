@@ -15,10 +15,17 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/auth/signup', user);
+      if (!user.email || !user.password || !user.firstName || !user.lastName)
+        return alert('Please fill all the fields');
+
+      const res = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/auth/signup', user, {
+        validateStatus: () => true,
+      });
       if (res.status === 201) {
         localStorage.setItem(process.env.NEXT_PUBLIC_AUTH_TOKEN, res?.data?.token);
-        router.push('/dashboard');
+        router.push('/');
+      } else if (res.status === 400) {
+        alert('Something went wrong with the application');
       } else if (res.status === 409) {
         alert('User already exists');
       } else if (res.status === 500) {
@@ -45,19 +52,19 @@ export default function Signup() {
       >
         <div>
           <label htmlFor="firstName">First Name</label>
-          <input id="firstName" name="firstName" type="text" value={user.firstName} />
+          <input id="firstName" name="firstName" type="text" />
         </div>
         <div>
           <label htmlFor="lastName">Last Name</label>
-          <input id="lastName" name="lastName" type="test" value={user.lastName} />
+          <input id="lastName" name="lastName" type="test" />
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" value={user.email} />
+          <input id="email" name="email" type="email" />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" value={user.password} />
+          <input id="password" name="password" type="password" />
         </div>
         <div className="flex justify-center items-center">
           <p>

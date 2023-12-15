@@ -15,10 +15,17 @@ export default function Login() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/auth/login', user);
-      if (res.status === 201) {
+      if (!user.email || !user.password) return alert('Please fill all the fields');
+
+      const res = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/auth/login', user, {
+        validateStatus: () => true,
+      });
+
+      if (res.status === 200) {
         localStorage.setItem(process.env.NEXT_PUBLIC_AUTH_TOKEN, res?.data?.token);
-        router.push('/dashboard');
+        router.push('/');
+      } else if (res.status === 400) {
+        alert('Something went wrong with the application');
       } else if (res.status === 401) {
         alert('Wrong credentials');
       } else if (res.status === 500) {
@@ -27,7 +34,7 @@ export default function Login() {
         alert('Something went wrong');
       }
     } catch (err) {
-      alert(err?.message);
+      console.error(err);
     }
   };
 
@@ -45,11 +52,11 @@ export default function Login() {
       >
         <div>
           <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" value={user.email} />
+          <input id="email" name="email" type="email" />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" value={user.password} />
+          <input id="password" name="password" type="password" />
         </div>
         <div className="flex justify-center items-center">
           <p>

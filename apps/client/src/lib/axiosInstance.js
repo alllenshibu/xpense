@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
     Authorization: token ? 'Bearer ' + token : '',
   },
+  validateStatus: () => true,
 });
 
 export default axiosInstance;

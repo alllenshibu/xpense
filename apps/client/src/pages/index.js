@@ -17,9 +17,11 @@ export default function Dashboard() {
     if (res.status === 200) {
       setExpenses(res?.data?.expenses);
     } else if (res.status === 500) {
-      alert('Something went wrong with the server');
+      console.error(res);
+      //alert('Something went wrong with the server');
     } else {
-      alert('Something went wrong');
+      console.error(res);
+      // alert('Something went wrong');
     }
   };
 

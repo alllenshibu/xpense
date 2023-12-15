@@ -1,5 +1,5 @@
 import '@/styles/globals.scss';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }) {

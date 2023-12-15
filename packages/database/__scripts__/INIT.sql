@@ -169,5 +169,3 @@ CREATE TABLE IF NOT EXISTS recurring_payment
     FOREIGN KEY (user_id) REFERENCES "user" (id),
     FOREIGN KEY (category_id) REFERENCES category (id)
 );
-
--- INSERT INTO split (expense_id, user_id, percentage) VALUES ('02c5685c-eaef-40e5-bf12-b7d6dfe16c88','64acd7ab-fa45-46d3-a73b-05fd08745699', 100)
