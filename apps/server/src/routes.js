@@ -74,11 +74,11 @@ router.post('/expense', authorize, (req, res) => {
   addNewExpenseController(req, res);
 });
 
-router.put('/expense', authorize, (req, res) => {
+router.put('/expense/:id', authorize, (req, res) => {
   editExpenseController(req, res);
 });
 
-router.delete('/expense', authorize, (req, res) => {
+router.delete('/expense/:id', authorize, (req, res) => {
   deleteExpenseController(req, res);
 });
 

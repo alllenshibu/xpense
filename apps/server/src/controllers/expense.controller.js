@@ -13,7 +13,7 @@ const getAllExpensesController = async (req, res) => {
   const user = req?.user;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === undefined || user === null || user === '' || user === 'undefined') {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
@@ -24,6 +24,7 @@ const getAllExpensesController = async (req, res) => {
 
     return res.status(200).json({ expenses: expenses });
   } catch (err) {
+    console.error(err);
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
@@ -49,6 +50,7 @@ const getExpenseByIdController = async (req, res) => {
 
     return res.status(200).json({ expense: expense });
   } catch (err) {
+    console.error(err);
     if (err instanceof ExpenseNotFoundError) return res.status(404).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
@@ -70,16 +72,18 @@ const getExpenseByMonthController = async (req, res) => {
 
     return res.status(200).json({ expenses: expenses });
   } catch (err) {
+    console.error(err);
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
 };
+
 const addNewExpenseController = async (req, res) => {
   const user = req?.user;
   const title = req?.body?.expense?.title;
   const amount = req?.body?.expense?.amount;
   const categoryId = req?.body?.expense?.categoryId;
-  // const paymentOptionId = req?.body?.expense?.paymentOptionId;
+  const paymentOptionId = req?.body?.expense?.paymentOptionId;
   const timestamp = req?.body?.expense?.timestamp;
 
   // User is missing due to some error in authentication middleware
@@ -104,7 +108,7 @@ const addNewExpenseController = async (req, res) => {
       title,
       amount,
       categoryId,
-      // paymentOptionId,
+      paymentOptionId,
       timestamp,
     );
 
@@ -112,7 +116,7 @@ const addNewExpenseController = async (req, res) => {
 
     return res.status(201).json({ expense: expense });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
@@ -120,7 +124,7 @@ const addNewExpenseController = async (req, res) => {
 
 const editExpenseController = async (req, res) => {
   const user = req?.user;
-  const id = req?.body?.expense?.id;
+  const id = req?.params?.id;
   const title = req?.body?.expense?.title;
   const amount = req?.body?.expense?.amount;
   const categoryId = req?.body?.expense?.categoryId;
@@ -162,6 +166,7 @@ const editExpenseController = async (req, res) => {
 
     return res.status(200).json({ expense: expense });
   } catch (err) {
+    console.error(err);
     if (err instanceof UserDoesNotExistError) return res.status(401).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
@@ -169,7 +174,7 @@ const editExpenseController = async (req, res) => {
 
 const deleteExpenseController = async (req, res) => {
   const user = req?.user;
-  const expenseId = req?.body?.expense?.id;
+  const expenseId = req?.params?.id;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === '' || user === undefined) {
@@ -187,6 +192,7 @@ const deleteExpenseController = async (req, res) => {
 
     return res.status(200).json({ message: 'Successfully deleted expense' });
   } catch (err) {
+    console.error(err);
     if (err instanceof ExpenseNotFoundError) return res.status(404).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }

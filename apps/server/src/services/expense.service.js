@@ -67,7 +67,7 @@ const getExpenseByMonth = async (user) => {
     const income = incomeresult?.rows;
     console.log(income);
 
-    return {expense,income};
+    return { expense, income };
   } catch (err) {
     throw err;
   }
@@ -78,7 +78,7 @@ const addNewExpenseService = async (
   title,
   amount,
   categoryId,
-  // paymentOptionId,
+  paymentOptionId,
   timestamp,
 ) => {
   try {
@@ -91,8 +91,8 @@ const addNewExpenseService = async (
     console.log({ title, amount, categoryId, timestamp, userId: userId?.rows[0]?.id });
 
     const result = await pool.query(
-      'INSERT INTO expense (title, amount, category_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [title, amount, categoryId, timestamp, userId?.rows[0]?.id],
+      'INSERT INTO expense (title, amount, category_id, payment_id, timestamp, user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [title, amount, categoryId, paymentOptionId, timestamp, userId?.rows[0]?.id],
     );
 
     if (!(result?.rows?.length > 0)) throw new Error('Expense not added');
@@ -121,7 +121,7 @@ const editExpenseService = async (
     }
 
     const result = await pool.query(
-      'UPDATE expense SET title = $1, amount = $2, category_id = $3, payment_id = $4 timestamp = $5 WHERE user_id = $6 AND id = $7 RETURNING *',
+      'UPDATE expense SET title = $1, amount = $2, category_id = $3, payment_id = $4, timestamp = $5 WHERE user_id = $6 AND id = $7 RETURNING *',
       [title, amount, categoryId, paymentOptionId, timestamp, userId?.rows[0]?.id, id],
     );
 
