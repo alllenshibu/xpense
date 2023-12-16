@@ -8,7 +8,7 @@ function getPostgresCredentials() {
   const host = process.env.POSTGRES_HOST;
   const port = Number(process.env.POSTGRES_PORT);
   const database = process.env.POSTGRES_DATABASE;
-
+  
   if (!user || user === '' || user === undefined) {
     console.error('Cannot find POSTGRES_USER');
     throw new Error('Cannot find POSTGRES_USER');
@@ -51,9 +51,9 @@ const pool = new Pool({
   host: getPostgresCredentials().host,
   port: getPostgresCredentials().port,
   database: getPostgresCredentials().database,
-  ssl: {
-      rejectUnauthorized: false,
-  },
+  // ssl: {
+  //     rejectUnauthorized: false,
+  // },
 });
 
 module.exports = pool;

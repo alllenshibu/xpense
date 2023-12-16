@@ -7,79 +7,48 @@ import ExpenseEditor from '@/components/ExpenseEditor';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { fetchAllCategories } from '@/services/category';
 import { fetchAllPaymentOptions } from '@/services/paymentOption';
+import { editExpense, fetchExpenseById } from '@/services/expense';
 
 export default function AddNewExpense() {
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(true);
   const [expense, setExpense] = useState({});
   const [categories, setCategories] = useState([]);
   const [paymentOptions, setPaymentOptions] = useState([]);
 
-  const fetchExpense = async () => {
-    const expenseId = router.query.id;
-    if (expenseId === undefined) return;
+  const fetchEverything = async () => {
+    try {
+      let r = await fetchAllCategories();
+      setCategories(r || []);
+      r = await fetchAllPaymentOptions();
+      setPaymentOptions(r || []);
+      const expenseId = router.query.id;
+      if (!expenseId) return;
 
-    const res = await axiosInstance.get('/expense/' + expenseId);
-    if (res.status === 200) {
-      setExpense(res?.data?.expense);
-      setExpense(
-        { ...expense },
-        'timestamp',
-        new Date(res?.data?.expense?.timestamp).toISOString().slice(0, 16),
-      );
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
-  };
-
-  const fetchCategories = async () => {
-    const res = await fetchAllCategories();
-    if (res.status === 200) {
-      setCategories(res?.data?.categories);
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
-  };
-
-  const fetchPaymentOptions = async () => {
-    const res = await fetchAllPaymentOptions();
-    if (res.status === 200) {
-      setPaymentOptions(res?.data?.paymentOptions);
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
+      r = await fetchExpenseById(expenseId);
+      setExpense(r || {});
+      setExpense((prevExpense) => ({
+        ...prevExpense,
+        timestamp: new Date(r?.timestamp).toISOString().slice(0, 16),
+      }));
+    } catch (e) {
+      console.error(e);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axiosInstance.put('/expense/', {
-        expense: expense,
-      });
-      if (res.status === 200) {
-        router.push('/expense/' + router.query.id);
-      } else if (res.status === 500) {
-        alert('Something went wrong with the server');
-      } else {
-        alert('Something went wrong');
-      }
+      const expenseId = router?.query?.id;
+      const r = await editExpense(expenseId, expense);
+      router.push('/');
     } catch (err) {
       alert(err?.message);
     }
   };
 
   useEffect(() => {
-    fetchExpense();
-    fetchCategories();
-    fetchPaymentOptions();
-    setIsLoading(false);
+    fetchEverything();
   }, [router.query.id]);
 
   return (

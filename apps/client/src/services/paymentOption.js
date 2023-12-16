@@ -1,11 +1,29 @@
 import axiosInstance from '@/lib/axiosInstance';
 
 const fetchAllPaymentOptions = async () => {
-  return await axiosInstance.get('/paymentoption');
+  try {
+    const r = await axiosInstance.get('/paymentoption');
+    if (r.status === 200) {
+      return r.data.paymentOptions;
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-const fetchPaymentOptionById = async (paymentOptionId) => {
-  return await axiosInstance.get('/paymentoption/' + paymentOptionId);
+const fetchPaymentOptionById = async (paymentOptionId, getExpenses = false) => {
+  try {
+    const r = await axiosInstance.get('/paymentoption/' + paymentOptionId, {
+      params: {
+        getExpenses: getExpenses,
+      },
+    });
+    if (r?.status === 200) {
+      return r?.data?.paymentOption;
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const addNewPaymentOption = async (paymentOption) => {
@@ -28,4 +46,10 @@ const deletePaymentOption = async (paymentOptionId) => {
   });
 };
 
-export { fetchAllPaymentOptions, fetchPaymentOptionById, addNewPaymentOption, editPaymentOptionById, deletePaymentOption };
+export {
+  fetchAllPaymentOptions,
+  fetchPaymentOptionById,
+  addNewPaymentOption,
+  editPaymentOptionById,
+  deletePaymentOption,
+};

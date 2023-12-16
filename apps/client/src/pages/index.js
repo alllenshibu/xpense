@@ -6,23 +6,26 @@ import axiosInstance from '@/lib/axiosInstance';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import Stats from '@/components/Stats';
 import Expense from '@/components/Expense';
+import { fetchAllExpenses } from '@/services/expense';
+import { fetchAllCategories } from '@/services/category';
+import Category from '@/components/Category';
+import { fetchAllPaymentOptions } from '@/services/paymentOption';
+import PaymentOption from '@/components/PaymentOption';
 
 export default function Dashboard() {
   const router = useRouter();
 
   const [expenses, setExpenses] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [paymentOptions, setPaymentOptions] = useState([]);
 
-  const fetchExpenses = async () => {
-    const res = await axiosInstance.get('/expense');
-    if (res.status === 200) {
-      setExpenses(res?.data?.expenses);
-    } else if (res.status === 500) {
-      console.error(res);
-      //alert('Something went wrong with the server');
-    } else {
-      console.error(res);
-      // alert('Something went wrong');
-    }
+  const fetchEverything = async () => {
+    let r = await fetchAllExpenses();
+    setExpenses(r || []);
+    r = await fetchAllCategories();
+    setCategories(r || []);
+    r = await fetchAllPaymentOptions();
+    setPaymentOptions(r || []);
   };
 
   const handleAddNewExpense = () => {
@@ -30,16 +33,28 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    fetchExpenses();
+    fetchEverything();
   }, []);
 
   return (
     <DashboardLayout>
       <Stats />
       <div className="flex flex-row justify-start items-start gap-4">
-        {expenses.map((expense) => (
-          <Expense expense={expense} />
-        ))}
+        <div>
+          {expenses.map((expense) => (
+            <Expense expense={expense} />
+          ))}
+        </div>
+        <div>
+          {categories.map((category) => (
+            <Category category={category} />
+          ))}
+        </div>
+        <div>
+          {paymentOptions.map((paymentOption) => (
+            <PaymentOption paymentOption={paymentOption} />
+          ))}
+        </div>
         <button
           className="absolute right-32 bottom-24 h-10 w-10 p-1 rounded-full bg-black text-white"
           onClick={handleAddNewExpense}

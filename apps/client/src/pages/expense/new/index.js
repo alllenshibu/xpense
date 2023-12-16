@@ -7,6 +7,7 @@ import ExpenseEditor from '@/components/ExpenseEditor';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { fetchAllCategories } from '@/services/category';
 import { fetchAllPaymentOptions } from '@/services/paymentOption';
+import { addNewExpense } from '@/services/expense';
 
 export default function AddNewExpense() {
   const router = useRouter();
@@ -15,42 +16,37 @@ export default function AddNewExpense() {
     title: '',
     amount: '',
     categoryId: '',
+    paymentOptionId: '',
     timestamp: new Date().toISOString().slice(0, 16),
   });
 
   const [categories, setCategories] = useState([]);
+  const [paymentOptions, setPaymentOptions] = useState([]);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const res = await axiosInstance.post('/expense', {
-        expense: expense,
-      });
-      if (res.status === 201) {
-        router.push('/dashboard');
-      } else if (res.status === 500) {
-        alert('Something went wrong with the server');
-      } else {
-        alert('Something went wrong');
-      }
+      console.log({ expense });
+      const r = await addNewExpense(expense);
+      router.push('/');
     } catch (err) {
       alert(err?.message);
     }
   };
 
-  const fetchCategories = async () => {
-    const res = await fetchAllCategories();
-    if (res.status === 200) {
-      setCategories(res.data.categories);
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
+  const fetchEverything = async () => {
+    try {
+      let r = await fetchAllCategories();
+      setCategories(r || []);
+      r = await fetchAllPaymentOptions();
+      setPaymentOptions(r || []);
+    } catch (e) {
+      console.error(e);
     }
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchEverything();
   }, []);
 
   return (
@@ -61,6 +57,7 @@ export default function AddNewExpense() {
             expense={expense}
             setExpense={setExpense}
             categories={categories}
+            paymentOptions={paymentOptions}
             submitText={'Add'}
             handleSubmit={handleSubmit}
           />

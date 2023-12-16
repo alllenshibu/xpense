@@ -14,17 +14,9 @@ export default function AddNewExpense() {
     const categoryId = router.query.id;
     if (!categoryId) return;
 
-
-    const res = await fetchCategoryById(categoryId);
-    if (res.status === 200) {
-      setCategory(res?.data?.category);
-    } else if (res.status === 404) {
-      alert('Category not found');
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
+    let r = await fetchCategoryById(categoryId, true);
+    console.log({ r });
+    setCategory(r || {});
   };
 
   useEffect(() => {

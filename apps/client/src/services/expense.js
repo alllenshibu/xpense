@@ -1,31 +1,51 @@
 import axiosInstance from '@/lib/axiosInstance';
 
 const fetchAllExpenses = async () => {
-  return await axiosInstance.get('/expense');
+  try {
+    const r = await axiosInstance.get('/expense');
+    if (r.status === 200) {
+      return r.data.expenses;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 
-const getIncome = async () => {
-  return await axiosInstance.get('/getincome');
-};
-
-const fetchExpenseById = async ({ expenseId, fetchDetails = false }) => {
-  return await axiosInstance.get('/expense/' + expenseId, {
-    params: {
-      fetchDetails: fetchDetails,
-    },
-  });
+const fetchExpenseById = async (expenseId) => {
+  try {
+    const r = await axiosInstance.get('/expense/' + expenseId);
+    if (r.status === 200) {
+      return r.data.expense;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const addNewExpense = async (expense) => {
-  return await axiosInstance.post('/expense', {
-    expense: expense,
-  });
+  try {
+    const r = await axiosInstance.post('/expense', {
+      expense: expense,
+    });
+    if (r.status === 200) {
+      return r.data.expense;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 
-const editExpenseById = async (expenseId, expense) => {
-  return await axiosInstance.put('/expense/', {
-    expense: expense,
-  });
+const editExpense = async (expenseId, expense) => {
+  try {
+    const r = await axiosInstance.put('/expense/' + expenseId, {
+      expense: expense,
+    });
+    if (r.status === 200) {
+      return r.data.expense;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 const addNewIncome = async (income) => {
   return await axiosInstance.post('/income', {
@@ -40,7 +60,7 @@ export {
   fetchAllExpenses,
   fetchExpenseById,
   addNewExpense,
-  editExpenseById,
+  editExpense,
   deleteExpense,
   addNewIncome,
 };

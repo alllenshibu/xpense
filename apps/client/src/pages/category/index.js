@@ -9,14 +9,8 @@ export default function AddNewExpense() {
   const [categories, setCategories] = useState([]);
 
   const fetchCategories = async () => {
-    const res = await fetchAllCategories();
-    if (res.status === 200) {
-      setCategories(res?.data?.categories);
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
+    let r = await fetchAllCategories();
+    setCategories(r || []);
   };
 
   useEffect(() => {
@@ -25,7 +19,7 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <h2 className='text-4xl font-bold'>Categories</h2>
+      <h2 className="text-4xl font-bold">Categories</h2>
       <div className="h-full w-full flex items-center justify-center">
         {categories.map((category) => (
           <Category key={category.id} category={category} />
