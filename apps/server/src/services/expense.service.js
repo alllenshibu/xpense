@@ -9,9 +9,10 @@ const getAllExpensesService = async (user) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM expense WHERE user_id = $1', [
-      userId?.rows[0]?.id,
-    ]);
+    const result = await pool.query(
+      'SELECT *, category_id as categoryId, payment_id as paymentOptionId FROM expense WHERE user_id = $1',
+      [userId?.rows[0]?.id],
+    );
 
     const expenses = result?.rows;
 
@@ -36,7 +37,11 @@ const getExpenseByIdService = async (user, expenseId) => {
 
     if (!(result?.rows?.length > 0)) throw new ExpenseNotFoundError('Expense not found');
 
-    const expense = result?.rows[0];
+    let expense = result?.rows[0];
+
+    expense.paymentOptionId = expense.payment_id;
+    expense.categoryId = expense.category_id;
+
 
     return expense;
   } catch (err) {

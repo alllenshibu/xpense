@@ -39,18 +39,18 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <Stats />
-      <div className="flex flex-row justify-start items-start gap-4">
-        <div>
+      <div className="flex flex-col justify-start items-start gap-4">
+        <div className="flex flex-row">
           {expenses.map((expense) => (
             <Expense expense={expense} />
           ))}
         </div>
-        <div>
+        <div className="flex flex-row">
           {categories.map((category) => (
             <Category category={category} />
           ))}
         </div>
-        <div>
+        <div className="flex flex-row">
           {paymentOptions.map((paymentOption) => (
             <PaymentOption paymentOption={paymentOption} />
           ))}
