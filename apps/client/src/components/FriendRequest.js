@@ -6,13 +6,11 @@ export default function FriendRequest({ friendRequest }) {
   const router = useRouter();
 
   const handleAcceptFriendRequest = async () => {
-    const res = await acceptFriendRequest(friendRequest.friend_id);
-    if (res.status === 200) {
-      alert('Accepted friend request');
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
+    try {
+      const r = await acceptFriendRequest(friendRequest.user_id);
+      router.push('/friend');
+    } catch (err) {
+      console.error(err);
     }
   };
 

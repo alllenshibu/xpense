@@ -40,8 +40,9 @@ const getExpenseByIdService = async (user, expenseId) => {
     let expense = result?.rows[0];
 
     expense.paymentOptionId = expense.payment_id;
+    delete expense.payment_id;
     expense.categoryId = expense.category_id;
-
+    delete expense.category_id;
 
     return expense;
   } catch (err) {

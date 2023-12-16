@@ -1,27 +1,48 @@
-import axiosInstance from "@/lib/axiosInstance";
+import axiosInstance from '@/lib/axiosInstance';
 
 const fetchAllFriendRequests = async () => {
-    return await axiosInstance.get('/friendrequest')
-}
+  try {
+    const r = await axiosInstance.get('/friendrequest');
+    if (r?.status === 200) {
+      return r?.data?.friendRequests;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const sendNewFriendRequest = async (requestedUser) => {
-    return await axiosInstance.post("/friendrequest", {
-        friend: {
-            email: requestedUser
-        }
-    })
-}
+  try {
+    const r = await axiosInstance.post('/friendrequest', {
+      friend: {
+        email: requestedUser,
+      },
+    });
+    if (r?.status === 201) {
+      return r?.data?.friendRequest;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const fetchAllFriends = async () => {
-    return await axiosInstance.get('/friend')
-}
+  return await axiosInstance.get('/friend');
+};
 
 const acceptFriendRequest = async (requestedUser) => {
-    return await axiosInstance.post("/friend", {
-        friend: {
-            id: requestedUser
-        }
-    })
-}
+  try {
+    const r = await axiosInstance.post('/friend', {
+      friend: {
+        id: requestedUser,
+      },
+    });
+    if (r?.status === 200) {
+      return r?.data?.friend;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-export {fetchAllFriendRequests, sendNewFriendRequest, fetchAllFriends, acceptFriendRequest}
+export { fetchAllFriendRequests, sendNewFriendRequest, fetchAllFriends, acceptFriendRequest };
