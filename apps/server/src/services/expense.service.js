@@ -1,7 +1,7 @@
 const { UserDoesNotExistError, ExpenseNotFoundError } = require('../utils/errors');
 const pool = require('../utils/pg');
 
-const getAllExpensesService = async (user) => {
+const getAllExpensesService = async (user, limit = 20) => {
   try {
     const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
 
@@ -10,8 +10,8 @@ const getAllExpensesService = async (user) => {
     }
 
     const result = await pool.query(
-      'SELECT *, category_id as categoryId, payment_id as paymentOptionId FROM expense WHERE user_id = $1',
-      [userId?.rows[0]?.id],
+      'SELECT *, category_id as categoryId, payment_id as paymentOptionId FROM expense WHERE user_id = $1 ORDER BY timestamp DESC LIMIT $2',
+      [userId?.rows[0]?.id, limit],
     );
 
     const expenses = result?.rows;

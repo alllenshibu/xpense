@@ -9,7 +9,7 @@ export default function ExpenseEditor({
   handleSubmit,
 }) {
   useEffect(() => {
-    console.log({expense});
+    console.log({ expense });
   }, [expense]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function ExpenseEditor({
   }, [paymentOptions, categories]);
 
   return (
-    <form className="w-full md:w-3/5 p-4 bg-white shadow-md rounded-md">
+    <form className="w-full p-4 bg-white shadow-md rounded-md">
       <div className="mb-4">
         <label htmlFor="title" className="text-sm font-medium text-gray-600">
           Title
@@ -63,7 +63,6 @@ export default function ExpenseEditor({
           id="categoryId"
           name="categoryId"
           value={expense?.categoryId}
-          className="input-field"
           onChange={(e) => setExpense({ ...expense, [e.target.name]: e.target.value })}
         >
           {categories.map((category) => (
@@ -81,7 +80,6 @@ export default function ExpenseEditor({
           id="paymentOptionId"
           name="paymentOptionId"
           value={expense?.paymentOptionId}
-          className="input-field"
           onChange={(e) => setExpense({ ...expense, [e.target.name]: e.target.value })}
         >
           {paymentOptions.map((paymentOption) => (
@@ -105,11 +103,7 @@ export default function ExpenseEditor({
         />
       </div>
       <div>
-        <button
-          onClick={handleSubmit}
-          type="submit"
-          className="w-full btn bg-teal-700 text-white rounded-full"
-        >
+        <button onClick={handleSubmit} type="submit" className="btn btn-primary">
           {submitText ? submitText : 'Submit'}
         </button>
       </div>

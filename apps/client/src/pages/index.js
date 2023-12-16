@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import axiosInstance from '@/lib/axiosInstance';
-
 import DashboardLayout from '@/layouts/DashboardLayout';
 import Stats from '@/components/Stats';
 import Expense from '@/components/Expense';
@@ -28,10 +26,6 @@ export default function Dashboard() {
     setPaymentOptions(r || []);
   };
 
-  const handleAddNewExpense = () => {
-    router.push('/expense/new');
-  };
-
   useEffect(() => {
     fetchEverything();
   }, []);
@@ -39,8 +33,8 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <Stats />
-      <div className="flex flex-col justify-start items-start gap-4">
-        <div className="flex flex-row">
+      <div className="flex flex-col justify-start items-start gap-4 shadow-lg">
+        <div className="flex flex-row gap-2">
           {expenses.map((expense) => (
             <Expense expense={expense} />
           ))}
@@ -57,7 +51,9 @@ export default function Dashboard() {
         </div>
         <button
           className="absolute right-32 bottom-24 h-10 w-10 p-1 rounded-full bg-black text-white"
-          onClick={handleAddNewExpense}
+          onClick={() => {
+            router.push('/expense/new');
+          }}
         >
           <svg
             width="auto"

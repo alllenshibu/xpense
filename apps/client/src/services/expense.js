@@ -1,8 +1,12 @@
 import axiosInstance from '@/lib/axiosInstance';
 
-const fetchAllExpenses = async () => {
+const fetchAllExpenses = async (limit = 20) => {
   try {
-    const r = await axiosInstance.get('/expense');
+    const r = await axiosInstance.get('/expense', {
+      params: {
+        limit: 5,
+      },
+    });
     if (r.status === 200) {
       return r.data.expenses;
     }

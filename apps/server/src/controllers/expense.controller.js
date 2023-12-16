@@ -11,6 +11,7 @@ const { UserDoesNotExistError, ExpenseNotFoundError } = require('../utils/errors
 
 const getAllExpensesController = async (req, res) => {
   const user = req?.user;
+  const limit = req?.query?.limit;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === undefined || user === null || user === '' || user === 'undefined') {
@@ -18,7 +19,7 @@ const getAllExpensesController = async (req, res) => {
   }
 
   try {
-    const expenses = await getAllExpensesService(user);
+    const expenses = await getAllExpensesService(user, limit);
 
     if (!expenses) return res.status(500).json({ message: 'Something went wrong' });
 
