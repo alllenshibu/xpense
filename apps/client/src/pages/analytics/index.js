@@ -20,7 +20,6 @@ export default function first(second) {
       res.data.expenses.expense.map((expense) => (expenses2[expense.month - 1] = expense.sum));
       res.data.expenses.income.map((income1) => (income[income1.month - 1] = income1.sum));
       setCurrent(expenses2[month - 1]);
-      
 
       console.log(income);
       console.log(res.data);
@@ -108,11 +107,11 @@ export default function first(second) {
         <div className="flex flex-col  items-center gap-2">
           <div className="flex flex-col justify-center items-center p-4 rounded-xl shadow-lg bg-white ">
             <p className="font-bold text-left text-xl self-start pb-4">Report</p>
-            <StackedBarChart />
+            {/* <StackedBarChart /> */}
           </div>
           <div className="flex flex-col justify-center items-center w-[83%] rounded-xl shadow-lg bg-white ">
             <p className="font-bold text-left text-xl self-start p-4">Spending this month</p>
-            <PieChart />
+            {/* <PieChart /> */}
           </div>
         </div>
       </div>

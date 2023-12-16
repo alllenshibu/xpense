@@ -10,8 +10,8 @@ import ExpenseEditor from '@/components/ExpenseEditor';
 import { addNewCategory, fetchAllCategories, fetchCategorysum } from '@/services/category';
 import CategoryEditor from '@/components/CategoryEditor';
 import IncomeEditor from '@/components/IncomeEditor';
-import { Bar } from 'react-chartjs-2';
-import StackedBarChart from '@/components/StackedBarChart';
+// import { Bar } from 'react-chartjs-2';
+// import StackedBarChart from '@/components/StackedBarChart';
 import nextAxiosInstance from '@/lib/nextAxiosInstance';
 
 export default function AddNewExpense() {
