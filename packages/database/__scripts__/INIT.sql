@@ -2,10 +2,11 @@ DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TRIGGER IF EXISTS def_cats ON "user" CASCADE;
-DROP FUNCTION IF EXISTS create_def_cats() CASCADE;
+DROP TRIGGER IF EXISTS def_stuff ON "user" CASCADE;
+DROP FUNCTION IF EXISTS create_def_stuff() CASCADE;
 
 DROP TABLE IF EXISTS "user" CASCADE;
+DROP TABLE IF EXISTS budget CASCADE;
 DROP TABLE IF EXISTS payment_option CASCADE;
 DROP TABLE IF EXISTS category CASCADE;
 DROP TABLE IF EXISTS expense CASCADE;
@@ -27,25 +28,42 @@ CREATE TABLE IF NOT EXISTS "user"
 
     PRIMARY KEY (id)
 );
-  CREATE OR REPLACE FUNCTION create_def_cats()
-      RETURNS TRIGGER AS
-  $$
-  BEGIN
-      INSERT INTO category (user_id, name)
-      VALUES (NEW.id, '(default)');
 
-      INSERT INTO payment_option (user_id, name)
-      VALUES (NEW.id, '(default)');
+CREATE OR REPLACE FUNCTION create_def_stuff()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO category (user_id, name)
+    VALUES (NEW.id, '(default)');
 
-      RETURN NEW;
-  END;
-  $$ LANGUAGE plpgsql;
+    INSERT INTO payment_option (user_id, name)
+    VALUES (NEW.id, '(default)');
 
-  CREATE TRIGGER def_cats
-      AFTER INSERT
-      ON "user"
-      FOR EACH ROW
-  EXECUTE FUNCTION create_def_cats();
+    INSERT INTO budget (user_id, amount)
+    VALUES (NEW.id, 4500.00);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER def_stuff
+    AFTER INSERT
+    ON "user"
+    FOR EACH ROW
+EXECUTE FUNCTION create_def_stuff();
+
+CREATE TABLE IF NOT EXISTS budget
+(
+    id      UUID                    DEFAULT uuid_generate_v4(),
+
+    user_id UUID           NOT NULL,
+    period  DATE           NOT NULL DEFAULT CURRENT_DATE,
+    amount  NUMERIC(10, 2) NOT NULL,
+
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES "user" (id)
+);
 
 CREATE TABLE IF NOT EXISTS payment_option
 (

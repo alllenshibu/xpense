@@ -9,10 +9,6 @@ export default function ExpenseEditor({
   handleSubmit,
 }) {
   useEffect(() => {
-    console.log({ expense });
-  }, [expense]);
-
-  useEffect(() => {
     if (!expense.categoryId)
       setExpense({
         ...expense,

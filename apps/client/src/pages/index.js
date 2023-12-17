@@ -1,29 +1,34 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+import { fetchStats } from '@/services/stats';
+
 import DashboardLayout from '@/layouts/DashboardLayout';
-import Stats from '@/components/Stats';
 import Expense from '@/components/Expense';
-import { fetchAllExpenses } from '@/services/expense';
-import { fetchAllCategories } from '@/services/category';
 import Category from '@/components/Category';
-import { fetchAllPaymentOptions } from '@/services/paymentOption';
 import PaymentOption from '@/components/PaymentOption';
+import Link from 'next/link';
 
 export default function Dashboard() {
   const router = useRouter();
 
-  const [expenses, setExpenses] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [paymentOptions, setPaymentOptions] = useState([]);
+  const [stats, setStats] = useState({
+    currentMonthSpent: '',
+    expenses: [],
+    categories: [],
+    paymentOptions: [],
+  });
 
   const fetchEverything = async () => {
-    let r = await fetchAllExpenses();
-    setExpenses(r || []);
-    r = await fetchAllCategories();
-    setCategories(r || []);
-    r = await fetchAllPaymentOptions();
-    setPaymentOptions(r || []);
+    let r = await fetchStats();
+    setStats(
+      r || {
+        currentMonthSpent: '',
+        expenses: [],
+        categories: [],
+        paymentOptions: [],
+      },
+    );
   };
 
   useEffect(() => {
@@ -32,22 +37,60 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <Stats />
-      <div className="flex flex-col justify-start items-start gap-4 shadow-lg">
-        <div className="flex flex-row gap-2">
-          {expenses.map((expense) => (
-            <Expense expense={expense} />
-          ))}
+      {/* Stats */}
+      <div className="w-full h-40 mb-4 px-8 flex flex-row justify-between items-center bg-neutral-400 rounded shadow-lg">
+        <div>
+          <p className="text-sm font-semibold tracking-widest">BUDGET</p>
+          <p className="text-4xl font-bold tracking-wide">₹{stats?.budget?.target}</p>
         </div>
-        <div className="flex flex-row">
-          {categories.map((category) => (
-            <Category category={category} />
-          ))}
+        <div>
+          <p className="text-sm font-semibold tracking-widest">SPENT</p>
+          <p className="text-4xl font-bold tracking-wide">₹{stats?.budget?.spent}</p>
         </div>
-        <div className="flex flex-row">
-          {paymentOptions.map((paymentOption) => (
-            <PaymentOption paymentOption={paymentOption} />
-          ))}
+        <div>
+          <p className="text-sm font-semibold tracking-widest">LEFT</p>
+          <p className="text-4xl font-bold tracking-wide">₹{stats?.budget?.left}</p>
+        </div>
+      </div>
+      <div className="flex flex-col justify-start items-start gap-4">
+        <div className="flex flex-col gap-4">
+          <p className="text-3xl font-semibold tracking-wide flex flex-row gap-4">
+            Latest Expenses
+            <Link href="/expense" className="text-sm">
+              More
+            </Link>
+          </p>
+          <div className="flex flex-row gap-2">
+            {stats?.expenses.map((expense) => (
+              <Expense expense={expense} />
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="text-2xl font-semibold flex flex-row gap-4">
+            Top Categories
+            <Link href="/category" className="text-sm">
+              More
+            </Link>
+          </p>
+          <div className="flex flex-row gap-2">
+            {stats?.categories.map((category) => (
+              <Category category={category} />
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="text-2xl font-semibold flex flex-row gap-4">
+            Top Payment Options
+            <Link href="/paymentoption" className="text-sm">
+              More
+            </Link>
+          </p>
+          <div className="flex flex-row gap-2">
+            {stats?.paymentOptions.map((paymentOption) => (
+              <PaymentOption paymentOption={paymentOption} />
+            ))}
+          </div>
         </div>
         <button
           className="absolute right-32 bottom-24 h-10 w-10 p-1 rounded-full bg-black text-white"

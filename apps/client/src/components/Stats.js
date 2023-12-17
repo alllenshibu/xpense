@@ -11,6 +11,7 @@ export default function Stats() {
     try {
       const r = await fetchStats();
       setStats(r);
+      console.log({ r });
     } catch (err) {
       console.error(err);
     }
