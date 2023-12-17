@@ -24,7 +24,7 @@ export default function Expenses() {
   return (
     <DashboardLayout>
       <h2 className="text-4xl font-bold">Expenses</h2>
-      <div className="h-full w-full flex items-center justify-center">
+      <div className="h-full w-full flex items-center justify-center gap-4">
         {expenses.map((expense) => (
           <Expense
             onClick={(e) => {

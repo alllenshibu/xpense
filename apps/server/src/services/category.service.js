@@ -9,9 +9,10 @@ const getAllCategoriesService = async ({ user }) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM category WHERE user_id = $1', [
-      userId?.rows[0]?.id,
-    ]);
+    const result = await pool.query(
+      'SELECT c.*, SUM(e.amount) as total FROM category c LEFT JOIN expense e ON c.id = e.category_id WHERE c.user_id = $1 GROUP BY c.id ORDER BY total DESC',
+      [userId?.rows[0]?.id],
+    );
 
     const categories = result?.rows;
 
@@ -31,10 +32,10 @@ const getCategoryByIdService = async ({ user, categoryId, getExpenses }) => {
 
     let result = null;
 
-    result = await pool.query('SELECT * FROM category WHERE user_id = $1 AND id = $2', [
-      userId?.rows[0]?.id,
-      categoryId,
-    ]);
+    result = await pool.query(
+      'SELECT c.*, SUM(e.amount) as total FROM category c LEFT JOIN expense e ON c.id = e.category_id WHERE c.user_id = $1 AND c.id = $2 GROUP BY c.id ORDER BY total DESC',
+      [userId?.rows[0]?.id, categoryId],
+    );
 
     if (!(result?.rows?.length > 0)) throw new CategoryNotFoundError('Category not found');
 

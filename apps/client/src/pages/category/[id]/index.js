@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { fetchCategoryById } from '@/services/category';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
+import Expense from '@/components/Expense';
 
 export default function AddNewExpense() {
   const router = useRouter();
@@ -25,8 +26,16 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <div className="h-full w-full flex items-center justify-center">
-        {JSON.stringify(category)}
+      <div className="h-full w-full flex flex-col items-start justify-start">
+        <div className="h-40 w-full flex flex-row justify-between items-center gap-4">
+          <p className="text-3xl font-bold tracking-wide">{category.name}</p>
+          <p className="text-3xl font-bold tracking-wide">₹{category.total}</p>
+        </div>
+        <div className='flex flex-row gap-2'>
+          {category?.expenses?.map((expense) => (
+            <Expense key={expense.id} expense={expense} />
+          ))}
+        </div>
       </div>
     </DashboardLayout>
   );
