@@ -9,9 +9,10 @@ const getAllPaymentOptionsService = async ({ user }) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM payment_option WHERE user_id = $1', [
-      userId?.rows[0]?.id,
-    ]);
+    const result = await pool.query(
+      'SELECT p.*, COALESCE(SUM(e.amount), 0) as total FROM payment_option p LEFT JOIN expense e ON p.id = e.payment_id WHERE p.user_id = $1 GROUP BY p.id ORDER BY total DESC',
+      [userId?.rows[0]?.id],
+    );
 
     const paymentOptions = result?.rows;
 

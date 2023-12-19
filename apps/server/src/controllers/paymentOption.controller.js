@@ -61,6 +61,7 @@ const getPaymentOptionByIdController = async (req, res) => {
 
     return res.status(200).json({ paymentOption: paymentOption });
   } catch (err) {
+    console.error(err);
     if (err instanceof PaymentOptionNotFoundError)
       return res.status(404).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });

@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
-import { fetchAllPaymentOptions } from '@/services/paymentOption';
-
 import DashboardLayout from '@/layouts/DashboardLayout';
+import Category from '@/components/Category';
+import { fetchAllPaymentOptions } from '@/services/paymentOption';
 import PaymentOption from '@/components/PaymentOption';
 
 export default function AddNewExpense() {
-  const [PaymentOptions, setPaymentOptions] = useState([]);
+  const [paymentOptions, setPaymentOptions] = useState([]);
 
   const fetchPaymentOptions = async () => {
-    const res = await fetchAllPaymentOptions();
-    if (res.status === 200) {
-      setPaymentOptions(res?.data?.paymentOptions);
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
+    let r = await fetchAllPaymentOptions();
+    setPaymentOptions(r || []);
   };
 
   useEffect(() => {
@@ -25,9 +19,9 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <h2 className='text-4xl font-bold'>Payment Options</h2>
+      <h2 className="text-4xl font-bold">Payment Options</h2>
       <div className="h-full w-full flex items-center justify-center">
-        {PaymentOptions.map((paymentOption) => (
+        {paymentOptions.map((paymentOption) => (
           <PaymentOption key={paymentOption.id} paymentOption={paymentOption} />
         ))}
       </div>

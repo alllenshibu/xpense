@@ -83,24 +83,57 @@ const addNewExpenseController = async (req, res) => {
   const user = req?.user;
   const title = req?.body?.expense?.title;
   const amount = req?.body?.expense?.amount;
+  const timestamp = req?.body?.expense?.timestamp;
   const categoryId = req?.body?.expense?.categoryId;
   const paymentOptionId = req?.body?.expense?.paymentOptionId;
-  const timestamp = req?.body?.expense?.timestamp;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === undefined || user === null || user === '' || user === 'undefined') {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!title || title === '' || title === undefined) {
+  if (!title || title === undefined || title === null || title === '' || title === 'undefined') {
     return res.status(400).json({ message: 'Title is missing' });
   }
-  if (!amount || amount === '' || amount === undefined) {
+
+  if (
+    !amount ||
+    amount === undefined ||
+    amount === null ||
+    amount === '' ||
+    amount === 'undefined'
+  ) {
     return res.status(400).json({ message: 'Amount is missing' });
   }
 
-  if (!timestamp || timestamp === '' || timestamp === undefined) {
+  if (
+    !timestamp ||
+    timestamp === undefined ||
+    timestamp === null ||
+    timestamp === '' ||
+    timestamp === 'undefined'
+  ) {
     return res.status(400).json({ message: 'Timestamp is missing' });
+  }
+
+  if (
+    !categoryId ||
+    categoryId === undefined ||
+    categoryId === null ||
+    categoryId === '' ||
+    categoryId === 'undefined'
+  ) {
+    return res.status(400).json({ message: 'Category is missing' });
+  }
+
+  if (
+    !paymentOptionId ||
+    paymentOptionId === undefined ||
+    paymentOptionId === null ||
+    paymentOptionId === '' ||
+    paymentOptionId === 'undefined'
+  ) {
+    return res.status(400).json({ message: 'Payment Option is missing' });
   }
 
   try {
@@ -133,23 +166,52 @@ const editExpenseController = async (req, res) => {
   const timestamp = req?.body?.expense?.timestamp;
 
   // User is missing due to some error in authentication middleware
-  if (!user || user === '' || user === undefined) {
+  if (!user || user === undefined || user === null || user === '' || user === 'undefined') {
     return res.status(500).json({ message: 'Something went wrong' });
   }
 
-  if (!id || id === '' || id === undefined) {
-    return res.status(400).json({ message: 'Expense ID is missing' });
-  }
-
-  if (!title || title === '' || title === undefined) {
+  if (!title || title === undefined || title === null || title === '' || title === 'undefined') {
     return res.status(400).json({ message: 'Title is missing' });
   }
-  if (!amount || amount === '' || amount === undefined) {
+
+  if (
+    !amount ||
+    amount === undefined ||
+    amount === null ||
+    amount === '' ||
+    amount === 'undefined'
+  ) {
     return res.status(400).json({ message: 'Amount is missing' });
   }
 
-  if (!timestamp || timestamp === '' || timestamp === undefined) {
+  if (
+    !timestamp ||
+    timestamp === undefined ||
+    timestamp === null ||
+    timestamp === '' ||
+    timestamp === 'undefined'
+  ) {
     return res.status(400).json({ message: 'Timestamp is missing' });
+  }
+
+  if (
+    !categoryId ||
+    categoryId === undefined ||
+    categoryId === null ||
+    categoryId === '' ||
+    categoryId === 'undefined'
+  ) {
+    return res.status(400).json({ message: 'Category is missing' });
+  }
+
+  if (
+    !paymentOptionId ||
+    paymentOptionId === undefined ||
+    paymentOptionId === null ||
+    paymentOptionId === '' ||
+    paymentOptionId === 'undefined'
+  ) {
+    return res.status(400).json({ message: 'Payment Option is missing' });
   }
 
   try {

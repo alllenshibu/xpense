@@ -55,14 +55,14 @@ const getStatsService = async (user) => {
     message.expenses = result?.rows;
 
     result = await pool.query(
-      'SELECT c.*, SUM(e.amount) as total FROM category c LEFT JOIN expense e ON c.id = e.category_id WHERE c.user_id = $1 GROUP BY c.id ORDER BY total DESC LIMIT 5',
+      'SELECT c.*, COALESCE(SUM(e.amount), 0) as total FROM category c LEFT JOIN expense e ON c.id = e.category_id WHERE c.user_id = $1 GROUP BY c.id ORDER BY total DESC LIMIT 5',
       [userId?.rows[0]?.id],
     );
 
     message.categories = result?.rows;
 
     result = await pool.query(
-      'SELECT p.*, SUM(e.amount) as total FROM payment_option p LEFT JOIN expense e ON p.id = e.payment_id WHERE p.user_id = $1 GROUP BY p.id ORDER BY total DESC LIMIT 5',
+      'SELECT p.*, COALESCE(SUM(e.amount), 0) as total FROM payment_option p LEFT JOIN expense e ON p.id = e.payment_id WHERE p.user_id = $1 GROUP BY p.id ORDER BY total DESC LIMIT 5',
       [userId?.rows[0]?.id],
     );
 
