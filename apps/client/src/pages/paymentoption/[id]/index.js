@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { fetchPaymentOptionById } from '@/services/paymentOption';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
+import Expense from '@/components/Expense';
 
 export default function AddNewExpense() {
   const router = useRouter();
@@ -14,17 +15,8 @@ export default function AddNewExpense() {
     const paymentOptionId = router.query.id;
     if (!paymentOptionId) return;
 
-
-    const res = await fetchPaymentOptionById(paymentOptionId);
-    if (res.status === 200) {
-      setPaymentOption(res?.data?.paymentOption);
-    } else if (res.status === 404) {
-      alert('Payment option not found');
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
+    const r = await fetchPaymentOptionById(paymentOptionId, true);
+    setPaymentOption(r || {});
   };
 
   useEffect(() => {
@@ -33,8 +25,16 @@ export default function AddNewExpense() {
 
   return (
     <DashboardLayout>
-      <div className="h-full w-full flex items-center justify-center">
-        {JSON.stringify(paymentOption)}
+      <div className="h-full w-full flex flex-col items-start justify-start">
+        <div className="h-40 w-full flex flex-row justify-between items-center gap-4">
+          <p className="text-3xl font-bold tracking-wide">{paymentOption.name}</p>
+          <p className="text-3xl font-bold tracking-wide">₹{paymentOption.total}</p>
+        </div>
+        <div className="flex flex-row gap-2">
+          {paymentOption?.expenses?.map((expense) => (
+            <Expense key={expense.id} expense={expense} />
+          ))}
+        </div>
       </div>
     </DashboardLayout>
   );

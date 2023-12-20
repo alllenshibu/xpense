@@ -62,7 +62,6 @@ export default function AddNewExpense() {
           submitText={'Edit'}
           handleSubmit={handleSubmit}
         />
-        {JSON.stringify(expense)}
       </div>
     </DashboardLayout>
   );
