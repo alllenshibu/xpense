@@ -15,8 +15,6 @@ export default function AddNewExpense() {
   const [expense, setExpense] = useState({
     title: '',
     amount: '',
-    categoryId: '',
-    paymentOptionId: '',
     timestamp: new Date().toISOString().slice(0, 16),
   });
 
