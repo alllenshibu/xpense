@@ -9,15 +9,16 @@ export default function ExpenseEditor({
   handleSubmit,
 }) {
   useEffect(() => {
-    setExpense((prevExpense) => {
-      if (!prevExpense.categoryId) {
-        return { ...prevExpense, categoryId: categories[0]?.id };
-      }
-      if (!prevExpense.paymentOptionId) {
-        return { ...prevExpense, paymentOptionId: paymentOptions[0]?.id };
-      }
-      return prevExpense;
-    });
+    if (!expense.categoryId)
+      setExpense({
+        ...expense,
+        categoryId: categories[0]?.id,
+      });
+    if (!expense.paymentOptionId)
+      setExpense({
+        ...expense,
+        paymentOptionId: paymentOptions[0]?.id,
+      });
   }, [paymentOptions, categories]);
 
   return (
