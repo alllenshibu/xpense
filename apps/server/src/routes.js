@@ -15,7 +15,11 @@ const {
   getExpenseByMonthController,
 } = require('./controllers/expense.controller');
 const { getStatsController } = require('./controllers/stats.controller');
-const { createNewSplitController } = require('./controllers/split.controller');
+const {
+  createNewSplitController,
+  getAllSplitsController,
+  getSplitByExpenseController,
+} = require('./controllers/split.controller');
 const {
   getAllCategoriesController,
   getCategoryByIdController,
@@ -40,14 +44,11 @@ const {
 
 const {
   addNewIncomeController,
-  getIncomeController,
-  getIncomeByMonthController,
   getAllIncomesController,
   getIncomeByIdController,
   editIncomeController,
   deleteIncomeController,
 } = require('./controllers/income.controller');
-const { getExpenseByMonth } = require('./services/expense.service');
 
 const router = express.Router();
 
@@ -153,13 +154,8 @@ router.delete('/paymentoption/:id', authorize, (req, res) => {
   deletePaymentOptionController(req, res);
 });
 
-// Split routes
-router.post('/split', authorize, (req, res) => {
-  createNewSplitController(req, res);
-});
-
 // Stats routes
-router.get('/stats', authorize, (req, res) => {
+router.get('/stats/', authorize, (req, res) => {
   getStatsController(req, res);
 });
 
@@ -180,11 +176,20 @@ router.post('/friend', authorize, (req, res) => {
   acceptFriendRequestController(req, res);
 });
 
-// // Friend routes
-// router.get('/friend', authorize, (req, res) => {
-//   getAllFriendsController(req, res);
-// });
+// Split routes
+router.get('/split', authorize, (req, res) => {
+  getAllSplitsController(req, res);
+});
 
+router.post('/split/:expenseId', authorize, (req, res) => {
+  createNewSplitController(req, res);
+});
+
+router.get('/split/:expenseId', authorize, (req, res) => {
+  getSplitByExpenseController(req, res);
+});
+
+// Misc
 router.get('/expenditure', authorize, (req, res) => {
   getStatsController(req, res);
 });
