@@ -14,7 +14,14 @@ const getAllFriendRequestsService = async (user) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM friend_request WHERE friend_id = $1', [
+    const result = await pool.query(`
+    SELECT
+      user_id, first_name, last_name, email
+    FROM
+      friend_request JOIN "user"
+    ON
+      friend_request.user_id = "user".id
+    WHERE friend_id = $1`, [
       userId?.rows[0]?.id,
     ]);
 

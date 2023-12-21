@@ -11,7 +11,7 @@ const getStatsService = async (user) => {
     let result = await pool.query(
       `
     SELECT 
-      SUM(amount) as target
+      COALESCE(SUM(amount), 0) as target
     FROM 
       income
     WHERE 
@@ -32,7 +32,7 @@ const getStatsService = async (user) => {
     result = await pool.query(
       `
     SELECT 
-      SUM(amount)
+      COALESCE(SUM(amount), 0) as sum
     FROM 
       expense
     WHERE 

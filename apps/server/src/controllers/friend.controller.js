@@ -34,7 +34,7 @@ const getAllFriendRequestsController = async (req, res) => {
 
 const sendNewFriendRequestController = async (req, res) => {
   const user = req?.user;
-  const requestedUser = req?.body?.friend?.email;
+  const requestedUser = req?.body?.email;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === undefined || user === null || user === '' || user === 'undefined') {
@@ -91,7 +91,7 @@ const getAllFriendsController = async (req, res) => {
 
 const acceptFriendRequestController = async (req, res) => {
   const user = req?.user;
-  const requestedUser = req?.body?.friend?.id;
+  const requestedUser = req?.body?.friendId;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === '' || user === undefined || user === 'undefined' || user === null) {
