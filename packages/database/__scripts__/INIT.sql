@@ -146,6 +146,8 @@ CREATE TABLE IF NOT EXISTS income
     id        UUID DEFAULT uuid_generate_v4(),
 
     user_id   UUID           NOT NULL,
+
+    title    VARCHAR(32)    NOT NULL,
     amount    NUMERIC(10, 2) NOT NULL,
     timestamp TIMESTAMPTZ    NOT NULL,
 

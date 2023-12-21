@@ -13,7 +13,7 @@ export default function Expenses() {
   const [expenses, setExpenses] = useState([]);
 
   const fetchCategories = async () => {
-    let r = await fetchAllExpenses();
+    let r = await fetchAllExpenses(100);
     setExpenses(r || []);
   };
 
@@ -24,7 +24,7 @@ export default function Expenses() {
   return (
     <DashboardLayout>
       <h2 className="text-4xl font-bold">Expenses</h2>
-      <div className="h-full w-full flex items-center justify-center gap-4">
+      <div className="mt-10 w-full flex items-start justify-start flex-wrap gap-4">
         {expenses.map((expense) => (
           <Expense
             onClick={(e) => {

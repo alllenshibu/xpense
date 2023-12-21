@@ -4,7 +4,7 @@ const fetchAllExpenses = async (limit = 20) => {
   try {
     const r = await axiosInstance.get('/expense', {
       params: {
-        limit: 5,
+        limit: limit,
       },
     });
     if (r.status === 200) {

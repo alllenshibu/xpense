@@ -32,11 +32,10 @@ const getPaymentOptionByIdService = async ({ user, paymentOptionId, getExpenses 
 
     let result = null;
 
-    result = await pool.query('SELECT * FROM payment_option WHERE user_id = $1 AND id = $2', [
-      userId?.rows[0]?.id,
-      paymentOptionId,
-    ]);
-
+    result = await pool.query(
+      'SELECT p.*, SUM(e.amount) as total FROM payment_option p LEFT JOIN expense e ON p.id = e.payment_id WHERE p.user_id = $1 AND p.id = $2 GROUP BY p.id ORDER BY total DESC',
+      [userId?.rows[0]?.id, paymentOptionId],
+    );
     if (!(result?.rows?.length > 0))
       throw new PaymentOptionNotFoundError('Payment option not found');
 

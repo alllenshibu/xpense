@@ -17,7 +17,7 @@ export default function PaymentOption({ paymentOption }) {
   return (
     <div
       key={paymentOption?.id}
-      className="relative h-auto w-full px-8 py-4 flex flex-col justify-evenly items-start bg-neutral-50 rounded shadow-lg"
+      className="relative max-h-40 max-w-40 overflow-hidden px-8 py-4 flex flex-col justify-evenly items-start bg-neutral-50 rounded shadow-lg"
       onClick={handleClick}
     >
       <MdOutlineEdit

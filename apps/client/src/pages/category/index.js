@@ -20,7 +20,7 @@ export default function AddNewExpense() {
   return (
     <DashboardLayout>
       <h2 className="text-4xl font-bold">Categories</h2>
-      <div className="h-full w-full flex items-center justify-center">
+      <div className="mt-10 w-full flex items-start justify-start flex-wrap gap-4">
         {categories.map((category) => (
           <Category key={category.id} category={category} />
         ))}

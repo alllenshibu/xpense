@@ -13,7 +13,7 @@ export default function Expense({ expense }) {
   return (
     <div
       key={expense?.id}
-      className="relative h-auto w-full px-8 py-4 flex flex-col justify-evenly items-start bg-neutral-50 rounded shadow-lg"
+      className="relative max-h-40 max-w-40 overflow-hidden px-8 py-4 flex flex-col justify-evenly items-start bg-neutral-50 rounded shadow-lg"
     >
       <MdOutlineEdit
         className="absolute right-2 top-2 hover:cursor-pointer"

@@ -38,7 +38,15 @@ const {
   deletePaymentOptionController,
 } = require('./controllers/paymentOption.controller');
 
-const { addNewIncomeController, getIncomeController, getIncomeByMonthController } = require('./controllers/income.controller');
+const {
+  addNewIncomeController,
+  getIncomeController,
+  getIncomeByMonthController,
+  getAllIncomesController,
+  getIncomeByIdController,
+  editIncomeController,
+  deleteIncomeController,
+} = require('./controllers/income.controller');
 const { getExpenseByMonth } = require('./services/expense.service');
 
 const router = express.Router();
@@ -80,6 +88,27 @@ router.put('/expense/:id', authorize, (req, res) => {
 
 router.delete('/expense/:id', authorize, (req, res) => {
   deleteExpenseController(req, res);
+});
+
+// Income routes
+router.get('/income', authorize, (req, res) => {
+  getAllIncomesController(req, res);
+});
+
+router.get('/income/:id', authorize, (req, res) => {
+  getIncomeByIdController(req, res);
+});
+
+router.post('/income', authorize, (req, res) => {
+  addNewIncomeController(req, res);
+});
+
+router.put('/income/:id', authorize, (req, res) => {
+  editIncomeController(req, res);
+});
+
+router.delete('/income/:id', authorize, (req, res) => {
+  deleteIncomeController(req, res);
 });
 
 // Category routes
@@ -151,9 +180,6 @@ router.post('/friend', authorize, (req, res) => {
   acceptFriendRequestController(req, res);
 });
 
-router.post('/income', authorize, (req, res) => {
-  addNewIncomeController(req, res);
-});
 // // Friend routes
 // router.get('/friend', authorize, (req, res) => {
 //   getAllFriendsController(req, res);
