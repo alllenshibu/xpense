@@ -11,14 +11,14 @@ const getStatsService = async (user) => {
     let result = await pool.query(
       `
     SELECT 
-      amount as target
+      SUM(amount) as target
     FROM 
-      budget
+      income
     WHERE 
       user_id = $1 
     AND
-      EXTRACT(MONTH FROM period) = EXTRACT(MONTH FROM CURRENT_DATE)
-      AND EXTRACT(YEAR FROM period) = EXTRACT(YEAR FROM CURRENT_DATE)
+      EXTRACT(MONTH FROM timestamp) = EXTRACT(MONTH FROM CURRENT_DATE)
+      AND EXTRACT(YEAR FROM timestamp) = EXTRACT(YEAR FROM CURRENT_DATE)
     `,
       [userId?.rows[0]?.id],
     );
