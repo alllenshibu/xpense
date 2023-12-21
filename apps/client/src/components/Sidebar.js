@@ -22,7 +22,7 @@ const Sidebar = () => {
         <Link href="/friend" className={'p-2 hover:text-neutral-900'}>
           Friends
         </Link>
-        <Link href="/friendrquest" className={'p-2 hover:text-neutral-900'}>
+        <Link href="/friendrequest" className={'p-2 hover:text-neutral-900'}>
           Friend Requests
         </Link>
         <Link href="/category" className="p-2 hover:text-neutral-900">

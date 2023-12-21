@@ -25,18 +25,22 @@ const getSplitByExpenseService = async (user, expenseId) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM split WHERE expense_id = $1', [
-      expenseId,
-    ]);
+    const result = await pool.query('SELECT * FROM split WHERE expense_id = $1', [expenseId]);
     return result?.rows;
   } catch (err) {
     throw new Error(err.message);
   }
 };
 
-const createNewSplitService = async (expenseId, split) => {
+const createNewSplitService = async (user, expenseId, split) => {
   try {
     console.log({ expenseId, split });
+
+    const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [user]);
+
+    if (userId?.rows?.length === 0) {
+      throw new UserDoesNotExistError('User does not exist');
+    }
 
     let result = await pool.query('SELECT * FROM split WHERE expense_id = $1', [expenseId]);
 
@@ -53,9 +57,19 @@ const createNewSplitService = async (expenseId, split) => {
     let totalPercentage = 0;
     for (let payer of split) {
       totalPercentage += payer.percentage;
-      const userId = await pool.query('SELECT id FROM "user" WHERE email = $1', [payer.email]);
-      if (userId?.rows?.length === 0) {
+      const splitUserId = await pool.query('SELECT id FROM "user" WHERE email = $1', [payer.email]);
+      if (splitUserId?.rows?.length === 0) {
         throw new Error('User not found');
+      }
+
+      if (payer.email !== user) {
+        result = await pool.query('SELECT * FROM friend WHERE user_id = $1 AND friend_id = $2', [
+          userId?.rows[0]?.id,
+          splitUserId?.rows[0]?.id,
+        ]);
+        if (result?.rows?.length === 0) {
+          throw new Error('Cannot find the friend');
+        }
       }
     }
 

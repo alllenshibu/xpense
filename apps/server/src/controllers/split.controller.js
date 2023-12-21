@@ -63,7 +63,7 @@ const createNewSplitController = async (req, res) => {
   }
 
   try {
-    result = await createNewSplitService(expenseId, split);
+    result = await createNewSplitService(email, expenseId, split);
     if (result) {
       res.status(200).send(result);
     }
