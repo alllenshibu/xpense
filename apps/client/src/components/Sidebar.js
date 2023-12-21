@@ -16,6 +16,9 @@ const Sidebar = () => {
         <Link href="/expense" className={'p-2 hover:text-neutral-900'}>
           Expenses
         </Link>
+        <Link href="/income" className={'p-2 hover:text-neutral-900'}>
+          Incomes
+        </Link>
         <Link href="/category" className="p-2 hover:text-neutral-900">
           Categories
         </Link>

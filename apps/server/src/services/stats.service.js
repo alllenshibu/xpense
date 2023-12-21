@@ -55,6 +55,13 @@ const getStatsService = async (user) => {
     message.expenses = result?.rows;
 
     result = await pool.query(
+      'SELECT * FROM income WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 5',
+      [userId?.rows[0]?.id],
+    );
+
+    message.incomes = result?.rows;
+
+    result = await pool.query(
       'SELECT c.*, COALESCE(SUM(e.amount), 0) as total FROM category c LEFT JOIN expense e ON c.id = e.category_id WHERE c.user_id = $1 GROUP BY c.id ORDER BY total DESC LIMIT 5',
       [userId?.rows[0]?.id],
     );

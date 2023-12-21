@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { fetchStats } from '@/services/stats';
 
 import DashboardLayout from '@/layouts/DashboardLayout';
+import Income from '@/components/Income';
 import Expense from '@/components/Expense';
 import Category from '@/components/Category';
 import PaymentOption from '@/components/PaymentOption';
@@ -15,16 +16,19 @@ export default function Dashboard() {
   const [stats, setStats] = useState({
     currentMonthSpent: '',
     expenses: [],
+    incomes: [],
     categories: [],
     paymentOptions: [],
   });
 
   const fetchEverything = async () => {
     let r = await fetchStats();
+    console.log(r);
     setStats(
       r || {
         currentMonthSpent: '',
         expenses: [],
+        incomes: [],
         categories: [],
         paymentOptions: [],
       },
@@ -66,6 +70,21 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
+
+        <div className="flex flex-col gap-4">
+          <p className="text-3xl font-semibold tracking-wide flex flex-row gap-4">
+            Latest Incomes
+            <Link href="/income" className="text-sm">
+              More
+            </Link>
+          </p>
+          <div className="flex flex-row gap-2">
+            {stats?.incomes.map((income) => (
+              <Income income={income} />
+            ))}
+          </div>
+        </div>
+
         <div className="flex flex-col gap-4">
           <p className="text-2xl font-semibold flex flex-row gap-4">
             Top Categories
