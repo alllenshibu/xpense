@@ -18,13 +18,13 @@ export default function AddNewExpense() {
 
   const fetchEverything = async () => {
     try {
+      const expenseId = router.query.id;
+      if (!expenseId) return;
+
       let r = await fetchAllCategories();
       setCategories(r || []);
       r = await fetchAllPaymentOptions();
       setPaymentOptions(r || []);
-      const expenseId = router.query.id;
-      if (!expenseId) return;
-
       r = await fetchExpenseById(expenseId);
       setExpense(r || {});
       setExpense((prevExpense) => ({

@@ -58,9 +58,9 @@ const getIncomeByIdController = async (req, res) => {
 
 const addNewIncomeController = async (req, res) => {
   const user = req?.user;
-  const title = req?.body?.expense?.title;
-  const amount = req?.body?.expense?.amount;
-  const timestamp = req?.body?.expense?.timestamp;
+  const title = req?.body?.income?.title;
+  const amount = req?.body?.income?.amount;
+  const timestamp = req?.body?.income?.timestamp;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === undefined || user === null || user === '' || user === 'undefined') {
@@ -107,9 +107,9 @@ const addNewIncomeController = async (req, res) => {
 const editIncomeController = async (req, res) => {
   const user = req?.user;
   const id = req?.params?.id;
-  const title = req?.body?.expense?.title;
-  const amount = req?.body?.expense?.amount;
-  const timestamp = req?.body?.expense?.timestamp;
+  const title = req?.body?.income?.title;
+  const amount = req?.body?.income?.amount;
+  const timestamp = req?.body?.income?.timestamp;
 
   // User is missing due to some error in authentication middleware
   if (!user || user === undefined || user === null || user === '' || user === 'undefined') {
@@ -174,7 +174,7 @@ const deleteIncomeController = async (req, res) => {
     return res.status(200).json({ message: 'Successfully deleted income' });
   } catch (err) {
     console.error(err);
-    if (err instanceof ExpenseNotFoundError) return res.status(404).json({ message: err.message });
+    if (err instanceof IncomeNotFoundError) return res.status(404).json({ message: err.message });
     return res.status(500).send({ message: 'Something went wrong' });
   }
 };
