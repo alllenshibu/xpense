@@ -25,7 +25,14 @@ const sendNewFriendRequest = async (requestedUser) => {
 };
 
 const fetchAllFriends = async () => {
-  return await axiosInstance.get('/friend');
+  try {
+    const r = await axiosInstance.get('/friend');
+    if (r?.status === 200) {
+      return r?.data?.friends;
+    }
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const acceptFriendRequest = async (requestedUser) => {

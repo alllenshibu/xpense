@@ -7,14 +7,8 @@ export default function AddNewExpense() {
   const [friends, setFriends] = useState([]);
 
   const fetchFriends = async () => {
-    const res = await fetchAllFriends();
-    if (res.status === 200) {
-      setFriends(res?.data?.friends);
-    } else if (res.status === 500) {
-      alert('Something went wrong with the server');
-    } else {
-      alert('Something went wrong');
-    }
+    let r = await fetchAllFriends();
+    setFriends(r || []);
   };
 
   useEffect(() => {

@@ -25,6 +25,9 @@ const Sidebar = () => {
         <Link href="/friendrequest" className={'p-2 hover:text-neutral-900'}>
           Friend Requests
         </Link>
+        <Link href="/split" className={'p-2 hover:text-neutral-900'}>
+          Splits
+        </Link>
         <Link href="/category" className="p-2 hover:text-neutral-900">
           Categories
         </Link>

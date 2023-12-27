@@ -14,7 +14,7 @@ const getAllSplitsController = async (req, res) => {
   try {
     result = await getAllSplitsService(email);
     if (result) {
-      res.status(200).send(result);
+      res.status(200).send({ splits: result });
     }
   } catch (err) {
     console.error(err);
@@ -37,7 +37,7 @@ const getSplitByExpenseController = async (req, res) => {
   try {
     result = await getSplitByExpenseService(email, expenseId);
     if (result) {
-      res.status(200).send(result);
+      res.status(200).send({ split: result });
     }
   } catch (err) {
     console.error(err);
