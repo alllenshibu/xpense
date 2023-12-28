@@ -13,5 +13,15 @@ export default function App({ Component, pageProps }) {
     }
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      {/* Google tag (gtag.js) */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-NGDNMMTPP5"></script>
+      <script>
+        window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)}
+        gtag('js', new Date()); gtag('config', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID);
+      </script>
+      <Component {...pageProps} />;
+    </>
+  );
 }
