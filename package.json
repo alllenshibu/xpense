@@ -5,7 +5,8 @@
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start": "turbo run start"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
