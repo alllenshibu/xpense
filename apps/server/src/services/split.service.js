@@ -8,9 +8,15 @@ const getAllSplitsService = async (user) => {
       throw new UserDoesNotExistError('User does not exist');
     }
 
-    const result = await pool.query('SELECT * FROM split WHERE user_id = $1', [
-      userId?.rows[0]?.id,
-    ]);
+    const result = await pool.query(
+      ` SELECT 
+        * 
+        FROM 
+        split s 
+        JOIN expense e ON s.expense_id = e.id
+        WHERE s.user_id = $1`,
+      [userId?.rows[0]?.id],
+    );
     return result?.rows;
   } catch (err) {
     throw new Error(err.message);

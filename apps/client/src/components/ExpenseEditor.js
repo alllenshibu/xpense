@@ -14,12 +14,15 @@ export default function ExpenseEditor({
         ...expense,
         categoryId: categories[0]?.id,
       });
+  }, [categories, expense]);
+
+  useEffect(() => {
     if (!expense.paymentOptionId)
       setExpense({
         ...expense,
         paymentOptionId: paymentOptions[0]?.id,
       });
-  }, [paymentOptions, categories]);
+  }, [paymentOptions, expense]);
 
   return (
     <form className="w-full p-4 bg-white shadow-md rounded-md">
