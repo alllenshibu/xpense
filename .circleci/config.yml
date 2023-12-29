@@ -1,0 +1,17 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: cimg/base:2022.09
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker Image
+          command: docker build -t xpense-server .
+      - deploy:
+          name: Push Docker Image to Registry
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+            docker tag xpense-server $DOCKER_USER/xpense-server:latest-circle-ci
+            docker push $DOCKER_USER/xpense-server:latest-circle-ci
