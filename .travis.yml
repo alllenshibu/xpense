@@ -1,13 +1,10 @@
+dist: jammy
 language: node_js
 node_js:
  - "20"
 sudo: required
 services:
  - docker
-before_script:
- - add libc6-compat
- - npm install -g pnpm
- - pnpm install
 script:
  - docker build -t xpense-server .
 after_success:
