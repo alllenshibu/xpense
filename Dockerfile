@@ -12,7 +12,7 @@ RUN pnpm install
 
 RUN pnpm run build --filter=xpense-server... 
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 COPY --from=builder /app/apps/server/dist .
 

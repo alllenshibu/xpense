@@ -9,7 +9,5 @@ script:
  - docker build -t xpense-server .
 after_success:
  - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
- - docker tag xpense-server $DOCKER_USER/xpense-server:$TRAVIS_BUILD_NUMBER
- - docker push $DOCKER_USER/xpense-server:$TRAVIS_BUILD_NUMBER
- - docker tag back $DOCKER_USER/xpense-server:latest
+ - docker tag xpense-server $DOCKER_USER/xpense-server:latest
  - docker push $DOCKER_USER/xpense-server:latest
