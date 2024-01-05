@@ -14,6 +14,12 @@
     "start": {
       "dependsOn": ["^dist"],
       "persistent": true
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
     }
   }
 }

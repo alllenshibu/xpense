@@ -1,24 +1,26 @@
-const express = require('express');
+const express = require("express");
+var cors = require("cors");
+require("dotenv").config();
+
+const port = process.env.PORT;
 const app = express();
-const port = process.env.PORT || 3001;
-var cors = require('cors');
 
 app.use(
   cors({
-    origin: '*',
-  }),
+    origin: "*",
+  })
 );
 
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 
-const router = require('./routes');
+const router = require("./routes");
 
-app.use('/api', router);
+app.use("/api", router);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
 app.listen(port, () => {

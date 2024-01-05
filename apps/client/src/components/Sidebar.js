@@ -1,50 +1,61 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+'use client';
+
+import { useState } from 'react';
+
+import { useAuth } from '@/hooks/useAuth';
+
+import { Box, Text, Button, Flex } from '@chakra-ui/react';
 
 const Sidebar = () => {
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const { logout } = useAuth();
 
   return (
-    <div>
-      <div className="py-4 flex justify-center">
-        <h1 className="text-5xl font-bold tracking-wide">Xpense</h1>
-      </div>
-      <div className="p-4 h-full text-xl flex flex-col justify-start text-neutral-500">
-        <Link href="/" className={'p-2 hover:text-neutral-900'}>
-          Dashboard
-        </Link>
-        <Link href="/expense" className={'p-2 hover:text-neutral-900'}>
-          Expenses
-        </Link>
-        <Link href="/income" className={'p-2 hover:text-neutral-900'}>
-          Incomes
-        </Link>
-        <Link href="/friend" className={'p-2 hover:text-neutral-900'}>
-          Friends
-        </Link>
-        <Link href="/friendrequest" className={'p-2 hover:text-neutral-900'}>
-          Friend Requests
-        </Link>
-        <Link href="/split" className={'p-2 hover:text-neutral-900'}>
-          Splits
-        </Link>
-        <Link href="/category" className="p-2 hover:text-neutral-900">
-          Categories
-        </Link>
-        <Link href="/paymentoption" className="p-2 hover:text-neutral-900">
-          Payment Options
-        </Link>
-        <button
+    <Box padding={4} height="100%" width={80}>
+      <Box paddingY={4}>
+        <a href="/">
+          <Text fontSize="4xl" fontWeight="bold">
+            xpense
+          </Text>
+        </a>
+      </Box>
+      <Flex paddingY={4} direction="column" gap={2}>
+        <Text fontSize="xl">
+          <a href="/">Dashboard</a>
+        </Text>
+        <Text fontSize="xl">
+          <a href="/expenses">Expenses</a>
+        </Text>
+        <Text fontSize="xl">
+          <a href="/incomes">Incomes</a>
+        </Text>
+        <Text fontSize="xl">
+          <a href="/categories">Categories</a>
+        </Text>
+        <Text fontSize="xl">
+          <a href="/payment-options">Payment Options</a>
+        </Text>
+      </Flex>
+      <Box paddingY={4}>
+        <Text fontSize="xl">
+          <a href="/settings">Settings</a>
+        </Text>
+      </Box>
+      <Box paddingY={4}>
+        <Button
           onClick={() => {
-            localStorage.removeItem(process.env.NEXT_PUBLIC_AUTH_TOKEN);
-            router.push('/login');
+            setLoading(true);
+            logout();
           }}
-          className="p-2 text-left hover:text-neutral-900"
+          isLoading={loading}
+          loadingText="Please Wait"
+          width="100%"
         >
           Logout
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
