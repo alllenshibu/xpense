@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+
+import axios from 'axios';
+import Link from 'next/link';
+
+export default function Signup() {
+  const router = useRouter();
+
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      if (!user.email || !user.password || !user.firstName || !user.lastName)
+        return alert('Please fill all the fields');
+
+      const res = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/auth/signup', user, {
+        validateStatus: () => true,
+      });
+      if (res.status === 201) {
+        localStorage.setItem(process.env.NEXT_PUBLIC_AUTH_TOKEN, res?.data?.token);
+        router.push('/');
+      } else if (res.status === 400) {
+        alert('Something went wrong with the application');
+      } else if (res.status === 409) {
+        alert('User already exists');
+      } else if (res.status === 500) {
+        alert('Something went wrong with the server');
+      } else {
+        alert('Something went wrong');
+      }
+    } catch (err) {
+      alert(err?.message);
+    }
+  };
+
+  return (
+    <div className="w-full h-full p-4 flex flex-col justify-center items-center gap-10">
+      <div>
+        <h1 className="text-5xl font-bold tracking-tighter">Xpense</h1>
+      </div>
+      <form
+        className="w-full md:w-96 flex flex-col gap-4"
+        onChange={(e) => {
+          e.preventDefault();
+          setUser({ ...user, [e.target.name]: e.target.value });
+        }}
+      >
+        <div>
+          <label htmlFor="firstName">First Name</label>
+          <input id="firstName" name="firstName" type="text" />
+        </div>
+        <div>
+          <label htmlFor="lastName">Last Name</label>
+          <input id="lastName" name="lastName" type="test" />
+        </div>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="password" />
+        </div>
+        <div className="flex justify-center items-center">
+          <p>
+            Already registered?{' '}
+            <Link className="font-bold" href="/login">
+              Login
+            </Link>
+          </p>
+        </div>
+        <div>
+          <button onClick={handleSubmit} type="submit" className="w-auto btn btn-primary">
+            Signup
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
