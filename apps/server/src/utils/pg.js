@@ -51,9 +51,9 @@ const pool = new Pool({
   host: getPostgresCredentials().host,
   port: getPostgresCredentials().port,
   database: getPostgresCredentials().database,
-  // ssl: {
-  //     rejectUnauthorized: false,
-  // },
+  ssl: {
+      rejectUnauthorized: false,
+  },
 });
 
 module.exports = pool;
