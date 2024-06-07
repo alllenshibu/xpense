@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-module.exports = {
+export default {
   target: 'node',
   entry: './src/index.js',
   output: {
@@ -10,5 +10,14 @@ module.exports = {
   mode: 'production',
   resolve: {
     extensions: ['.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /(node_modules)/,
+      },
+    ],
   },
 };
