@@ -103,6 +103,10 @@ export const getExpenseById = async (req, res) => {
         id,
         userId: user.id,
       },
+      include: {
+        category: true,
+        paymentOption: true,
+      },
     });
 
     if (!expense) {

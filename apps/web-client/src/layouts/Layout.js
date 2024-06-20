@@ -1,9 +1,11 @@
+import { useAuth } from '@/contexts/AuthContext';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { Container, Theme, Flex, Box, Text, Button, IconButton } from '@radix-ui/themes';
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 
 export default function Layout({ children }) {
-  const date = useRef(new Date().toDateString());
+  const { logout } = useAuth();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -56,16 +58,16 @@ export default function Layout({ children }) {
             }}
           >
             <Button variant="ghost" color="gray" size="3">
-              Sidebar
+              <Link href="/">Home</Link>
             </Button>
             <Button variant="ghost" color="gray" size="3">
-              Add More
+              <Link href="/expenses">Expenses</Link>
             </Button>
             <Button variant="ghost" color="gray" size="3">
-              Stuff
+              <Link href="/categories">Categories</Link>
             </Button>
             <Button variant="ghost" color="gray" size="3">
-              As Required
+              <Link href="/payment-options">Payment Options</Link>
             </Button>
           </Flex>
           <Flex width="100%" direction="column" justify="center" align="center">

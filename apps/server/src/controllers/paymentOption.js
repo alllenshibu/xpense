@@ -43,10 +43,21 @@ export const getPaymentOptions = async (req, res) => {
   try {
     const { user } = req;
 
-    const paymentOptions = await prisma.paymentOption.findMany({
+    let paymentOptions = await prisma.paymentOption.findMany({
       where: {
         userId: user.id,
       },
+      include: {
+        expenses: true,
+      },
+    });
+
+    paymentOptions = paymentOptions.map((paymentOption) => {
+      const total = paymentOption.expenses.reduce((acc, expense) => acc + expense.amount, 0);
+      return {
+        ...paymentOption,
+        total,
+      };
     });
 
     return res.status(200).json({ paymentOptions });
@@ -65,6 +76,9 @@ export const getPaymentOptionById = async (req, res) => {
       where: {
         id,
         userId: user.id,
+      },
+      include: {
+        expenses: true,
       },
     });
 

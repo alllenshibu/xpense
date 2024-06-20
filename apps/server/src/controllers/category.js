@@ -43,10 +43,21 @@ export const getCategories = async (req, res) => {
   try {
     const { user } = req;
 
-    const categories = await prisma.category.findMany({
+    let categories = await prisma.category.findMany({
       where: {
         userId: user.id,
       },
+      include: {
+        expenses: true,
+      },
+    });
+
+    categories = categories.map((category) => {
+      const total = category.expenses.reduce((acc, expense) => acc + expense.amount, 0);
+      return {
+        ...category,
+        total,
+      };
     });
 
     return res.status(200).json({ categories });
@@ -61,10 +72,13 @@ export const getCategoryById = async (req, res) => {
     const { user } = req;
     const { id } = req.params;
 
-    const category = await prisma.category.findFirst({
+    let category = await prisma.category.findFirst({
       where: {
         id,
         userId: user.id,
+      },
+      include: {
+        expenses: true,
       },
     });
 

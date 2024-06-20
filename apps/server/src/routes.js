@@ -30,7 +30,7 @@ router.post('/payment-options', authorize, addPaymentOption);
 router.get('/payment-options', authorize, getPaymentOptions);
 router.get('/payment-options/:id', authorize, getPaymentOptionById);
 
-router.post('/categoreis', authorize, addCategory);
+router.post('/categories', authorize, addCategory);
 router.get('/categories', authorize, getCategories);
 router.get('/categories/:id', authorize, getCategoryById);
 
