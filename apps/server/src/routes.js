@@ -19,12 +19,14 @@ import {
   getFriendRequestsSent,
   getAllFriends,
 } from './controllers/friendship.js';
+import { getStats } from './controllers/stats.js';
 
 const router = express.Router();
 
-// Auth routes
 router.post('/auth/signup', signupController);
 router.post('/auth/login', loginController);
+
+router.get('/stats', authorize, getStats);
 
 router.post('/payment-options', authorize, addPaymentOption);
 router.get('/payment-options', authorize, getPaymentOptions);

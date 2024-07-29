@@ -1,4 +1,5 @@
 import '@radix-ui/themes/styles.css';
+import '@/styles/globals.css';
 import Layout from '@/layouts/Layout';
 import { AuthProvider } from '@/contexts/AuthContext';
 

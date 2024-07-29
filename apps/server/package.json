@@ -4,7 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "npm run clean & webpack --config webpack.config.js",
+    "clean": "rimraf dist",
     "dev": "nodemon src/index.js",
     "start": "node dist/app.js"
   },
