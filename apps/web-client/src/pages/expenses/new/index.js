@@ -10,7 +10,11 @@ export default function NewExpense() {
 
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(() => {
+    const date = new Date();
+    const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return offsetDate.toISOString().slice(0, 16);
+  });
   const [categoryId, setCategoryId] = useState();
   const [paymentOptionId, setPaymentOptionId] = useState('');
 
@@ -56,7 +60,7 @@ export default function NewExpense() {
         {},
         {
           name: name,
-          date: new Date(date).toISOString(),
+          date: date ? new Date(date).toISOString() : new Date().toISOString(),
           amount: amount,
           categoryId: categoryId,
           paymentOptionId: paymentOptionId,

@@ -1,25 +1,22 @@
 import express from 'express';
 
-import { authorize } from './middlewares/authorize.js';
+import {authorize} from './middlewares/authorize.js';
 
-import { signupController, loginController } from './controllers/auth.js';
+import {signupController, loginController} from './controllers/auth.js';
 import {
-  addPaymentOption,
-  getPaymentOptionById,
-  getPaymentOptions,
+  addPaymentOption, getPaymentOptionById, getPaymentOptions,
 } from './controllers/paymentOption.js';
 
-import { addCategory, getCategoryById, getCategories } from './controllers/category.js';
+import {addCategory, getCategoryById, getCategories} from './controllers/category.js';
 
-import { addExpense, getExpenseById, getExpenses } from './controllers/expense.js';
+import {addExpense, getExpenseById, getExpenses} from './controllers/expense.js';
 import {
-  sendFriendRequest,
-  acceptFriendRequest,
-  getFriendRequestsReceived,
-  getFriendRequestsSent,
-  getAllFriends,
+  sendFriendRequest, acceptFriendRequest, getFriendRequestsReceived, getFriendRequestsSent, getAllFriends,
 } from './controllers/friendship.js';
-import { getStats } from './controllers/stats.js';
+import {
+  getSplits, getSplitById, createSplit
+} from "./controllers/split.js";
+import {getStats} from './controllers/stats.js';
 
 const router = express.Router();
 
@@ -46,5 +43,9 @@ router.get('/friend-requests/received', authorize, getFriendRequestsReceived);
 router.get('/friend-requests/sent', authorize, getFriendRequestsSent);
 
 router.get('/friends', authorize, getAllFriends);
+
+router.get('/splits', authorize, getSplits)
+router.get('/splits/:expenseId', authorize, getSplitById)
+router.post('/splits', authorize, createSplit)
 
 export default router;

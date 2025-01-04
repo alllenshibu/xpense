@@ -27,10 +27,7 @@ export default function Expenses() {
     fetchExpenses();
   }, []);
 
-  const handleNavigate = (e) => {
-    const expense = expenses.find((expense) => expense.name === e.target.innerText);
-    router.push(`/expenses/${expense.id}`);
-  };
+
 
   return (
     <Flex width="100%" direction="column" gap="4">
@@ -53,7 +50,10 @@ export default function Expenses() {
           </Table.Header>
           <Table.Body>
             {expenses.map((expense) => (
-              <Table.Row key={expense.id} onClick={handleNavigate}>
+              <Table.Row key={expense.id} onClick={(e) => {
+                e.preventDefault();
+                router.push(`/expenses/${expense.id}`);
+              }}>
                 <Table.RowHeaderCell>{expense.name}</Table.RowHeaderCell>
                 <Table.RowHeaderCell>{expense.amount}</Table.RowHeaderCell>
                 <Table.Cell>{new Date(expense.date).toLocaleString()}</Table.Cell>

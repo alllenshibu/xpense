@@ -1,11 +1,11 @@
-import { useAuth } from '@/contexts/AuthContext';
-import { HamburgerMenuIcon } from '@radix-ui/react-icons';
-import { Container, Theme, Flex, Box, Text, Button, IconButton } from '@radix-ui/themes';
+import {useAuth} from '@/contexts/AuthContext';
+import {HamburgerMenuIcon} from '@radix-ui/react-icons';
+import {Container, Theme, Flex, Box, Text, Button, IconButton} from '@radix-ui/themes';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import {useRef, useState} from 'react';
 
-export default function Layout({ children }) {
-  const { logout } = useAuth();
+export default function Layout({children}) {
+  const {logout} = useAuth();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -28,7 +28,7 @@ export default function Layout({ children }) {
                 setIsExpanded(!isExpanded);
               }}
             >
-              <HamburgerMenuIcon />
+              <HamburgerMenuIcon/>
             </IconButton>
           </Box>
         </Flex>
@@ -68,6 +68,15 @@ export default function Layout({ children }) {
             </Button>
             <Button variant="ghost" color="gray" size="3">
               <Link href="/payment-options">Payment Options</Link>
+            </Button>
+            <Button variant="ghost" color="gray" size="3">
+              <Link href="/friends">Friends</Link>
+            </Button>
+            <Button variant="ghost" color="gray" size="3">
+              <Link href="/friend-requests">Friend Requests</Link>
+            </Button>
+            <Button variant="ghost" color="gray" size="3">
+              <Link href="/splits">Splits</Link>
             </Button>
           </Flex>
           <Flex width="100%" direction="column" justify="center" align="center">

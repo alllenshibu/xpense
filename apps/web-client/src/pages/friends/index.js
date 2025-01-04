@@ -34,7 +34,7 @@ export default function Friends() {
           Friends
         </Text>
         <Button>
-          <Link href="/friends/add">Add</Link>
+          <Link href="/friend-requests/new">Add</Link>
         </Button>
       </Flex>
       <Card>
