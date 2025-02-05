@@ -3,7 +3,7 @@
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "clean": {},
@@ -14,6 +14,9 @@
     },
     "start": {
       "persistent": true
+    },
+    "db:generate": {
+      "cache": false
     }
   }
 }
